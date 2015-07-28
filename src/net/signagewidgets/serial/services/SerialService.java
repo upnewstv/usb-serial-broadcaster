@@ -37,10 +37,12 @@ public class SerialService extends Service implements SerialDeviceListener {
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		if (START.equals(intent.getAction())) {
+		String action = intent != null ? intent.getAction() : null;
+		
+		if (START.equals(action)) {
 			sLogging.info("Start command received");
 			if (mDeviceManager == null) mDeviceManager = new SerialDeviceManager(this, this);
-		} else if (STOP.equals(intent.getAction())) {
+		} else if (STOP.equals(action)) {
 			sLogging.info("Stop command received");
 			if (mDeviceManager != null
 					&& intent.getIntExtra(ID, -1) == mDeviceManager.getDeviceID()) {
