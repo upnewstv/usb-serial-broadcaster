@@ -1,0 +1,15 @@
+#Gradle files
+
+.gradle/
+.idea/
+_gitignore.txt
+idea/
+build.gradle
+build/
+gradle/
+gradlew
+gradlew.bat
+import-summary.txt
+local.properties
+settings.gradle
+usb-serial-broadcaster.iml
