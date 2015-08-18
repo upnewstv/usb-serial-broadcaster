@@ -27,3 +27,13 @@ proguard/
 
 .project
 proguard-project.txt
+#Gradle files
+
+idea/
+build.gradle
+gradle/
+gradlew
+gradlew.bat
+local.properties
+settings.gradle
+usb-serial-broadcaster.iml
