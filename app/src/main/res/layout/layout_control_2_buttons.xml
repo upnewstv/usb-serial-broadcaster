@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp">
+
+
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="72dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="false"
+                android:gravity="right"
+                android:layout_alignParentRight="true"
+                android:id="@+id/linearLayout"
+                android:layout_alignParentTop="false"
+                android:layout_marginRight="20dp">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingRight="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="@string/name_button_a"
+                        android:id="@+id/button_1"
+                        android:layout_below="@+id/button_2"
+                        android:layout_alignLeft="@+id/button_2"
+                        android:layout_alignStart="@+id/button_2"
+                        android:background="@drawable/buttons_layout"
+                        android:textColor="#010101"
+                        android:layout_margin="5dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/name_button_b"
+                        android:fontFamily="sans-serif"
+                        android:id="@+id/button_2"
+                        android:layout_alignBaseline="@+id/name_control"
+                        android:layout_alignBottom="@+id/name_control"
+                        android:layout_toLeftOf="@+id/linearLayout"
+                        android:layout_toStartOf="@+id/linearLayout"
+                        android:layout_marginRight="38dp"
+                        android:layout_marginEnd="38dp"
+                        android:textColor="#010101"
+                        android:background="@drawable/buttons_layout"
+                        android:layout_margin="5dp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/icon_control"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:src="@drawable/remote_example"
+                android:paddingLeft="16dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/name_control"
+                android:layout_toRightOf="@+id/icon_control"
+                android:layout_alignParentTop="true"
+                android:textSize="16sp"
+                android:text="@string/name_control_test_b"
+                android:textColor="#010101"
+                android:layout_alignParentBottom="false"
+                android:layout_alignParentRight="false"
+                android:layout_alignWithParentIfMissing="false"
+                android:paddingLeft="57dp"
+                android:layout_alignParentLeft="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/date_added"
+                android:id="@+id/data_add"
+                android:layout_below="@+id/name_control"
+                android:layout_toRightOf="@+id/icon_control"
+                android:layout_toEndOf="@+id/icon_control"
+                android:textSize="14sp"
+                android:paddingLeft="57dp"
+                android:textColor="#8b8b8b"
+                android:layout_alignParentLeft="true" />
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+
+</LinearLayout>
