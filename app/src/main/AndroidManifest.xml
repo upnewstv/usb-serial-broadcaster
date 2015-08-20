@@ -12,7 +12,7 @@
     <application
         android:icon="@drawable/icon"
         android:label="Signage Widgets Serial Device Support"
-        android:theme="@style/Theme.Transparent" >
+        android:theme="@style/Theme.AppCompat" >
 
         <activity
             android:name="net.signagewidgets.serial.activities.AttachActivity"

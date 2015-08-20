@@ -72,7 +72,8 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:src="@drawable/remote_example"
-                android:paddingLeft="16dp" />
+                android:paddingLeft="16dp"
+                android:layout_alignBottom="@+id/linearLayout" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -86,19 +87,19 @@
                 android:layout_alignParentBottom="false"
                 android:layout_alignParentRight="false"
                 android:layout_alignWithParentIfMissing="false"
-                android:paddingLeft="57dp"
+                android:paddingLeft="72dp"
                 android:layout_alignParentLeft="true" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/date_added"
-                android:id="@+id/data_add"
+                android:id="@+id/date_add"
                 android:layout_below="@+id/name_control"
                 android:layout_toRightOf="@+id/icon_control"
                 android:layout_toEndOf="@+id/icon_control"
                 android:textSize="14sp"
-                android:paddingLeft="57dp"
+                android:paddingLeft="72dp"
                 android:textColor="#8b8b8b"
                 android:layout_alignParentLeft="true" />
 
