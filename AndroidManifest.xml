@@ -11,7 +11,7 @@
 
     <application
         android:icon="@drawable/icon"
-        android:label="Signage Widgets Serial Device Support"
+        android:label="Serial Device Support"
         android:theme="@style/Theme.Transparent" >
 
         <activity
