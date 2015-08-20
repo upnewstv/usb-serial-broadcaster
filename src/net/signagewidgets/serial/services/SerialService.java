@@ -12,21 +12,12 @@ public class SerialService extends Service implements SerialDeviceListener {
 	private static Logging sLogging = new Logging(SerialService.class);	
 
 	private static final String START = "net.signagewidgets.serial.services.SerialService.START";
-	private static final String STOP = "net.signagewidgets.serial.services.SerialService.STOP";
-	private static final String ID = "DEVICE_ID";
 
 	private SerialDeviceManager mDeviceManager;
 
 	public static void start(Context context) {
 		Intent intent = new Intent(context, SerialService.class);
 		intent.setAction(START);
-		context.startService(intent);
-	}
-
-	public static void stop(Context context, int deviceId) {
-		Intent intent = new Intent(context, SerialService.class);
-		intent.setAction(STOP);
-		intent.putExtra(ID, deviceId);
 		context.startService(intent);
 	}
 
@@ -42,14 +33,6 @@ public class SerialService extends Service implements SerialDeviceListener {
 		if (START.equals(action)) {
 			sLogging.info("Start command received");
 			if (mDeviceManager == null) mDeviceManager = new SerialDeviceManager(this, this);
-		} else if (STOP.equals(action)) {
-			sLogging.info("Stop command received");
-			if (mDeviceManager != null
-					&& intent.getIntExtra(ID, -1) == mDeviceManager.getDeviceID()) {
-				mDeviceManager.destroy();
-				mDeviceManager = null;
-				android.os.Process.killProcess(android.os.Process.myPid());
-			}
 		}
 
 		return START_STICKY;

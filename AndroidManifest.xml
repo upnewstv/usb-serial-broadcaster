@@ -32,11 +32,5 @@
             android:name="net.signagewidgets.serial.services.SerialService"
             android:exported="true" >
         </service>
-
-        <receiver android:name="net.signagewidgets.serial.broadcast.DettachReceiver">
-			<intent-filter>
-                <action android:name="android.hardware.usb.action.USB_DEVICE_DETACHED" />
-            </intent-filter>
-		</receiver>
         </application>
 </manifest>
