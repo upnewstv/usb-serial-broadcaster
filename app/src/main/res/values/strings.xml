@@ -7,9 +7,6 @@
     <string name="name_button_b">B</string>
     <string name="name_button_c">C</string>
     <string name="name_button_d">D</string>
-    <string name="date_added">Date: 08/01/2015</string>
-
-
-
+    <string name="date_added">08/01/2015</string>
 
 </resources>

@@ -1,12 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
-    <android.support.v7.widget.RecyclerView
+<android.support.design.widget.CoordinatorLayout
+    android:id="@+id/coordinatorLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FABActivity">
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/rv"
-        />
+        android:layout_height="match_parent">
 
-</LinearLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="25dp"
+            android:layout_marginRight="16dp"
+            app:fabSize="normal"
+            app:layout_anchor="@id/coordinatorLayout"
+            app:layout_anchorGravity="bottom|right"
+            app:rippleColor="@color/ColorButtonAdd"
+            android:layout_marginEnd="16dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="false"
+            android:adjustViewBounds="true"
+            app:borderWidth="0dp"
+            android:src="@drawable/plus_icon"
+            app:backgroundTint="@color/ColorButtonAdd" />
+
+    </RelativeLayout>
+
+</android.support.design.widget.CoordinatorLayout>
