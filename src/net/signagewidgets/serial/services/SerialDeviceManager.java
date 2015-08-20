@@ -60,12 +60,12 @@ public class SerialDeviceManager implements SerialInputOutputManager.Listener {
 	}
 
 	private void scanConnect() {
+		sLogging.info("Scanning and connecting to available devices");
+
 		mExecutor.execute(new Runnable() {
 			@Override
 			public void run() {
 				try{
-					sLogging.info("Scanning and connecting to available devices");
-	
 					List<UsbSerialDriver> drivers = UsbSerialProber.getDefaultProber().findAllDrivers(mUsbManager);
 
 					if (drivers.isEmpty()) {
