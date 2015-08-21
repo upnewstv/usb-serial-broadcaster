@@ -21,7 +21,9 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
         this.remoteControls = remoteControls;
     }
 
-    // inner class to hold a reference to each item of RecyclerView
+    /**
+     * Inner class to hold a reference to each item of RecyclerView
+     */
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView controlName;
@@ -36,34 +38,47 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
         }
     }
 
-    // For each item
-
-    // Inflate item_layout
-    // Create a ViewHolder
-    // Bind the view “ViewHolder” with data “remoteControls”
-
-    // Create new views (invoked by the layout manager)
+    /**
+     * Called when RecyclerView needs a new RecyclerView.ViewHolder of the given type to represent an item
+     * (Create new views (invoked by the layout manager))
+     * @param parent
+     * @param viewType
+     * @return
+     */
     @Override
     public RVAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+        // For each item:
+
+        // Inflate item_layout
+        // Create a ViewHolder
+        // Bind the view “ViewHolder” with data “remoteControls”
 
         View itemLayoutView = null;
 
         switch (viewType) {
 
             case 2:
-                // create a new view
+                // create a new view with room for 2 buttons
                 itemLayoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_control_2_buttons, null);
                 break;
 
             default:
-                // create a new view
+                // create a new view with room for 4 buttons
                 itemLayoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_control_4_buttons, null);
                 break;
         }
+
         // create ViewHolder
         return new ViewHolder(itemLayoutView);
     }
 
+    /**
+     * Return the view type of the item at position for the purposes of view recycling
+     *
+     * @param position Position that contains the remote control on RemoteControl array
+     * @return 2 if the remote control has 2 buttons, 4 if contains 4 buttons
+     */
     @Override
     public int getItemViewType(int position) {
 
@@ -74,8 +89,12 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
         }
     }
 
-
-    // Replace the contents of a view (invoked by the layout manager)
+    /**
+     * Method that replace the contents of a view (invoked by the layout manager)
+     *
+     * @param viewHolder
+     * @param position
+     */
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
 
