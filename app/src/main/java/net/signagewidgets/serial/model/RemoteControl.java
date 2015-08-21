@@ -1,10 +1,5 @@
 package net.signagewidgets.serial.model;
 
-import net.signagewidgets.serial.R;
-
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -14,44 +9,75 @@ public class RemoteControl {
 
         String name;
         String date;
-        int typeIcon;
+        int idControl;
+        List<Integer> idButtons;
 
-    public RemoteControl(String name, String date, int typeIcon) {
-            this.name = name;
-            this.date = date;
-            this.typeIcon = typeIcon;
+    public RemoteControl(String name, String date, int idControl, List<Integer> idButtons) {
+        this.name = name;
+        this.date = date;
+        this.idControl = idControl;
+        this.idButtons = idButtons;
     }
 
     private List<RemoteControl> remoteControls;
 
+    /**
+     * Get the name of the remote control
+     * @return Return a string that is the name of the remote control
+     */
     public String getName(){
         return name;
     }
 
+    /**
+     * Get the date when the remote control was registered
+     * @return Return a string that is the date when the remote control was registered
+     */
     public String getDate(){
         return date;
     }
 
-    public int getTypeIcon(){
-        return typeIcon;
+    /**
+     * Get the ID of remote control
+     * @return Return an int that is ID of remote control
+     */
+    public int getIdControl(){
+        return idControl;
     }
 
+    /**
+     * Get the ID of each button of remote control
+     * @return Return a List of Integer that each one is the ID of each button of remote control
+     */
+    public List<Integer> getIdButtons(){
+        return idButtons;
+    }
+
+    /**
+     * Set the name of the remote control
+     */
     public void setName(String name){
         this.name = name;
     }
 
+    /**
+     * Set the date when the remote control was added
+     */
     public void setDate(String date){
         this.date = date;
     }
 
-    public void setTypeIcon(int typeIcon){
-        this.typeIcon = typeIcon;
+    /**
+     * Set the ID remote control
+     */
+    public void setIdControl(int idControl){
+        this.idControl = idControl;
     }
 
-    private void initializeData(){
-        remoteControls = new ArrayList<>();
-        remoteControls.add(new RemoteControl("Control A", new SimpleDateFormat("dd-MM-yyyy").format(new Date()), R.drawable.remote_example));
-        remoteControls.add(new RemoteControl("Control B", new SimpleDateFormat("dd-MM-yyyy").format(new Date()), R.drawable.remote_example));
-        remoteControls.add(new RemoteControl("Control C", new SimpleDateFormat("dd-MM-yyyy").format(new Date()), R.drawable.remote_example));
+    /**
+     * Set the ID for each button of the remote control
+     */
+    public void setIdButtons(List<Integer> idButtons){
+        this.idButtons = idButtons;
     }
 }
