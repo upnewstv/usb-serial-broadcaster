@@ -60,12 +60,12 @@ public class SerialDeviceManager implements SerialInputOutputManager.Listener {
 	}
 
 	private void scanConnect() {
-		sLogging.info("Scanning and connecting to available devices");
-
 		mExecutor.execute(new Runnable() {
 			@Override
 			public void run() {
 				try{
+					sLogging.info("Scanning and connecting to available devices");
+
 					List<UsbSerialDriver> drivers = UsbSerialProber.getDefaultProber().findAllDrivers(mUsbManager);
 
 					if (drivers.isEmpty()) {
@@ -88,17 +88,18 @@ public class SerialDeviceManager implements SerialInputOutputManager.Listener {
 							mIOExecutor.submit(mSerialIoManager);
 	
 							sLogging.info("Connected to the device");
-						} catch (IOException e) {
-							close();
-							mExecutor.schedule(this, RECONNETION_DELAY, TimeUnit.SECONDS);
+						} catch (Exception e) {
 							sLogging.error("Error connecting to the serial service");
+							close();
+							throw e;
 						}
 					} else {
 						mExecutor.schedule(this, RECONNETION_DELAY, TimeUnit.SECONDS);
 					}
 				} catch (Exception e) {
-					sLogging.info("Error on method scanningConnect");
+					sLogging.info("Error on method scanConnect");
 					sLogging.captureStack();
+					mExecutor.schedule(this, RECONNETION_DELAY, TimeUnit.SECONDS);
 				}
 			}
 		});
@@ -125,15 +126,20 @@ public class SerialDeviceManager implements SerialInputOutputManager.Listener {
 						mSerialPort.close();
 						mSerialPort = null;
 					}
-				} catch (IOException e) {
+				} catch (Exception e) {
 					sLogging.error("Error closing serial port");
 					sLogging.captureStack();
 				}
 
-				if (mSerialIoManager != null) {
-					sLogging.info("Stopping SerialIOManager");
-					mSerialIoManager.stop();
-					mSerialIoManager = null;
+				try {
+					if (mSerialIoManager != null) {
+						sLogging.info("Stopping SerialIOManager");
+						mSerialIoManager.stop();
+						mSerialIoManager = null;
+					}
+				} catch (Exception e) {
+					sLogging.error("Error stopping SeriaIOManager");
+					sLogging.captureStack();
 				}
 			}
 		});
@@ -144,20 +150,25 @@ public class SerialDeviceManager implements SerialInputOutputManager.Listener {
 		mExecutor.execute(new Runnable() {
 			@Override
 			public void run() {
-				for (int i = 0; i < data.length; i++) {
-					mStringBuilder.append((char) data[i]);
+				try {
+					for (int i = 0; i < data.length; i++) {
+						mStringBuilder.append((char) data[i]);
+					}
+	
+					String content = null;
+	
+			    	for (int i = 0; i < mStringBuilder.length(); i++) {
+			    		if (mStringBuilder.charAt(i) == '\n') {
+			    			content = mStringBuilder.substring(0, i-1);
+			    			mStringBuilder.delete(0, i+1);
+			    		}
+			    	}
+	
+			    	if (content != null) mListener.onLineReceived(content);
+				} catch (Exception e) {
+					sLogging.error("Error parsing received data from the device: " + data);
+					sLogging.captureStack();
 				}
-
-				String content = null;
-
-		    	for (int i = 0; i < mStringBuilder.length(); i++) {
-		    		if (mStringBuilder.charAt(i) == '\n') {
-		    			content = mStringBuilder.substring(0, i-1);
-		    			mStringBuilder.delete(0, i+1);
-		    		}
-		    	}
-
-		    	if (content != null) mListener.onLineReceived(content);
 			}
 		});
 	}
