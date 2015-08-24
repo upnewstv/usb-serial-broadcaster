@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="250dp"
+    android:layout_height="wrap_content"
+    android:background="#ffffff">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_control"
+        android:id="@+id/textView_title_add_control"
+        android:textColor="#010101"
+        android:paddingTop="24dp"
+        android:paddingRight="24dp"
+        android:paddingLeft="24dp"
+        android:paddingBottom="20dp"
+        android:textSize="16dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/name_control"
+        android:id="@+id/textView_name_control"
+        android:textSize="12dp"
+        android:paddingLeft="24dp"
+        android:textColor="#7d7d7d" />
+
+    <EditText
+        android:id="@+id/EditText_name_control"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:inputType="textPersonName"
+        android:lines="1"
+        android:textColor="#010101" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/quantity_buttons"
+        android:id="@+id/textView_quantity_buttons"
+        android:textSize="12dp"
+        android:paddingLeft="24dp"
+        android:paddingTop="10dp"
+        android:textColor="#FF7D7D7D" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner"
+        android:spinnerMode="dropdown"
+        android:layout_marginRight="24dp"
+        android:entries="@array/number_buttons" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="end"
+        android:layout_marginRight="24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:text="@string/cancel"
+            android:id="@+id/textView_cancel"
+            android:textColor="#009688"
+            android:padding="8dp"
+            android:onClick="dismissPopup" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:text="@string/next"
+            android:id="@+id/textView_next"
+            android:textColor="#009688"
+            android:padding="8dp"
+            android:onClick="next" />
+    </LinearLayout>
+
+</LinearLayout>

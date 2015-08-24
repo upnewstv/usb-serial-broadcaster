@@ -1,10 +1,16 @@
 package net.signagewidgets.serial.activities;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import net.signagewidgets.serial.R;
 import net.signagewidgets.serial.services.SerialService;
@@ -17,27 +23,42 @@ import java.util.List;
 
 import net.signagewidgets.serial.model.RemoteControl;
 
-public class AttachActivity extends AppCompatActivity {
+public class AttachActivity extends Activity {
 
-	private FloatingActionButton actionButton;
+	private Spinner spinnerQuantityButtons;
+	private AlertDialog.Builder alertDialogBuilder;
+	private AlertDialog alertDialog;
+	final Context context = this;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		SerialService.start(this);
-		//finish(); it will finish the activity...
 
 		setContentView(R.layout.recycler_view);
 
-		RecyclerView recyclerView = (RecyclerView)findViewById(R.id.rv);
+		RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv);
 
 		RemoteControl[] remoteControlData =  getControls();
 
-		recyclerView.setLayoutManager(new LinearLayoutManager(this));
+		LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+		recyclerView.setLayoutManager(layoutManager);
 
 		RVAdapter rvAdapter = new RVAdapter(remoteControlData);
-
 		recyclerView.setAdapter(rvAdapter);
+
+		LayoutInflater inflater = getLayoutInflater();
+
+		View view = inflater.inflate(R.layout.add_control, null);
+
+		spinnerQuantityButtons = (Spinner) view.findViewById(R.id.spinner);
+
+		ArrayAdapter adapter = ArrayAdapter.createFromResource(this, R.array.number_buttons, R.layout.custom_spinner);
+
+		adapter.setDropDownViewResource(R.layout.custom_spinner);
+
+		spinnerQuantityButtons.setAdapter(adapter);
+
 	}
 
 	/**
@@ -62,7 +83,54 @@ public class AttachActivity extends AppCompatActivity {
 	 * @return Returns an array of remote controls
 	 */
 	public RemoteControl[] getControls(){
-		RemoteControl[] controlsFromDB = null;
+
+		List<Integer> listIdButtons4 = new ArrayList<>();
+		listIdButtons4.add(1);
+		listIdButtons4.add(2);
+		listIdButtons4.add(3);
+		listIdButtons4.add(4);
+
+		List<Integer> listIdButtons2 = new ArrayList<>();
+		listIdButtons2.add(1);
+		listIdButtons2.add(2);
+
+		RemoteControl[] controlsFromDB = {
+				new RemoteControl("Control A", getDate(), 0, listIdButtons4),
+				new RemoteControl("Control B", getDate(), 1, listIdButtons4),
+				new RemoteControl("Control C", getDate(), 2, listIdButtons4),
+				new RemoteControl("Control D", getDate(), 3, listIdButtons4),
+				new RemoteControl("Control E", getDate(), 4, listIdButtons4),
+				new RemoteControl("Control F", getDate(), 5, listIdButtons2),
+				new RemoteControl("Control G", getDate(), 7, listIdButtons2),
+				new RemoteControl("Control H", getDate(), 8, listIdButtons2),
+				new RemoteControl("Control I", getDate(), 9, listIdButtons2),
+		};
 		return controlsFromDB;
+	}
+
+	public void listenerFAB(View view){
+
+		alertDialogBuilder = new AlertDialog.Builder(this);
+
+		// Get the layout inflater
+		LayoutInflater inflater = getLayoutInflater();
+
+		// Inflate and set the layout for the dialog
+		// Pass null as the parent view because its going in the dialog layout
+		alertDialogBuilder.setView(inflater.inflate(R.layout.add_control, null));
+
+		// create alert dialog
+		alertDialog = alertDialogBuilder.create();
+
+		// show it
+		alertDialog.show();
+	}
+
+	public void next(View view){
+		alertDialog.dismiss();
+	}
+
+	public void dismissPopup(View view){
+		alertDialog.dismiss();
 	}
 }

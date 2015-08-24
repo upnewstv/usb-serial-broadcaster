@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="net.signagewidgets.serial"
     android:versionCode="1"
@@ -9,35 +10,41 @@
 
     <uses-feature android:name="android.hardware.usb.host" />
 
+    <android:uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <android:uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:icon="@drawable/icon"
-        android:label="Signage Widgets Serial Device Support"
+        android:label="OnSign RC"
         android:theme="@style/Theme.AppCompat" >
-
         <activity
-            android:name="net.signagewidgets.serial.activities.AttachActivity"
+            android:name=".activities.AttachActivity"
+            android:excludeFromRecents="true"
             android:noHistory="true"
-            android:stateNotNeeded="true"
-            android:excludeFromRecents="true">
+            android:stateNotNeeded="true" >
             <intent-filter>
                 <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
-                <category android:name="ANDROID.INTENT.CATEGORY.LAUNCHER"/>
+
+                <category android:name="ANDROID.INTENT.CATEGORY.LAUNCHER" />
             </intent-filter>
 
             <meta-data
-				android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
-				android:resource="@xml/device_filter" />
+                android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
+                android:resource="@xml/device_filter" />
         </activity>
 
         <service
-            android:name="net.signagewidgets.serial.services.SerialService"
+            android:name=".services.SerialService"
             android:exported="true" >
         </service>
 
-        <receiver android:name="net.signagewidgets.serial.broadcast.DettachReceiver">
-			<intent-filter>
+        <receiver android:name=".broadcast.DettachReceiver" >
+            <intent-filter>
                 <action android:name="android.hardware.usb.action.USB_DEVICE_DETACHED" />
             </intent-filter>
-		</receiver>
-        </application>
+        </receiver>
+
+    </application>
+
 </manifest>

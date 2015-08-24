@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import net.signagewidgets.serial.R;
@@ -24,17 +25,20 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
     /**
      * Inner class to hold a reference to each item of RecyclerView
      */
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder{
 
         public TextView controlName;
         public TextView dateAdd;
         public ImageView iconControl;
+        public Spinner spinnerQuantityButtons;
+
 
         public ViewHolder(View itemLayoutView) {
             super(itemLayoutView);
             controlName = (TextView) itemLayoutView.findViewById(R.id.name_control);
             dateAdd = (TextView) itemLayoutView.findViewById(R.id.date_add);
             iconControl = (ImageView) itemLayoutView.findViewById(R.id.icon_control);
+            spinnerQuantityButtons = (Spinner) itemLayoutView.findViewById(R.id.spinner);
         }
     }
 
@@ -81,7 +85,6 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
      */
     @Override
     public int getItemViewType(int position) {
-
         if(remoteControls[position].getIdButtons().size() == 2){
             return 2;
         }else{
@@ -103,7 +106,13 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
 
         viewHolder.controlName.setText(remoteControls[position].getName());
         viewHolder.dateAdd.setText(remoteControls[position].getDate());
-        viewHolder.iconControl.setImageResource(remoteControls[position].getIdControl());
+
+        if(remoteControls[position].getIdButtons().size() == 2){
+            viewHolder.iconControl.setImageResource(R.drawable.remote_example_2);
+        }else{
+            viewHolder.iconControl.setImageResource(R.drawable.remote_example_4);
+        }
+
     }
 
     // Return the size of your remoteControls (invoked by the layout manager)
@@ -111,4 +120,5 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
     public int getItemCount() {
         return remoteControls.length;
     }
+
 }

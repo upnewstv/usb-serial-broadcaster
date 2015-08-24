@@ -9,4 +9,21 @@
     <string name="name_button_d">D</string>
     <string name="date_added">08/01/2015</string>
 
+    <string name="add_control">Adicionar Controle Remoto</string>
+    <string name="name_control">Nome do Controle</string>
+    <string name="quantity_buttons">Quantos Botões?</string>
+    <string name="cancel">CANCELAR</string>
+    <string name="next">PRÓXIMO</string>
+
+    <string-array name="number_buttons">
+        <item>01</item>
+        <item>02</item>
+        <item>03</item>
+        <item>04</item>
+    </string-array>
+    <string name="title_activity_dialog">Dialog</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
 </resources>

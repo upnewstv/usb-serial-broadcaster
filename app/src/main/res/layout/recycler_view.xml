@@ -7,7 +7,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="net.signagewidgets.serial.activities.AttachActivity">
+    tools:context=".activities.AttachActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -16,7 +16,8 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:background="#ffffff" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
@@ -35,7 +36,8 @@
             android:adjustViewBounds="true"
             app:borderWidth="0dp"
             android:src="@drawable/plus_icon"
-            app:backgroundTint="@color/ColorButtonAdd" />
+            app:backgroundTint="@color/ColorButtonAdd"
+            android:onClick="listenerFAB"/>
 
     </RelativeLayout>
 
