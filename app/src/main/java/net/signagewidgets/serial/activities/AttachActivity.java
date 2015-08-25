@@ -4,16 +4,17 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import net.signagewidgets.serial.R;
 import net.signagewidgets.serial.services.SerialService;
+import net.signagewidgets.serial.util.Logging;
 import net.signagewidgets.serial.util.RVAdapter;
 
 import java.text.SimpleDateFormat;
@@ -24,8 +25,9 @@ import java.util.List;
 import net.signagewidgets.serial.model.RemoteControl;
 
 public class AttachActivity extends Activity {
+	private static Logging sLogging = new Logging(AttachActivity.class);
 
-	private Spinner spinnerQuantityButtons;
+	private Spinner spinner;
 	private AlertDialog.Builder alertDialogBuilder;
 	private AlertDialog alertDialog;
 	final Context context = this;
@@ -42,23 +44,31 @@ public class AttachActivity extends Activity {
 		RemoteControl[] remoteControlData =  getControls();
 
 		LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+
 		recyclerView.setLayoutManager(layoutManager);
 
 		RVAdapter rvAdapter = new RVAdapter(remoteControlData);
 		recyclerView.setAdapter(rvAdapter);
 
-		LayoutInflater inflater = getLayoutInflater();
+		//------------------------------------------------------
 
-		View view = inflater.inflate(R.layout.add_control, null);
+		//LayoutInflater inflater = getLayoutInflater();
 
-		spinnerQuantityButtons = (Spinner) view.findViewById(R.id.spinner);
+		//LinearLayout viewAddControl = (LinearLayout)inflater.inflate(R.layout.add_control, null);
 
-		ArrayAdapter adapter = ArrayAdapter.createFromResource(this, R.array.number_buttons, R.layout.custom_spinner);
+		//spinner = (Spinner) viewAddControl.findViewById(R.id.spinner);
 
-		adapter.setDropDownViewResource(R.layout.custom_spinner);
+		//ArrayAdapter dataAdapter = ArrayAdapter.createFromResource(this, R.array.number_buttons, android.R.layout.simple_expandable_list_item_1);
 
-		spinnerQuantityButtons.setAdapter(adapter);
+		//dataAdapter.setDropDownViewResource(android.R.layout.simple_expandable_list_item_1);
 
+		//spinner.setAdapter(dataAdapter);
+
+		//sLogging.error("ADAPTER" + spinner.getAdapter().toString());
+
+		//for (int i = 0 ; i < spinner.getCount(); i++) {
+		//	sLogging.error("ITEM " + spinner.getAdapter().getItem(i));
+		//}
 	}
 
 	/**

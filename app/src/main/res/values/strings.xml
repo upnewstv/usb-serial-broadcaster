@@ -15,6 +15,12 @@
     <string name="cancel">CANCELAR</string>
     <string name="next">PRÓXIMO</string>
 
+    <string name="one">01</string>
+    <string name="two">02</string>
+    <string name="three">03</string>
+    <string name="four">04</string>
+
+
     <string-array name="number_buttons">
         <item>01</item>
         <item>02</item>

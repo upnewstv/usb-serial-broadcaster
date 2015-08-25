@@ -15,9 +15,4 @@
     <item name="android:background">?android:attr/listDivider</item>
   </style>
 
-  <style name="mySpinnerItemStyle" parent="@android:style/Widget.Holo.DropDownItem.Spinner">
-    <item name="android:textSize">12sp</item>
-    <item name="android:background">#fff</item>
-  </style>
-
 </resources>

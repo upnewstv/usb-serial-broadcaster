@@ -47,13 +47,62 @@
         android:paddingTop="10dp"
         android:textColor="#FF7D7D7D" />
 
-    <Spinner
-        android:layout_width="match_parent"
+    <RadioGroup
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/spinner"
-        android:spinnerMode="dropdown"
-        android:layout_marginRight="24dp"
-        android:entries="@array/number_buttons" />
+        android:orientation="horizontal"
+        android:paddingLeft="24dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="20dp">
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/one"
+            android:id="@+id/radioButton_1"
+            android:checked="false"
+            android:textColor="#010101"
+            android:focusable="false"
+            android:clickable="true"
+            android:textSize="12dp"
+            android:foreground="#cacaca"
+            android:singleLine="false"
+            android:buttonTint="#909090"
+            android:layout_marginRight="5dp" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/two"
+            android:id="@+id/radioButton_2"
+            android:checked="true"
+            android:textColor="#010101"
+            android:textSize="12dp"
+            android:buttonTint="#FF909090"
+            android:layout_marginRight="5dp" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/three"
+            android:id="@+id/radioButton_3"
+            android:checked="false"
+            android:textColor="#010101"
+            android:textSize="12dp"
+            android:buttonTint="#FF909090"
+            android:layout_marginRight="5dp" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/four"
+            android:id="@+id/radioButton_4"
+            android:checked="false"
+            android:textColor="#010101"
+            android:textSize="12dp"
+            android:buttonTint="#FF909090" />
+
+    </RadioGroup>
 
     <LinearLayout
         android:orientation="horizontal"

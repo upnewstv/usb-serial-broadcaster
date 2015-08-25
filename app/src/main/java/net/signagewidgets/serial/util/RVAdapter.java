@@ -30,15 +30,12 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
         public TextView controlName;
         public TextView dateAdd;
         public ImageView iconControl;
-        public Spinner spinnerQuantityButtons;
-
 
         public ViewHolder(View itemLayoutView) {
             super(itemLayoutView);
             controlName = (TextView) itemLayoutView.findViewById(R.id.name_control);
             dateAdd = (TextView) itemLayoutView.findViewById(R.id.date_add);
             iconControl = (ImageView) itemLayoutView.findViewById(R.id.icon_control);
-            spinnerQuantityButtons = (Spinner) itemLayoutView.findViewById(R.id.spinner);
         }
     }
 
