@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:background="#ffffff">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/title_register_buttons"
+        android:id="@+id/textView_register_buttons"
+        android:textColor="#010101"
+        android:paddingTop="24dp"
+        android:paddingRight="24dp"
+        android:paddingLeft="24dp"
+        android:paddingBottom="20dp"
+        android:textSize="16dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/description_register_button"
+        android:id="@+id/textView_name_control"
+        android:textSize="12dp"
+        android:paddingLeft="24dp"
+        android:textColor="#7d7d7d" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/name_button_a"
+            android:id="@+id/click_1"
+            android:background="@drawable/circle"
+            android:textAlignment="viewEnd"
+            android:paddingLeft="10dp"
+            android:paddingTop="6dp"
+            android:layout_marginRight="15dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/name_button_a"
+            android:id="@+id/click_2"
+            android:background="@drawable/circle"
+            android:paddingLeft="10dp"
+            android:paddingTop="6dp"
+            android:layout_marginRight="15dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/name_button_a"
+            android:id="@+id/click_3"
+            android:background="@drawable/circle"
+            android:paddingLeft="10dp"
+            android:paddingTop="6dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="end"
+        android:layout_marginRight="24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:text="@string/cancel"
+            android:id="@+id/textView_cancel"
+            android:textColor="#009688"
+            android:padding="8dp"
+            android:onClick="dismissPopup" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:text="@string/restart"
+            android:id="@+id/textView_restart"
+            android:textColor="#009688"
+            android:padding="8dp"
+            android:onClick="next" />
+    </LinearLayout>
+
+</LinearLayout>

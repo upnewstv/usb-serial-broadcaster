@@ -8,8 +8,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import net.signagewidgets.serial.R;
@@ -50,25 +48,6 @@ public class AttachActivity extends Activity {
 		RVAdapter rvAdapter = new RVAdapter(remoteControlData);
 		recyclerView.setAdapter(rvAdapter);
 
-		//------------------------------------------------------
-
-		//LayoutInflater inflater = getLayoutInflater();
-
-		//LinearLayout viewAddControl = (LinearLayout)inflater.inflate(R.layout.add_control, null);
-
-		//spinner = (Spinner) viewAddControl.findViewById(R.id.spinner);
-
-		//ArrayAdapter dataAdapter = ArrayAdapter.createFromResource(this, R.array.number_buttons, android.R.layout.simple_expandable_list_item_1);
-
-		//dataAdapter.setDropDownViewResource(android.R.layout.simple_expandable_list_item_1);
-
-		//spinner.setAdapter(dataAdapter);
-
-		//sLogging.error("ADAPTER" + spinner.getAdapter().toString());
-
-		//for (int i = 0 ; i < spinner.getCount(); i++) {
-		//	sLogging.error("ITEM " + spinner.getAdapter().getItem(i));
-		//}
 	}
 
 	/**
