@@ -76,6 +76,8 @@ public class SerialService extends Service implements SerialDeviceListener {
     		intent.putExtra("id", id);
     		intent.putExtra("button", button);
     		sendBroadcast(intent);
+
+
 		} catch (Exception e) {
 			sLogging.error("Error parsing serial data");
 			sLogging.captureException(e);

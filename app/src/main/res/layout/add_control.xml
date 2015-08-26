@@ -15,14 +15,14 @@
         android:paddingRight="24dp"
         android:paddingLeft="24dp"
         android:paddingBottom="20dp"
-        android:textSize="16dp" />
+        android:textSize="16sp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/name_control"
         android:id="@+id/textView_name_control"
-        android:textSize="12dp"
+        android:textSize="12sp"
         android:paddingLeft="24dp"
         android:textColor="#7d7d7d" />
 
@@ -30,7 +30,7 @@
         android:id="@+id/EditText_name_control"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="14dp"
+        android:textSize="14sp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:inputType="textPersonName"
@@ -42,7 +42,7 @@
         android:layout_height="wrap_content"
         android:text="@string/quantity_buttons"
         android:id="@+id/textView_quantity_buttons"
-        android:textSize="12dp"
+        android:textSize="12sp"
         android:paddingLeft="24dp"
         android:paddingTop="10dp"
         android:textColor="#FF7D7D7D" />
@@ -118,7 +118,8 @@
             android:id="@+id/textView_cancel"
             android:textColor="#009688"
             android:padding="8dp"
-            android:onClick="dismissPopup" />
+            android:onClick="dismissPopup"
+            android:clickable="true" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -127,7 +128,8 @@
             android:id="@+id/textView_next"
             android:textColor="#009688"
             android:padding="8dp"
-            android:onClick="next" />
+            android:onClick="next"
+            android:clickable="true" />
     </LinearLayout>
 
 </LinearLayout>

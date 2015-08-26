@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_width="300dp"
+    android:layout_width="250dp"
     android:layout_height="wrap_content"
     android:background="#ffffff">
 
@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/title_register_buttons"
-        android:id="@+id/textView_register_buttons"
+        android:id="@+id/textView_title_register_buttons"
         android:textColor="#010101"
         android:paddingTop="24dp"
         android:paddingRight="24dp"
@@ -21,48 +21,60 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/description_register_button"
-        android:id="@+id/textView_name_control"
+        android:id="@+id/textView_description_register_control"
         android:textSize="12dp"
         android:paddingLeft="24dp"
-        android:textColor="#7d7d7d" />
+        android:textColor="#010101" />
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
         android:paddingTop="15dp"
-        android:paddingBottom="15dp">
+        android:paddingBottom="25dp"
+        android:gravity="center">
 
-        <TextView
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/name_button_a"
-            android:id="@+id/click_1"
-            android:background="@drawable/circle"
-            android:textAlignment="viewEnd"
-            android:paddingLeft="10dp"
-            android:paddingTop="6dp"
-            android:layout_marginRight="15dp" />
+            android:layout_height="match_parent"
+            android:gravity="center">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/name_button_a"
-            android:id="@+id/click_2"
-            android:background="@drawable/circle"
-            android:paddingLeft="10dp"
-            android:paddingTop="6dp"
-            android:layout_marginRight="15dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/name_button_a"
+                android:id="@+id/click_1"
+                android:background="@drawable/circle_unverified"
+                android:textAlignment="viewEnd"
+                android:paddingLeft="10dp"
+                android:paddingTop="5dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp"
+                android:textColor="#ffffff" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/name_button_a"
-            android:id="@+id/click_3"
-            android:background="@drawable/circle"
-            android:paddingLeft="10dp"
-            android:paddingTop="6dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/name_button_a"
+                android:id="@+id/click_2"
+                android:background="@drawable/circle_unverified"
+                android:paddingLeft="10dp"
+                android:paddingTop="5dp"
+                android:layout_marginRight="15dp"
+                android:textColor="#ffffff" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/name_button_a"
+                android:id="@+id/click_3"
+                android:background="@drawable/circle_unverified"
+                android:paddingLeft="10dp"
+                android:paddingTop="5dp"
+                android:layout_marginRight="15dp"
+                android:textColor="#ffffff" />
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -79,8 +91,7 @@
             android:text="@string/cancel"
             android:id="@+id/textView_cancel"
             android:textColor="#009688"
-            android:padding="8dp"
-            android:onClick="dismissPopup" />
+            android:padding="8dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -88,8 +99,7 @@
             android:text="@string/restart"
             android:id="@+id/textView_restart"
             android:textColor="#009688"
-            android:padding="8dp"
-            android:onClick="next" />
+            android:padding="8dp" />
     </LinearLayout>
 
 </LinearLayout>

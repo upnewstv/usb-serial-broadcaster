@@ -8,7 +8,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Spinner;
 
 import net.signagewidgets.serial.R;
 import net.signagewidgets.serial.services.SerialService;
@@ -25,9 +24,9 @@ import net.signagewidgets.serial.model.RemoteControl;
 public class AttachActivity extends Activity {
 	private static Logging sLogging = new Logging(AttachActivity.class);
 
-	private Spinner spinner;
 	private AlertDialog.Builder alertDialogBuilder;
 	private AlertDialog alertDialog;
+	LayoutInflater inflater;
 	final Context context = this;
 
 	@Override
@@ -47,7 +46,6 @@ public class AttachActivity extends Activity {
 
 		RVAdapter rvAdapter = new RVAdapter(remoteControlData);
 		recyclerView.setAdapter(rvAdapter);
-
 	}
 
 	/**
@@ -102,7 +100,7 @@ public class AttachActivity extends Activity {
 		alertDialogBuilder = new AlertDialog.Builder(this);
 
 		// Get the layout inflater
-		LayoutInflater inflater = getLayoutInflater();
+		inflater = getLayoutInflater();
 
 		// Inflate and set the layout for the dialog
 		// Pass null as the parent view because its going in the dialog layout
@@ -115,11 +113,27 @@ public class AttachActivity extends Activity {
 		alertDialog.show();
 	}
 
-	public void next(View view){
+	public void dismissPopup(View view){
 		alertDialog.dismiss();
 	}
 
-	public void dismissPopup(View view){
+	public void next(View view){
+
 		alertDialog.dismiss();
+
+		alertDialogBuilder = new AlertDialog.Builder(this);
+
+		// Get the layout inflater
+		inflater = getLayoutInflater();
+
+		// Inflate and set the layout for the dialog
+		// Pass null as the parent view because its going in the dialog layout
+		alertDialogBuilder.setView(inflater.inflate(R.layout.verify_buttons, null));
+
+		// create alert dialog
+		alertDialog = alertDialogBuilder.create();
+
+		// show it
+		alertDialog.show();
 	}
 }
