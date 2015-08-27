@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="36dp"
             android:text="@string/cancel"
-            android:id="@+id/textView_cancel"
+            android:id="@+id/textView_cancel_delete"
             android:textColor="#009688"
             android:padding="8dp" />
 

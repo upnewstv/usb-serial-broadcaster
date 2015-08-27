@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_width="250dp"
+    android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="#ffffff">
+    android:background="#ffffff"
+    android:id="@+id/add_control_view">
 
     <TextView
         android:layout_width="wrap_content"
@@ -53,7 +54,9 @@
         android:orientation="horizontal"
         android:paddingLeft="24dp"
         android:paddingTop="10dp"
-        android:paddingBottom="20dp">
+        android:paddingBottom="20dp"
+        android:id="@+id/radioGroup"
+        android:clickable="false">
 
         <RadioButton
             android:layout_width="wrap_content"
@@ -64,11 +67,13 @@
             android:textColor="#010101"
             android:focusable="false"
             android:clickable="true"
-            android:textSize="12dp"
-            android:foreground="#cacaca"
+            android:textSize="12sp"
+            android:foreground="#010101"
             android:singleLine="false"
-            android:buttonTint="#909090"
-            android:layout_marginRight="5dp" />
+            android:layout_marginRight="5dp"
+            android:visibility="visible"
+            android:buttonTint="#FF909090"
+            android:paddingRight="5dp" />
 
         <RadioButton
             android:layout_width="wrap_content"
@@ -77,9 +82,12 @@
             android:id="@+id/radioButton_2"
             android:checked="true"
             android:textColor="#010101"
-            android:textSize="12dp"
+            android:textSize="12sp"
+            android:layout_marginRight="5dp"
             android:buttonTint="#FF909090"
-            android:layout_marginRight="5dp" />
+            android:visibility="visible"
+            android:paddingRight="5dp"
+            android:foreground="#010101" />
 
         <RadioButton
             android:layout_width="wrap_content"
@@ -88,9 +96,12 @@
             android:id="@+id/radioButton_3"
             android:checked="false"
             android:textColor="#010101"
-            android:textSize="12dp"
+            android:textSize="12sp"
             android:buttonTint="#FF909090"
-            android:layout_marginRight="5dp" />
+            android:layout_marginRight="5dp"
+            android:visibility="visible"
+            android:paddingRight="5dp"
+            android:foreground="#010101" />
 
         <RadioButton
             android:layout_width="wrap_content"
@@ -99,8 +110,11 @@
             android:id="@+id/radioButton_4"
             android:checked="false"
             android:textColor="#010101"
-            android:textSize="12dp"
-            android:buttonTint="#FF909090" />
+            android:textSize="12sp"
+            android:buttonTint="#FF909090"
+            android:visibility="visible"
+            android:paddingRight="5dp"
+            android:foreground="#010101" />
 
     </RadioGroup>
 
@@ -115,10 +129,9 @@
             android:layout_width="wrap_content"
             android:layout_height="36dp"
             android:text="@string/cancel"
-            android:id="@+id/textView_cancel"
+            android:id="@+id/textView_cancel_add"
             android:textColor="#009688"
             android:padding="8dp"
-            android:onClick="dismissPopup"
             android:clickable="true" />
 
         <TextView
@@ -128,7 +141,6 @@
             android:id="@+id/textView_next"
             android:textColor="#009688"
             android:padding="8dp"
-            android:onClick="next"
             android:clickable="true" />
     </LinearLayout>
 

@@ -8,9 +8,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import net.signagewidgets.serial.R;
-import net.signagewidgets.serial.services.SerialService;
 import net.signagewidgets.serial.util.Logging;
 import net.signagewidgets.serial.util.RVAdapter;
 
@@ -20,6 +21,7 @@ import java.util.Date;
 import java.util.List;
 
 import net.signagewidgets.serial.model.RemoteControl;
+import net.signagewidgets.serial.view.AddControl;
 
 public class AttachActivity extends Activity {
 	private static Logging sLogging = new Logging(AttachActivity.class);
@@ -28,11 +30,17 @@ public class AttachActivity extends Activity {
 	private AlertDialog alertDialog;
 	LayoutInflater inflater;
 	final Context context = this;
+	private RadioGroup radioGroupButtons;
+	private RadioButton radioButton_1;
+	private RadioButton radioButton_2;
+	private RadioButton radioButton_3;
+	private RadioButton radioButton_4;
+	private int qtdButtons;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		SerialService.start(this);
+		//SerialService.start(this);
 
 		setContentView(R.layout.recycler_view);
 
@@ -46,6 +54,23 @@ public class AttachActivity extends Activity {
 
 		RVAdapter rvAdapter = new RVAdapter(remoteControlData);
 		recyclerView.setAdapter(rvAdapter);
+
+		//initializeComponents();
+	}
+
+	public void initializeComponents(){
+
+		LayoutInflater inflater = getLayoutInflater();
+		View viewAddControl = inflater.inflate(R.layout.add_control, null);
+
+		radioGroupButtons = (RadioGroup) viewAddControl.findViewById(R.id.radioGroup);
+
+		radioButton_1 = (RadioButton) viewAddControl.findViewById(R.id.button_1);
+		sLogging.error("IDDDDD" + radioButton_1.getId());
+		radioButton_2 = (RadioButton) viewAddControl.findViewById(R.id.button_2);
+		radioButton_3 = (RadioButton) viewAddControl.findViewById(R.id.button_3);
+		radioButton_4 = (RadioButton) viewAddControl.findViewById(R.id.button_4);
+
 	}
 
 	/**
@@ -96,44 +121,6 @@ public class AttachActivity extends Activity {
 	}
 
 	public void listenerFAB(View view){
-
-		alertDialogBuilder = new AlertDialog.Builder(this);
-
-		// Get the layout inflater
-		inflater = getLayoutInflater();
-
-		// Inflate and set the layout for the dialog
-		// Pass null as the parent view because its going in the dialog layout
-		alertDialogBuilder.setView(inflater.inflate(R.layout.add_control, null));
-
-		// create alert dialog
-		alertDialog = alertDialogBuilder.create();
-
-		// show it
-		alertDialog.show();
-	}
-
-	public void dismissPopup(View view){
-		alertDialog.dismiss();
-	}
-
-	public void next(View view){
-
-		alertDialog.dismiss();
-
-		alertDialogBuilder = new AlertDialog.Builder(this);
-
-		// Get the layout inflater
-		inflater = getLayoutInflater();
-
-		// Inflate and set the layout for the dialog
-		// Pass null as the parent view because its going in the dialog layout
-		alertDialogBuilder.setView(inflater.inflate(R.layout.verify_buttons, null));
-
-		// create alert dialog
-		alertDialog = alertDialogBuilder.create();
-
-		// show it
-		alertDialog.show();
+		AddControl addControl = new AddControl(this);
 	}
 }
