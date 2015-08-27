@@ -25,17 +25,7 @@ import net.signagewidgets.serial.view.AddControl;
 
 public class AttachActivity extends Activity {
 	private static Logging sLogging = new Logging(AttachActivity.class);
-
-	private AlertDialog.Builder alertDialogBuilder;
-	private AlertDialog alertDialog;
-	LayoutInflater inflater;
 	final Context context = this;
-	private RadioGroup radioGroupButtons;
-	private RadioButton radioButton_1;
-	private RadioButton radioButton_2;
-	private RadioButton radioButton_3;
-	private RadioButton radioButton_4;
-	private int qtdButtons;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,22 +44,6 @@ public class AttachActivity extends Activity {
 
 		RVAdapter rvAdapter = new RVAdapter(remoteControlData);
 		recyclerView.setAdapter(rvAdapter);
-
-		//initializeComponents();
-	}
-
-	public void initializeComponents(){
-
-		LayoutInflater inflater = getLayoutInflater();
-		View viewAddControl = inflater.inflate(R.layout.add_control, null);
-
-		radioGroupButtons = (RadioGroup) viewAddControl.findViewById(R.id.radioGroup);
-
-		radioButton_1 = (RadioButton) viewAddControl.findViewById(R.id.button_1);
-		sLogging.error("IDDDDD" + radioButton_1.getId());
-		radioButton_2 = (RadioButton) viewAddControl.findViewById(R.id.button_2);
-		radioButton_3 = (RadioButton) viewAddControl.findViewById(R.id.button_3);
-		radioButton_4 = (RadioButton) viewAddControl.findViewById(R.id.button_4);
 
 	}
 

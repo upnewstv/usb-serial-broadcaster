@@ -12,16 +12,15 @@ import net.signagewidgets.serial.R;
 /**
  * Created by lenoirzamboni on 8/27/15.
  */
-public class VerifyButtons extends LinearLayout{
-
+public class DeleteControl extends LinearLayout {
     private AlertDialog.Builder alertDialogBuilder;
     private AlertDialog alertDialog;
     private LayoutInflater li;
     private Context context;
-    private TextView restart;
     private TextView cancel;
+    private TextView delete;
 
-    public VerifyButtons(Context context) {
+    public DeleteControl(Context context) {
         super(context);
 
         li = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -29,11 +28,10 @@ public class VerifyButtons extends LinearLayout{
 
         createDialog();
 
-        restart = (TextView) alertDialog.findViewById(R.id.textView_restart);
-        cancel = (TextView) alertDialog.findViewById(R.id.textView_cancel_verify);
+        cancel = (TextView) alertDialog.findViewById(R.id.textView_cancel_delete);
+        delete = (TextView) alertDialog.findViewById(R.id.textView_delete);
 
-        cancel();
-        restart();
+        showOk();
     }
 
     public void createDialog(){
@@ -42,7 +40,7 @@ public class VerifyButtons extends LinearLayout{
 
         // Inflate and set the layout for the dialog
         // Pass null as the parent view because its going in the dialog layout
-        alertDialogBuilder.setView(li.inflate(R.layout.verify_buttons, null));
+        alertDialogBuilder.setView(li.inflate(R.layout.delete_control, null));
 
         // create alert dialog
         alertDialog = alertDialogBuilder.create();
@@ -55,7 +53,7 @@ public class VerifyButtons extends LinearLayout{
         alertDialog.dismiss();
     }
 
-    public void cancel(){
+    public void showOk(){
         cancel.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -64,12 +62,11 @@ public class VerifyButtons extends LinearLayout{
         });
     }
 
-    public void restart(){
-        restart.setOnClickListener(new OnClickListener() {
+    public void deleteControl(){
+        delete.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 dismissPopup();
-                AddedControl addedControl = new AddedControl(context);
             }
         });
     }

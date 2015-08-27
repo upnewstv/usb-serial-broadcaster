@@ -12,28 +12,26 @@ import net.signagewidgets.serial.R;
 /**
  * Created by lenoirzamboni on 8/27/15.
  */
-public class VerifyButtons extends LinearLayout{
+public class AddedControl extends LinearLayout {
 
     private AlertDialog.Builder alertDialogBuilder;
     private AlertDialog alertDialog;
     private LayoutInflater li;
     private Context context;
-    private TextView restart;
-    private TextView cancel;
+    private TextView ok;
 
-    public VerifyButtons(Context context) {
+    public AddedControl(Context context) {
         super(context);
+
 
         li = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.context = context;
 
         createDialog();
 
-        restart = (TextView) alertDialog.findViewById(R.id.textView_restart);
-        cancel = (TextView) alertDialog.findViewById(R.id.textView_cancel_verify);
+        ok = (TextView) alertDialog.findViewById(R.id.textView_ok);
 
-        cancel();
-        restart();
+        showOk();
     }
 
     public void createDialog(){
@@ -42,7 +40,7 @@ public class VerifyButtons extends LinearLayout{
 
         // Inflate and set the layout for the dialog
         // Pass null as the parent view because its going in the dialog layout
-        alertDialogBuilder.setView(li.inflate(R.layout.verify_buttons, null));
+        alertDialogBuilder.setView(li.inflate(R.layout.added_control, null));
 
         // create alert dialog
         alertDialog = alertDialogBuilder.create();
@@ -55,21 +53,11 @@ public class VerifyButtons extends LinearLayout{
         alertDialog.dismiss();
     }
 
-    public void cancel(){
-        cancel.setOnClickListener(new OnClickListener() {
+    public void showOk(){
+        ok.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 dismissPopup();
-            }
-        });
-    }
-
-    public void restart(){
-        restart.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dismissPopup();
-                AddedControl addedControl = new AddedControl(context);
             }
         });
     }
