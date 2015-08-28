@@ -34,9 +34,11 @@
         android:textSize="14sp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:inputType="textPersonName"
-        android:lines="1"
-        android:textColor="#010101" />
+        android:textColor="#010101"
+        android:enabled="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
+
 
     <TextView
         android:layout_width="wrap_content"

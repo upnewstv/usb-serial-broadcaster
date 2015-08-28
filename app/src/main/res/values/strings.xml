@@ -24,7 +24,14 @@
     <string name="four">04</string>
 
     <string name="title_register_buttons">Cadastrar Botões</string>
-    <string name="description_register_button">Aperte o primeiro botão 3 vezes para cadastrá-lo</string>
+    <string name="description_register_button_first">Aperte o PRIMEIRO botão 3 vezes para cadastrá-lo</string>
+    <string name="description_register_button_second">Aperte o SEGUNDO botão 3 vezes para cadastrá-lo</string>
+    <string name="description_register_button_third">Aperte o TERCEIRO botão 3 vezes para cadastrá-lo</string>
+    <string name="description_register_button_fourth">Aperte o QUARTO botão 3 vezes para cadastrá-lo</string>
+
+    <string name="next_button_message">Clique o botão uma vez mais para confirmar</string>
+
+
     <string name="title_activity_dialog">Dialog</string>
     <string name="title_delete_control">Deletar Controle?</string>
     <string name="title_added_control">Controle Adicionado com Sucesso</string>

@@ -3,15 +3,12 @@ package net.signagewidgets.serial.activities;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 
 import net.signagewidgets.serial.R;
+import net.signagewidgets.serial.services.SerialService;
 import net.signagewidgets.serial.util.Logging;
 import net.signagewidgets.serial.util.RVAdapter;
 
@@ -30,7 +27,7 @@ public class AttachActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//SerialService.start(this);
+		SerialService.start(this);
 
 		setContentView(R.layout.recycler_view);
 

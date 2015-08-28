@@ -3,8 +3,11 @@ package net.signagewidgets.serial.view;
 import android.content.Context;
 import android.os.Build;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -35,6 +38,8 @@ public class AddControl extends LinearLayout {
     private TextView next;
 
     private int qtdButtons;
+    private String name;
+    private TextView nameControl;
 
     public AddControl(Context context) {
         super(context);
@@ -54,11 +59,14 @@ public class AddControl extends LinearLayout {
         cancel = (TextView) alertDialog.findViewById(R.id.textView_cancel_add);
         next = (TextView) alertDialog.findViewById(R.id.textView_next);
 
-        addButtons();
+        nameControl = (TextView ) alertDialog.findViewById(R.id.textView_name_control);
+
+        setNumberButtons();
         next();
         cancel();
         setBGRadioButtons();
 
+        alertDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
     }
 
     public void createDialog(){
@@ -72,6 +80,7 @@ public class AddControl extends LinearLayout {
         // Pass null as the parent view because its going in the dialog layout
         alertDialogBuilder.setView(li.inflate(R.layout.add_control, null));
 
+
         // show it
         alertDialog.show();
 
@@ -82,7 +91,7 @@ public class AddControl extends LinearLayout {
         alertDialog.dismiss();
     }
 
-    public void addButtons(){
+    public void setNumberButtons() {
 
         radioGroupButtons.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -107,7 +116,7 @@ public class AddControl extends LinearLayout {
             @Override
             public void onClick(View view) {
                 dismissPopup();
-                VerifyButtons verifyButtons = new VerifyButtons(context);
+                VerifyButtons verifyButtons = new VerifyButtons(context, name, qtdButtons);
             }
         });
     }
@@ -128,5 +137,9 @@ public class AddControl extends LinearLayout {
             radioButton_3.setBackgroundResource(R.drawable.radio_button_layout);
             radioButton_4.setBackgroundResource(R.drawable.radio_button_layout);
         }
+    }
+
+    public void setNameControl(){
+        name = nameControl.getText().toString();
     }
 }

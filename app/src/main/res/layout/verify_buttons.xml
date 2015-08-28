@@ -3,7 +3,8 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="#ffffff">
+    android:background="#ffffff"
+    android:visibility="visible">
 
     <TextView
         android:layout_width="wrap_content"
@@ -20,7 +21,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/description_register_button"
+        android:text="@string/description_register_button_first"
         android:id="@+id/textView_description_register_control"
         android:textSize="12dp"
         android:paddingLeft="24dp"
@@ -51,7 +52,8 @@
                 android:paddingTop="5dp"
                 android:layout_marginRight="15dp"
                 android:layout_marginLeft="15dp"
-                android:textColor="#ffffff" />
+                android:textColor="#ffffff"
+                android:autoText="false" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -77,6 +79,18 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/next_button_message"
+        android:id="@+id/textView_next_button"
+        android:textColor="#010101"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/next_button_layout_disabled"
+        android:layout_marginBottom="25dp"
+        android:layout_marginTop="10dp"
+        android:visibility="invisible" />
 
     <LinearLayout
         android:orientation="horizontal"
