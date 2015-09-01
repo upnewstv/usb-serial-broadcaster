@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_width="fill_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="#ffffff"
-    android:visibility="visible">
+    android:visibility="visible"
+    style="@android:style/Theme.Holo.Light.DialogWhenLarge">
 
     <TextView
         android:layout_width="wrap_content"
@@ -38,7 +39,7 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center">
 
             <TextView
@@ -48,12 +49,13 @@
                 android:id="@+id/click_1"
                 android:background="@drawable/circle_unverified"
                 android:textAlignment="viewEnd"
-                android:paddingLeft="10dp"
-                android:paddingTop="5dp"
+                android:paddingLeft="13dp"
                 android:layout_marginRight="15dp"
-                android:layout_marginLeft="15dp"
                 android:textColor="#ffffff"
-                android:autoText="false" />
+                android:autoText="false"
+                android:textSize="36sp"
+                android:paddingBottom="3dp"
+                android:layout_marginLeft="15dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -61,10 +63,11 @@
                 android:text="@string/name_button_a"
                 android:id="@+id/click_2"
                 android:background="@drawable/circle_unverified"
-                android:paddingLeft="10dp"
-                android:paddingTop="5dp"
+                android:paddingLeft="13dp"
                 android:layout_marginRight="15dp"
-                android:textColor="#ffffff" />
+                android:textColor="#ffffff"
+                android:textSize="36sp"
+                android:paddingBottom="3dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -72,25 +75,23 @@
                 android:text="@string/name_button_a"
                 android:id="@+id/click_3"
                 android:background="@drawable/circle_unverified"
-                android:paddingLeft="10dp"
-                android:paddingTop="5dp"
+                android:paddingLeft="13dp"
                 android:layout_marginRight="15dp"
-                android:textColor="#ffffff" />
+                android:textColor="#ffffff"
+                android:textSize="36sp"
+                android:paddingBottom="3dp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView_verify_ok"
+                android:src="@drawable/ok_icon_48"
+                android:visibility="gone"
+                android:layout_gravity="center" />
+
         </LinearLayout>
 
     </LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/next_button_message"
-        android:id="@+id/textView_next_button"
-        android:textColor="#010101"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/next_button_layout_disabled"
-        android:layout_marginBottom="25dp"
-        android:layout_marginTop="10dp"
-        android:visibility="invisible" />
 
     <LinearLayout
         android:orientation="horizontal"

@@ -4,9 +4,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -19,7 +21,7 @@ import java.util.List;
 /**
  * Created by lenoirzamboni on 8/27/15.
  */
-public class VerifyButtons extends LinearLayout{
+public class VerifyButtons extends LinearLayout {
 
     Logging logging = new Logging(VerifyButtons.class);
 
@@ -28,18 +30,19 @@ public class VerifyButtons extends LinearLayout{
     private LayoutInflater li;
     private Context context;
     private int numberButtons;
-    private int countTimes = 0;
+    private int countTimes;
     private String name;
     private TextView restart;
-    private TextView nextButton;
     private TextView cancel;
     private TextView click01;
     private TextView click02;
     private TextView click03;
+    private ImageView ok;
     private Long idControl;
+    private Long idButton;
     private List<Long> listIdButtons;
     private TextView description;
-    private int countClicks = 0;
+    private int countClicks;
     private BroadcastReceiver receiver;
 
     public VerifyButtons(Context context, String name, int numberButtons) {
@@ -55,7 +58,7 @@ public class VerifyButtons extends LinearLayout{
 
                 addButton(idControl, idButton);
 
-                logging.error("Receiving");
+                //logging.error("Receiving");
             }
         }, filter);
 
@@ -70,11 +73,12 @@ public class VerifyButtons extends LinearLayout{
 
         restart = (TextView) alertDialog.findViewById(R.id.textView_restart);
         cancel = (TextView) alertDialog.findViewById(R.id.textView_cancel_verify);
-        nextButton = (TextView) alertDialog.findViewById(R.id.textView_next_button);
 
         click01 = (TextView) alertDialog.findViewById(R.id.click_1);
         click02 = (TextView) alertDialog.findViewById(R.id.click_2);
         click03 = (TextView) alertDialog.findViewById(R.id.click_3);
+
+        ok = (ImageView) alertDialog.findViewById(R.id.imageView_verify_ok);
 
         description = (TextView) alertDialog.findViewById(R.id.textView_description_register_control);
 
@@ -99,6 +103,7 @@ public class VerifyButtons extends LinearLayout{
 
     public void dismissPopup(){
         alertDialog.dismiss();
+        //context.unregisterReceiver(receiver);
     }
 
     public void cancel(){
@@ -109,7 +114,6 @@ public class VerifyButtons extends LinearLayout{
                 numberButtons = 0;
 
                 if (receiver != null) {
-                    context.unregisterReceiver(receiver);
                     receiver = null;
                 }
 
@@ -128,52 +132,72 @@ public class VerifyButtons extends LinearLayout{
         });
     }
 
-    public void addButton(Long idControl, Long idButton){
+    public void addButton(Long idControl, Long idButton) {
 
-        logging.error("ID Control" , idControl);
-        logging.error("Calling method addButton + countClicks" , countClicks);
-
-
-        if(countClicks == 0){
+        if(this.idControl == null){
             this.idControl = idControl;
         }
 
-        countClicks++;
+        if(this.idControl.equals(idControl) && this.idButton == null && !listIdButtons.contains(idButton)){
+            this.idButton = idButton;
+        }
 
-        if(this.idControl.equals(idControl)){
+        assert this.idButton != null;
 
-            switch (countClicks){
-                case 1:
-                    click01.setBackgroundResource(R.drawable.circle_verified);
-                    break;
+        if(this.idControl.equals(idControl) && this.idButton != null && this.idButton.equals(idButton)){
 
-                case 2:
-                    click02.setBackgroundResource(R.drawable.circle_verified);
-                    break;
+            logging.error("ID Control" , idControl);
+            logging.error("ID Button" , idButton);
 
-                case 3:
-                    click03.setBackgroundResource(R.drawable.circle_verified);
+            if(!listIdButtons.contains(idButton) || listIdButtons == null){
+                countClicks++;
 
-                    listIdButtons.add(idButton);
+                switch (countClicks) {
+                    case 1:
+                        click01.setBackgroundResource(R.drawable.circle_verified);
+                        break;
 
-                    countTimes++;
+                    case 2:
+                        click02.setBackgroundResource(R.drawable.circle_verified);
+                        break;
 
-                    enableMessageNextButton();
-                    break;
+                    case 3:
+                        click03.setBackgroundResource(R.drawable.circle_verified);
 
-                case 4:
-                    if(countTimes == numberButtons){
-                        AddedControl addedControl = new AddedControl(context);
-                        dismissPopup();
-                    }
-                    confirm();
-                    break;
+                        listIdButtons.add(idButton);
+
+                        countTimes++;
+                        this.idButton = null;
+
+                        final Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (countTimes == numberButtons) {
+                                    ok.setVisibility(VISIBLE);
+                                }
+                            }
+                        }, 1000);
+
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                //add control -> DB
+                                if (countTimes == numberButtons) {
+                                    dismissPopup();
+                                }
+                                confirm();
+                            }
+                        }, 2000);
+                        break;
+                }
             }
         }
     }
 
     public void confirm() {
         setTextClicks(countTimes + 1);
+        countClicks = 0;
     }
 
     public void setTextClicks(int num){
@@ -187,7 +211,6 @@ public class VerifyButtons extends LinearLayout{
                 click02.setBackgroundResource(R.drawable.circle_unverified);
                 click03.setBackgroundResource(R.drawable.circle_unverified);
                 description.setText(R.string.description_register_button_first);
-                disableNextButton();
                 break;
             case 2:
                 click01.setText("B");
@@ -197,7 +220,6 @@ public class VerifyButtons extends LinearLayout{
                 click02.setBackgroundResource(R.drawable.circle_unverified);
                 click03.setBackgroundResource(R.drawable.circle_unverified);
                 description.setText(R.string.description_register_button_second);
-                disableNextButton();
                 break;
             case 3:
                 click01.setText("C");
@@ -207,7 +229,6 @@ public class VerifyButtons extends LinearLayout{
                 click02.setBackgroundResource(R.drawable.circle_unverified);
                 click03.setBackgroundResource(R.drawable.circle_unverified);
                 description.setText(R.string.description_register_button_third);
-                disableNextButton();
                 break;
             case 4:
                 click01.setText("D");
@@ -217,21 +238,11 @@ public class VerifyButtons extends LinearLayout{
                 click02.setBackgroundResource(R.drawable.circle_unverified);
                 click03.setBackgroundResource(R.drawable.circle_unverified);
                 description.setText(R.string.description_register_button_fourth);
-                disableNextButton();
                 break;
         }
     }
 
-    public void enableMessageNextButton(){
-        nextButton.setVisibility(VISIBLE);
-    }
-
-    public void disableNextButton(){
-        nextButton.setVisibility(INVISIBLE);
-    }
-
     public void clean(){
         countTimes = 0;
-        countClicks = 0;
     }
 }

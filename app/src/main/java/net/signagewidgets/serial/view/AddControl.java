@@ -3,11 +3,9 @@ package net.signagewidgets.serial.view;
 import android.content.Context;
 import android.os.Build;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -37,7 +35,7 @@ public class AddControl extends LinearLayout {
     private TextView cancel;
     private TextView next;
 
-    private int qtdButtons;
+    private int qtdButtons = 2;
     private String name;
     private TextView nameControl;
 
@@ -76,6 +74,7 @@ public class AddControl extends LinearLayout {
         // create alert dialog
         alertDialog = alertDialogBuilder.create();
 
+        alertDialog.getWindow().setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
         // Inflate and set the layout for the dialog
         // Pass null as the parent view because its going in the dialog layout
         alertDialogBuilder.setView(li.inflate(R.layout.add_control, null));
@@ -117,6 +116,8 @@ public class AddControl extends LinearLayout {
             public void onClick(View view) {
                 dismissPopup();
                 VerifyButtons verifyButtons = new VerifyButtons(context, name, qtdButtons);
+                sLogging.error("numberButtons", qtdButtons);
+
             }
         });
     }
