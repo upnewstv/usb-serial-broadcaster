@@ -6,10 +6,12 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import net.signagewidgets.serial.R;
 import net.signagewidgets.serial.util.Logging;
@@ -37,7 +39,7 @@ public class AddControl extends LinearLayout {
 
     private int qtdButtons = 2;
     private String name;
-    private TextView nameControl;
+    private EditText nameControl;
 
     public AddControl(Context context) {
         super(context);
@@ -57,14 +59,14 @@ public class AddControl extends LinearLayout {
         cancel = (TextView) alertDialog.findViewById(R.id.textView_cancel_add);
         next = (TextView) alertDialog.findViewById(R.id.textView_next);
 
-        nameControl = (TextView ) alertDialog.findViewById(R.id.textView_name_control);
+        nameControl = (EditText) alertDialog.findViewById(R.id.EditText_name_control);
 
         setNumberButtons();
         next();
         cancel();
         setBGRadioButtons();
 
-        alertDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+        alertDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
     }
 
     public void createDialog(){
@@ -114,9 +116,15 @@ public class AddControl extends LinearLayout {
         next.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                dismissPopup();
-                VerifyButtons verifyButtons = new VerifyButtons(context, name, qtdButtons);
-                sLogging.error("numberButtons", qtdButtons);
+
+                setNameControl();
+
+                if(name.isEmpty()){
+                    Toast.makeText(context, "Por favor, digite um nome", Toast.LENGTH_SHORT).show();
+                }else{
+                    dismissPopup();
+                    VerifyButtons verifyButtons = new VerifyButtons(context, name, qtdButtons);
+                }
 
             }
         });

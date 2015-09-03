@@ -75,21 +75,6 @@
                         android:background="@drawable/buttons_layout"
                         android:layout_margin="5dp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="@string/name_button_d"
-                        android:id="@+id/button_4"
-                        android:layout_alignBaseline="@+id/no_controls"
-                        android:layout_alignBottom="@+id/no_controls"
-                        android:layout_toLeftOf="@+id/linearLayout"
-                        android:layout_toStartOf="@+id/linearLayout"
-                        android:layout_marginRight="38dp"
-                        android:layout_marginEnd="38dp"
-                        android:textColor="#010101"
-                        android:background="@drawable/buttons_layout"
-                        android:layout_margin="5dp" />
                 </LinearLayout>
 
             </LinearLayout>

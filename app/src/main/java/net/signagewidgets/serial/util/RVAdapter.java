@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import net.signagewidgets.serial.R;
@@ -16,6 +15,7 @@ import net.signagewidgets.serial.model.RemoteControl;
  */
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
+    private static Logging sLogging = new Logging(RVAdapter.class);
     private RemoteControl [] remoteControls;
 
     public RVAdapter(RemoteControl[] remoteControls) {
@@ -33,7 +33,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
 
         public ViewHolder(View itemLayoutView) {
             super(itemLayoutView);
-            controlName = (TextView) itemLayoutView.findViewById(R.id.name_control);
+            controlName = (TextView) itemLayoutView.findViewById(R.id.no_controls);
             dateAdd = (TextView) itemLayoutView.findViewById(R.id.date_add);
             iconControl = (ImageView) itemLayoutView.findViewById(R.id.icon_control);
         }
@@ -55,13 +55,23 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
         // Create a ViewHolder
         // Bind the view “ViewHolder” with data “remoteControls”
 
-        View itemLayoutView = null;
+        View itemLayoutView;
 
         switch (viewType) {
+
+            case 1:
+                // create a new view with room for 1 button
+                itemLayoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_control_1_button, null);
+                break;
 
             case 2:
                 // create a new view with room for 2 buttons
                 itemLayoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_control_2_buttons, null);
+                break;
+
+            case 3:
+                // create a new view with room for 3 buttons
+                itemLayoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_control_3_buttons, null);
                 break;
 
             default:
@@ -82,11 +92,16 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
      */
     @Override
     public int getItemViewType(int position) {
-        if(remoteControls[position].getIdButtons().size() == 2){
-            return 2;
+
+        int type = 0;
+
+        if(remoteControls.length == 0){
+            type = 0;
         }else{
-            return 4;
+            type = remoteControls[position].getIdButtons().size();
+            sLogging.error("getItemViewType", type);
         }
+        return type;
     }
 
     /**
@@ -104,12 +119,24 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
         viewHolder.controlName.setText(remoteControls[position].getName());
         viewHolder.dateAdd.setText(remoteControls[position].getDate());
 
-        if(remoteControls[position].getIdButtons().size() == 2){
-            viewHolder.iconControl.setImageResource(R.drawable.remote_example_2);
-        }else{
-            viewHolder.iconControl.setImageResource(R.drawable.remote_example_4);
-        }
+        switch (remoteControls[position].getIdButtons().size()){
+            case 1:
+                viewHolder.iconControl.setImageResource(R.drawable.remote_example_2);
+                break;
 
+            case 2:
+                viewHolder.iconControl.setImageResource(R.drawable.remote_example_2);
+                break;
+
+            case 3:
+                viewHolder.iconControl.setImageResource(R.drawable.remote_example_2);
+                break;
+
+            case 4:
+                viewHolder.iconControl.setImageResource(R.drawable.remote_example_2);
+                break;
+
+        }
     }
 
     // Return the size of your remoteControls (invoked by the layout manager)
@@ -117,5 +144,4 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
     public int getItemCount() {
         return remoteControls.length;
     }
-
 }

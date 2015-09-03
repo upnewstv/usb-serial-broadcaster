@@ -13,9 +13,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import net.signagewidgets.serial.R;
+import net.signagewidgets.serial.activities.AttachActivity;
+import net.signagewidgets.serial.model.RemoteControl;
+import net.signagewidgets.serial.persistence.DBHelper;
 import net.signagewidgets.serial.util.Logging;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -45,8 +50,12 @@ public class VerifyButtons extends LinearLayout {
     private int countClicks;
     private BroadcastReceiver receiver;
 
+    private DBHelper dbHelper;
+
     public VerifyButtons(Context context, String name, int numberButtons) {
         super(context);
+
+        dbHelper = new DBHelper(context);
 
         IntentFilter filter = new IntentFilter("net.signagewidgets.serial.BUTTON");
 
@@ -57,8 +66,6 @@ public class VerifyButtons extends LinearLayout {
                 Long idButton = intent.getExtras().getLong("button");
 
                 addButton(idControl, idButton);
-
-                //logging.error("Receiving");
             }
         }, filter);
 
@@ -103,7 +110,11 @@ public class VerifyButtons extends LinearLayout {
 
     public void dismissPopup(){
         alertDialog.dismiss();
-        //context.unregisterReceiver(receiver);
+
+        if (receiver != null) {
+            context.unregisterReceiver(receiver);
+            receiver = null;
+        }
     }
 
     public void cancel(){
@@ -112,11 +123,6 @@ public class VerifyButtons extends LinearLayout {
             public void onClick(View view) {
                 clean();
                 numberButtons = 0;
-
-                if (receiver != null) {
-                    receiver = null;
-                }
-
                 dismissPopup();
             }
         });
@@ -184,6 +190,10 @@ public class VerifyButtons extends LinearLayout {
                             public void run() {
                                 //add control -> DB
                                 if (countTimes == numberButtons) {
+                                    insertControlDB();
+                                    Intent createdControl = new Intent(context, AttachActivity.class);
+                                    createdControl.putExtra("control_created", "net.signagewidgets.serial.CONTROL_CREATED");
+                                    context.startActivity(createdControl);
                                     dismissPopup();
                                 }
                                 confirm();
@@ -245,4 +255,17 @@ public class VerifyButtons extends LinearLayout {
     public void clean(){
         countTimes = 0;
     }
+
+    public void insertControlDB(){
+       dbHelper.insertControl(this.name, getDate(), this.idControl, this.listIdButtons);
+    }
+
+    /**
+     * Get the current date
+     * @return Return a string that is the current date
+     */
+    public String getDate(){
+        return new SimpleDateFormat("dd-MM-yyyy").format(new Date());
+    }
+
 }

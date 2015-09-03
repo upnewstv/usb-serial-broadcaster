@@ -23,7 +23,8 @@
             android:name=".activities.AttachActivity"
             android:excludeFromRecents="true"
             android:noHistory="true"
-            android:stateNotNeeded="true" >
+            android:stateNotNeeded="true"
+            android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
                 <action android:name="android.intent.action.MAIN" />

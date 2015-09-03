@@ -1,18 +1,19 @@
 package net.signagewidgets.serial.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by lenoirzamboni on 8/20/15.
  */
-public class RemoteControl {
+public class RemoteControl implements Serializable{
 
         String name;
         String date;
-        int idControl;
-        List<Integer> idButtons;
+        long idControl;
+        List<Long> idButtons;
 
-    public RemoteControl(String name, String date, int idControl, List<Integer> idButtons) {
+    public RemoteControl(String name, String date, long idControl, List<Long> idButtons) {
         this.name = name;
         this.date = date;
         this.idControl = idControl;
@@ -41,7 +42,7 @@ public class RemoteControl {
      * Get the ID of remote control
      * @return Return an int that is ID of remote control
      */
-    public int getIdControl(){
+    public long getIdControl(){
         return idControl;
     }
 
@@ -49,7 +50,7 @@ public class RemoteControl {
      * Get the ID of each button of remote control
      * @return Return a List of Integer that each one is the ID of each button of remote control
      */
-    public List<Integer> getIdButtons(){
+    public List<Long> getIdButtons(){
         return idButtons;
     }
 
@@ -77,7 +78,7 @@ public class RemoteControl {
     /**
      * Set the ID for each button of the remote control
      */
-    public void setIdButtons(List<Integer> idButtons){
+    public void setIdButtons(List<Long> idButtons){
         this.idButtons = idButtons;
     }
 }
