@@ -74,7 +74,7 @@ public class AttachActivity extends Activity {
 
 	public void showControls(){
 		for(int i = 0; i < remoteControls.length; i++){
-			sLogging.error( "\n", "NAME", remoteControls[i].getName());
+			sLogging.error("\n", "NAME", remoteControls[i].getName());
 			sLogging.error("DATE", remoteControls[i].getDate());
 			sLogging.error("ID_CONTROL", remoteControls[i].getIdControl());
 

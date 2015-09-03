@@ -17,6 +17,7 @@ import net.signagewidgets.serial.model.RemoteControl;
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
     private static Logging sLogging = new Logging(RVAdapter.class);
     private RemoteControl [] remoteControls;
+    private RecyclerView.ItemAnimator itemAnimator;
 
     public RVAdapter(RemoteControl[] remoteControls) {
         this.remoteControls = remoteControls;
@@ -144,4 +145,5 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
     public int getItemCount() {
         return remoteControls.length;
     }
+
 }

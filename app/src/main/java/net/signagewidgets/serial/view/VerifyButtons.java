@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import net.signagewidgets.serial.R;
 import net.signagewidgets.serial.activities.AttachActivity;
-import net.signagewidgets.serial.model.RemoteControl;
 import net.signagewidgets.serial.persistence.DBHelper;
 import net.signagewidgets.serial.util.Logging;
 
@@ -133,7 +132,7 @@ public class VerifyButtons extends LinearLayout {
             @Override
             public void onClick(View view) {
                 dismissPopup();
-                AddControl addControl = new AddControl(context);
+                new AddControl(context);
             }
         });
     }
@@ -142,6 +141,10 @@ public class VerifyButtons extends LinearLayout {
 
         if(this.idControl == null){
             this.idControl = idControl;
+        }
+
+        if(dbHelper.controlExists((int)(long) idControl)){
+           new ExistingControl(context, idControl, alertDialog);
         }
 
         if(this.idControl.equals(idControl) && this.idButton == null && !listIdButtons.contains(idButton)){

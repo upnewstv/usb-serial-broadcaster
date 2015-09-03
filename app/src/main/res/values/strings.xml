@@ -36,6 +36,9 @@
     <string name="title_delete_control">Deletar Controle?</string>
     <string name="title_added_control">Controle Adicionado com Sucesso</string>
 
+    <string name="existing_control">Controle já registrado!</string>
+    <string name="overwrite">SOBRESCREVER</string>
+
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 

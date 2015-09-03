@@ -117,9 +117,19 @@ public class DBHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase database = this.getWritableDatabase();
 
-        String deleteQuery = "DELETE FROM control WHERE id = " + id;
+        String deleteQuery = "DELETE FROM controls WHERE id_control = " + id;
 
         database.execSQL(deleteQuery);
+    }
+
+    public boolean controlExists(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues contentValues = new ContentValues();
+
+        Cursor controls = db.rawQuery("select * from controls where id_control = " + id, null);
+
+        return (controls.getCount() > 0);
     }
 
     public int numberOfEntries() {
