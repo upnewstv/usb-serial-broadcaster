@@ -91,8 +91,13 @@ public class InfoControl extends LinearLayout {
         delete.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                dbHelper.deleteControl((int) remoteControl.getIdControl());
-                sendCommandUpdate();
+                int idControl = (int) remoteControl.getIdControl();
+                dbHelper.deleteControl(idControl);
+
+                Intent deletedControl = new Intent(context, AttachActivity.class);
+                deletedControl.putExtra("id_control_deleted", String.valueOf(idControl));
+                context.startActivity(deletedControl);
+
                 dismissPopup();
             }
         });
@@ -102,9 +107,15 @@ public class InfoControl extends LinearLayout {
         save.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                int idControl = (int) remoteControl.getIdControl();
+
                 setNameControl();
-                dbHelper.updateNameControl((int) remoteControl.getIdControl(), name);
-                sendCommandUpdate();
+                dbHelper.updateNameControl(idControl, name);
+
+                Intent updateControl = new Intent(context, AttachActivity.class);
+                updateControl.putExtra("id_control_updated", String.valueOf(idControl));
+                context.startActivity(updateControl);
+
                 dismissPopup();
 
             }
@@ -122,11 +133,8 @@ public class InfoControl extends LinearLayout {
 
     public void setNameControl(){
         name = nameControl.getText().toString();
+        this.remoteControl.setName(name);
+
     }
 
-    public void sendCommandUpdate(){
-        Intent createdControl = new Intent(context, AttachActivity.class);
-        createdControl.putExtra("control_update", "net.signagewidgets.serial.CONTROL_UPDATE");
-        context.startActivity(createdControl);
-    }
 }

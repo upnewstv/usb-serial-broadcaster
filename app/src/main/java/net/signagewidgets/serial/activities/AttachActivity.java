@@ -1,9 +1,9 @@
 package net.signagewidgets.serial.activities;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -21,7 +21,7 @@ import net.signagewidgets.serial.view.InfoControl;
 
 import java.util.List;
 
-public class AttachActivity extends Activity {
+public class AttachActivity extends ActionBarActivity {
 	private static Logging sLogging = new Logging(AttachActivity.class);
 	final Context context = this;
 	RecyclerView recyclerView;
@@ -47,7 +47,7 @@ public class AttachActivity extends Activity {
 
 		recyclerView.setLayoutManager(layoutManager);
 
-		rvAdapter = new RVAdapter(remoteControls);
+		rvAdapter = new RVAdapter(this, remoteControls, layoutManager);
 
 		recyclerView.setAdapter(rvAdapter);
 
@@ -71,7 +71,8 @@ public class AttachActivity extends Activity {
 	protected void onNewIntent(Intent intent) {
 		super.onNewIntent(intent);
 		if(intent != null){
-			this.recreate();
+			rvAdapter.dataChanged();
+			sLogging.error("RECEIVED INTENT");
 		}
 	}
 
@@ -93,9 +94,11 @@ public class AttachActivity extends Activity {
 		recyclerView.addOnItemTouchListener(
 				new RecyclerItemClickListener(context, new RecyclerItemClickListener.OnItemClickListener() {
 					@Override public void onItemClick(View view, int position) {
-						new InfoControl(AttachActivity.this, remoteControls[position]);
+						new InfoControl(AttachActivity.this, getControls()[position]);
 					}
 				})
 		);
 	}
+
+
 }

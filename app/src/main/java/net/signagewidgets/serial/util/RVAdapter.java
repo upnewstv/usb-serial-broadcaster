@@ -1,5 +1,11 @@
 package net.signagewidgets.serial.util;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Handler;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +15,7 @@ import android.widget.TextView;
 
 import net.signagewidgets.serial.R;
 import net.signagewidgets.serial.model.RemoteControl;
+import net.signagewidgets.serial.persistence.DBHelper;
 
 /**
  * Created by lenoirzamboni on 8/20/15.
@@ -17,9 +24,28 @@ import net.signagewidgets.serial.model.RemoteControl;
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
     private static Logging sLogging = new Logging(RVAdapter.class);
     private RemoteControl [] remoteControls;
+    private LinearLayoutManager layoutManager;
+    private TextView textViewItem;
+    private BroadcastReceiver receiver;
+    private DBHelper dbHelper;
 
-    public RVAdapter(RemoteControl[] remoteControls) {
+
+    public RVAdapter(Context context, RemoteControl[] remoteControls, LinearLayoutManager layoutManager) {
         this.remoteControls = remoteControls;
+        this.layoutManager = layoutManager;
+        this.dbHelper = new DBHelper(context);
+
+        IntentFilter filter = new IntentFilter("net.signagewidgets.serial.BUTTON");
+
+        context.registerReceiver(receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Long idControl = intent.getExtras().getLong("id");
+                Long idButton = intent.getExtras().getLong("button");
+
+                findControl(idControl, idButton);
+            }
+        }, filter);
     }
 
     /**
@@ -143,5 +169,83 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
     @Override
     public int getItemCount() {
         return remoteControls.length;
+    }
+
+    public void findControl(long idControl, long idButton){
+
+        for(int i = 0; i < getItemCount(); i++){
+
+            if(remoteControls[i].getIdControl() == idControl){
+
+                if(remoteControls[i].getIdButtons().contains(idButton)){
+
+                    switch (remoteControls[i].getIdButtons().indexOf(idButton)){
+                        case 0:
+                            changeBG(0, i);
+                            break;
+
+                        case 1:
+                            changeBG(1, i);
+                            break;
+
+                        case 2:
+                            changeBG(2, i);
+                            break;
+
+                        case 3:
+                            changeBG(3, i);
+                            break;
+                    }
+                }
+            }
+        }
+    }
+
+    public void changeBG(int button, int listPosition){
+
+        View item = this.layoutManager.getChildAt(listPosition);
+        final Handler handler = new Handler();
+
+        switch (button){
+            case 0:
+                textViewItem = (TextView) item.findViewById(R.id.button_1);
+                textViewItem.setBackgroundResource(R.drawable.buttons_layout_verified);
+                break;
+
+            case 1:
+                textViewItem = (TextView) item.findViewById(R.id.button_2);
+                textViewItem.setBackgroundResource(R.drawable.buttons_layout_verified);
+                break;
+
+            case 2:
+                textViewItem = (TextView) item.findViewById(R.id.button_3);
+                textViewItem.setBackgroundResource(R.drawable.buttons_layout_verified);
+                break;
+
+            case 3:
+                textViewItem = (TextView) item.findViewById(R.id.button_4);
+                textViewItem.setBackgroundResource(R.drawable.buttons_layout_verified);
+                break;
+        }
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(textViewItem != null){
+                    textViewItem.setBackgroundResource(R.drawable.buttons_layout_unverified);
+                }
+            }
+        }, 300);
+    }
+
+    public void dataChanged(){
+        this.remoteControls = getControls();
+        this.notifyDataSetChanged();
+        sLogging.error("COMMAND RECEIVED");
+    }
+
+
+    public RemoteControl[] getControls(){
+        return dbHelper.getAllControls();
     }
 }

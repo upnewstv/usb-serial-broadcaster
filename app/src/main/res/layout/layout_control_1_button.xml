@@ -42,7 +42,7 @@
                         android:layout_below="@+id/button_2"
                         android:layout_alignLeft="@+id/button_2"
                         android:layout_alignStart="@+id/button_2"
-                        android:background="@drawable/buttons_layout"
+                        android:background="@drawable/buttons_layout_unverified"
                         android:textColor="#010101"
                         android:layout_margin="5dp" />
 

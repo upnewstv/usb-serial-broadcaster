@@ -1,6 +1,7 @@
 package net.signagewidgets.serial.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import net.signagewidgets.serial.R;
+import net.signagewidgets.serial.activities.AttachActivity;
 import net.signagewidgets.serial.persistence.DBHelper;
 
 /**
@@ -79,6 +81,9 @@ public class ExistingControl extends LinearLayout {
             @Override
             public void onClick(View view) {
                 dbHelper.deleteControl((int) idControl);
+                Intent deletedControl = new Intent(context, AttachActivity.class);
+                deletedControl.putExtra("id_control_deleted", String.valueOf(idControl));
+                context.startActivity(deletedControl);
                 showVerifyButtons();
                 dismissPopup();
             }

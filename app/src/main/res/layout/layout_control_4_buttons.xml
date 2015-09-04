@@ -42,7 +42,7 @@
                         android:layout_below="@+id/button_2"
                         android:layout_alignLeft="@+id/button_2"
                         android:layout_alignStart="@+id/button_2"
-                        android:background="@drawable/buttons_layout"
+                        android:background="@drawable/buttons_layout_unverified"
                         android:textColor="#010101"
                         android:layout_margin="5dp" />
 
@@ -59,7 +59,7 @@
                         android:layout_marginRight="38dp"
                         android:layout_marginEnd="38dp"
                         android:textColor="#010101"
-                        android:background="@drawable/buttons_layout"
+                        android:background="@drawable/buttons_layout_unverified"
                         android:layout_margin="5dp" />
 
                     <TextView
@@ -72,7 +72,7 @@
                         android:layout_alignLeft="@+id/button_2"
                         android:layout_alignStart="@+id/button_2"
                         android:textColor="#010101"
-                        android:background="@drawable/buttons_layout"
+                        android:background="@drawable/buttons_layout_unverified"
                         android:layout_margin="5dp" />
 
                     <TextView
@@ -88,7 +88,7 @@
                         android:layout_marginRight="38dp"
                         android:layout_marginEnd="38dp"
                         android:textColor="#010101"
-                        android:background="@drawable/buttons_layout"
+                        android:background="@drawable/buttons_layout_unverified"
                         android:layout_margin="5dp" />
                 </LinearLayout>
 
