@@ -38,7 +38,8 @@
         android:textColor="#010101"
         android:enabled="true"
         android:focusable="true"
-        android:focusableInTouchMode="true" />
+        android:focusableInTouchMode="true"
+        android:singleLine="true" />
 
 
     <TextView

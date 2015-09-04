@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import net.signagewidgets.serial.R;
+import net.signagewidgets.serial.model.RecyclerItemClickListener;
 import net.signagewidgets.serial.persistence.DBHelper;
 import net.signagewidgets.serial.services.SerialService;
 import net.signagewidgets.serial.util.Logging;
@@ -16,6 +17,7 @@ import net.signagewidgets.serial.util.RVAdapter;
 
 import net.signagewidgets.serial.model.RemoteControl;
 import net.signagewidgets.serial.view.AddControl;
+import net.signagewidgets.serial.view.InfoControl;
 
 import java.util.List;
 
@@ -50,6 +52,7 @@ public class AttachActivity extends Activity {
 		recyclerView.setAdapter(rvAdapter);
 
 		showControls();
+		addListener();
 	}
 
 	/**
@@ -84,5 +87,15 @@ public class AttachActivity extends Activity {
 				sLogging.error("ID_BUTTON", j, list.get(j));
 			}
 		}
+	}
+
+	public void addListener(){
+		recyclerView.addOnItemTouchListener(
+				new RecyclerItemClickListener(context, new RecyclerItemClickListener.OnItemClickListener() {
+					@Override public void onItemClick(View view, int position) {
+						new InfoControl(AttachActivity.this, remoteControls[position]);
+					}
+				})
+		);
 	}
 }

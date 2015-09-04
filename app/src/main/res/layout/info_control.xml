@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff"
+    android:id="@+id/add_control_view"
+    style="@android:style/Theme.Holo.Light.DialogWhenLarge">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/info_title"
+        android:id="@+id/textView"
+        android:textColor="#010101"
+        android:paddingTop="24dp"
+        android:paddingRight="24dp"
+        android:paddingBottom="20dp"
+        android:textSize="16sp"
+        android:layout_marginLeft="24dp" />
+
+    <EditText
+        android:id="@+id/EditText_name_control_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textColor="#010101"
+        android:enabled="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:text="@string/new_name"
+        android:layout_marginLeft="24dp"
+        android:paddingTop="24dp"
+        android:paddingRight="24dp"
+        android:paddingBottom="24dp"
+        android:layout_marginRight="24dp"
+        android:singleLine="true" />
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginRight="24dp"
+        android:gravity="end"
+        android:paddingLeft="24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:text="@string/delete"
+            android:id="@+id/textView_delete_info"
+            android:textColor="#009688"
+            android:clickable="true"
+            android:layout_weight="2"
+            android:paddingTop="8dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="8dp"
+            android:paddingLeft="3dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:text="@string/cancel"
+            android:id="@+id/textView_cancel_info"
+            android:textColor="#009688"
+            android:padding="8dp"
+            android:clickable="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:text="@string/save"
+            android:id="@+id/textView_save_info"
+            android:textColor="#009688"
+            android:padding="8dp"
+            android:clickable="true" />
+    </LinearLayout>
+
+</LinearLayout>

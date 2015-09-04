@@ -108,12 +108,11 @@ public class VerifyButtons extends LinearLayout {
     }
 
     public void dismissPopup(){
-        alertDialog.dismiss();
-
         if (receiver != null) {
             context.unregisterReceiver(receiver);
             receiver = null;
         }
+        alertDialog.dismiss();
     }
 
     public void cancel(){
@@ -182,24 +181,30 @@ public class VerifyButtons extends LinearLayout {
                         handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                if (countTimes == numberButtons) {
-                                    ok.setVisibility(VISIBLE);
-                                }
+                                ok.setVisibility(VISIBLE);
                             }
                         }, 1000);
 
                         handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                //add control -> DB
                                 if (countTimes == numberButtons) {
                                     insertControlDB();
                                     Intent createdControl = new Intent(context, AttachActivity.class);
                                     createdControl.putExtra("control_created", "net.signagewidgets.serial.CONTROL_CREATED");
                                     context.startActivity(createdControl);
-                                    dismissPopup();
                                 }
                                 confirm();
+                            }
+                        }, 3000);
+
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (countTimes == numberButtons) {
+                                    dismissPopup();
+                                    new AddedControl(context);
+                                }
                             }
                         }, 2000);
                         break;
@@ -210,6 +215,7 @@ public class VerifyButtons extends LinearLayout {
 
     public void confirm() {
         setTextClicks(countTimes + 1);
+        ok.setVisibility(GONE);
         countClicks = 0;
     }
 

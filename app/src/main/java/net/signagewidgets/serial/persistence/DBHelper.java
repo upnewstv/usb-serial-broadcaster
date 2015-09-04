@@ -141,7 +141,7 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_NAME, name);
-        db.update(TABLE_NAME, contentValues, "id = ? ", new String[]{Integer.toString(id)});
+        db.update(TABLE_NAME, contentValues, "id_control = ? ", new String[]{Integer.toString(id)});
         return true;
     }
 

@@ -69,8 +69,10 @@ public class SerialService extends Service implements SerialDeviceListener {
 	@Override
 	public void onLineReceived(String line) {
 		try {
-    		long id = Integer.valueOf(line.substring(0, line.length()-1));
-    		long button = Integer.valueOf(line.substring(line.length()-1));
+			long proto = Integer.valueOf(line);
+			long id = proto >> 4;
+			long button = proto & 0xF;
+
     		sLogging.info("ID:", id, "- Button:", button);
     		Intent intent = new Intent("net.signagewidgets.serial.BUTTON");
     		intent.putExtra("id", id);
