@@ -8,18 +8,16 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import net.signagewidgets.serial.model.RemoteControl;
-import net.signagewidgets.serial.util.Logging;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class DBHelper extends SQLiteOpenHelper {
-    private static Logging sLogging = new Logging(DBHelper.class);
 
-    public static final String DATABASE_NAME = "dbControls.db";
+    public static final String DATABASE_NAME = "dbControls.mDBHelper";
     public static final String TABLE_NAME = "controls";
     public static final String COLUMN_ID_CONTROL = "id_control";
-    public static final String COLUMN_NAME = "name";
+    public static final String COLUMN_NAME = "mName";
     public static final String COLUMN_DATE = "date";
     public static final String COLUMN_ID_01 = "id_01";
     public static final String COLUMN_ID_02 = "id_02";
@@ -61,11 +59,11 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put(COLUMN_DATE, date);
         contentValues.put(COLUMN_ID_CONTROL, id);
 
-        int indice = 0;
+        int index = 0;
 
         for(int i = 0; i < listIdButtons.size(); i ++){
-            indice ++;
-            contentValues.put("id_0" + String.valueOf(indice), listIdButtons.get(i));
+            index ++;
+            contentValues.put("id_0" + String.valueOf(index), listIdButtons.get(i));
         }
 
         db.insert(TABLE_NAME, null, contentValues);
@@ -95,14 +93,13 @@ public class DBHelper extends SQLiteOpenHelper {
                 List<Long> idButtons = new ArrayList<Long>();
 
                 for(int j = 1; j <= 4; j ++){
-
                     if(!controls.isNull(controls.getColumnIndex("id_0" + String.valueOf(j)))){
                         idButtons.add(controls.getLong(controls.getColumnIndex("id_0" + String.valueOf(j))));
                     }
                 }
 
                 remoteControls[i] = new RemoteControl(
-                        controls.getString(controls.getColumnIndex("name")),
+                        controls.getString(controls.getColumnIndex("mName")),
                         controls.getString(controls.getColumnIndex("date")),
                         controls.getLong(controls.getColumnIndex("id_control")),
                         idButtons);
@@ -114,21 +111,14 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public void deleteControl(Integer id) {
-
         SQLiteDatabase database = this.getWritableDatabase();
-
         String deleteQuery = "DELETE FROM controls WHERE id_control = " + id;
-
         database.execSQL(deleteQuery);
     }
 
     public boolean controlExists(int id){
         SQLiteDatabase db = this.getWritableDatabase();
-
-        ContentValues contentValues = new ContentValues();
-
         Cursor controls = db.rawQuery("select * from controls where id_control = " + id, null);
-
         return (controls.getCount() > 0);
     }
 

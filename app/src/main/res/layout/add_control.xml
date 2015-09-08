@@ -74,11 +74,10 @@
             android:textSize="12sp"
             android:foreground="#010101"
             android:singleLine="false"
-            android:layout_marginRight="10dp"
             android:visibility="visible"
             android:buttonTint="#FF909090"
-            android:paddingRight="5dp"
-            android:paddingLeft="10dp" />
+            android:paddingRight="15dp"
+            android:layout_marginRight="10dp" />
 
         <RadioButton
             android:layout_width="wrap_content"
@@ -88,12 +87,11 @@
             android:checked="true"
             android:textColor="#010101"
             android:textSize="12sp"
-            android:layout_marginRight="10dp"
             android:buttonTint="#FF909090"
             android:visibility="visible"
-            android:paddingRight="5dp"
+            android:paddingRight="15dp"
             android:foreground="#010101"
-            android:paddingLeft="10dp" />
+            android:layout_marginRight="10dp" />
 
         <RadioButton
             android:layout_width="wrap_content"
@@ -104,11 +102,10 @@
             android:textColor="#010101"
             android:textSize="12sp"
             android:buttonTint="#FF909090"
-            android:layout_marginRight="10dp"
             android:visibility="visible"
-            android:paddingRight="5dp"
+            android:paddingRight="15dp"
             android:foreground="#010101"
-            android:paddingLeft="10dp" />
+            android:layout_marginRight="10dp" />
 
         <RadioButton
             android:layout_width="wrap_content"
@@ -120,9 +117,8 @@
             android:textSize="12sp"
             android:buttonTint="#FF909090"
             android:visibility="visible"
-            android:paddingRight="5dp"
-            android:foreground="#010101"
-            android:paddingLeft="10dp" />
+            android:paddingRight="15dp"
+            android:foreground="#010101" />
 
     </RadioGroup>
 
@@ -131,7 +127,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="end"
-        android:layout_marginRight="24dp">
+        android:layout_marginRight="24dp"
+        android:paddingTop="20dp">
 
         <TextView
             android:layout_width="wrap_content"

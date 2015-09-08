@@ -103,14 +103,14 @@ public class CaptureExceptionsScheduledExecutor extends ScheduledThreadPoolExecu
     }
 
     @Override
-    public <T extends Object> java.util.concurrent.Future<T> submit(Runnable task, T result) {
+    public <T> java.util.concurrent.Future<T> submit(Runnable task, T result) {
         try {
             return super.submit(detectExceptionsIn(task), result);
         } catch (RejectedExecutionException e) {
             sLogging.warning("Job rejected, executor is shutdown.");
         }
         return null;
-    };
+    }
 
     private static Runnable detectExceptionsIn(final Runnable command) {
         return new Runnable() {

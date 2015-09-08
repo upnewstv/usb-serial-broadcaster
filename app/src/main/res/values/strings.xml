@@ -7,7 +7,7 @@
     <string name="name_button_b">B</string>
     <string name="name_button_c">C</string>
     <string name="name_button_d">D</string>
-    <string name="date_added">08/01/2015</string>
+    <string name="date_added">Adicionado em </string>
 
     <string name="add_control">Adicionar Controle Remoto</string>
     <string name="name_control">Nome do Controle</string>
@@ -29,27 +29,19 @@
     <string name="description_register_button_third">Aperte o TERCEIRO botão 3 vezes para cadastrá-lo</string>
     <string name="description_register_button_fourth">Aperte o QUARTO botão 3 vezes para cadastrá-lo</string>
 
-    <string name="next_button_message">Clique o botão uma vez mais para confirmar</string>
-
-
-    <string name="title_activity_dialog">Dialog</string>
     <string name="title_delete_control">Deletar Controle?</string>
-    <string name="title_added_control">Controle Adicionado com Sucesso</string>
 
     <string name="existing_control">Controle já registrado!</string>
-    <string name="added_control">Controle cadastrado com sucesso!</string>
+    <string name="added_control">Controle Cadastrado com Sucesso!</string>
 
     <string name="overwrite">SOBRESCREVER</string>
-
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
-
-    <string name="no_controls">Sem controles cadastrados</string>
 
     <string name="new_name">Novo nome</string>
 
     <string name="save">SALVAR</string>
-    <string name="info_title">Informações sobre o controle</string>
+    <string name="info_title">Informações Sobre o Controle</string>
+
+    <string name="no_name_toast">Por favor, digite um nome</string>
 
 
 

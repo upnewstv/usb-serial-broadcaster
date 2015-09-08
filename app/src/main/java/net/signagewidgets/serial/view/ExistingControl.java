@@ -16,85 +16,87 @@ import net.signagewidgets.serial.persistence.DBHelper;
  * Created by lenoirzamboni on 8/27/15.
  */
 public class ExistingControl extends LinearLayout {
-    private AlertDialog.Builder alertDialogBuilder;
-    private AlertDialog alertDialog;
-    private AlertDialog alertDialogToCancel;
-    private LayoutInflater li;
-    private Context context;
-    private TextView cancel;
-    private TextView overwrite;
-    private long idControl;
-    private DBHelper dbHelper;
+    private AlertDialog mAlertDialog;
+    private AlertDialog mVerifyButtonsDialog;
+    private LayoutInflater mLayoutInflater;
+    private Context mContext;
+    private TextView mCancel;
+    private TextView mOverwrite;
+    private long mIDControl;
+    private DBHelper mDBHelper;
 
 
-    public ExistingControl(Context context, Long idControl, AlertDialog alertDialogToCancel) {
+    public ExistingControl(Context context, Long idControl, AlertDialog verifyButtonsDialog) {
         super(context);
 
-        li = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.context = context;
-        this.alertDialogToCancel = alertDialogToCancel;
-        this.idControl = idControl;
-        dbHelper = new DBHelper(context);
+        mContext = context;
+        mVerifyButtonsDialog = verifyButtonsDialog;
+        mIDControl = idControl;
+        mLayoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mDBHelper = new DBHelper(context);
 
         hideVerifyButtons();
 
         createDialog();
 
-        cancel = (TextView) alertDialog.findViewById(R.id.textView_cancel_overwrite);
-        overwrite = (TextView) alertDialog.findViewById(R.id.textView_overwrite);
+        mCancel = (TextView) mAlertDialog.findViewById(R.id.textView_cancel_overwrite);
+        mOverwrite = (TextView) mAlertDialog.findViewById(R.id.textView_overwrite);
 
         cancelInsertion();
         overwriteControl();
     }
 
-    public void createDialog(){
+    public void createDialog() {
 
-        alertDialogBuilder = new AlertDialog.Builder(context);
+        AlertDialog.Builder mAlertDialogBuilder = new AlertDialog.Builder(mContext);
 
         // Inflate and set the layout for the dialog
         // Pass null as the parent view because its going in the dialog layout
-        alertDialogBuilder.setView(li.inflate(R.layout.existing_control, null));
+        mAlertDialogBuilder.setView(mLayoutInflater.inflate(R.layout.existing_control, null));
 
         // create alert dialog
-        alertDialog = alertDialogBuilder.create();
+        mAlertDialog = mAlertDialogBuilder.create();
 
         // show it
-        alertDialog.show();
+        mAlertDialog.show();
     }
 
-    public void dismissPopup(){
-        alertDialog.dismiss();
+    public void dismissPopup() {
+        mAlertDialog.dismiss();
     }
 
-    public void cancelInsertion(){
-        cancel.setOnClickListener(new OnClickListener() {
+    public void cancelInsertion() {
+        mCancel.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                alertDialogToCancel.dismiss();
+                mVerifyButtonsDialog.dismiss();
                 dismissPopup();
             }
         });
     }
 
-    public void overwriteControl(){
-        overwrite.setOnClickListener(new OnClickListener() {
+    public void overwriteControl() {
+        mOverwrite.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                dbHelper.deleteControl((int) idControl);
-                Intent deletedControl = new Intent(context, AttachActivity.class);
-                deletedControl.putExtra("id_control_deleted", String.valueOf(idControl));
-                context.startActivity(deletedControl);
+                mDBHelper.deleteControl((int) mIDControl);
+
+                Intent deletedControl = new Intent(mContext, AttachActivity.class);
+                deletedControl.putExtra("id_control_deleted", String.valueOf(mIDControl));
+                mContext.startActivity(deletedControl);
+
                 showVerifyButtons();
+
                 dismissPopup();
             }
         });
     }
 
-    public void showVerifyButtons(){
-        this.alertDialogToCancel.show();
+    public void showVerifyButtons() {
+        this.mVerifyButtonsDialog.show();
     }
 
-    public void hideVerifyButtons(){
-        this.alertDialogToCancel.hide();
+    public void hideVerifyButtons() {
+        this.mVerifyButtonsDialog.hide();
     }
 }

@@ -17,48 +17,47 @@ import net.signagewidgets.serial.activities.AttachActivity;
 import net.signagewidgets.serial.persistence.DBHelper;
 import net.signagewidgets.serial.util.Logging;
 
-import java.text.SimpleDateFormat;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by lenoirzamboni on 8/27/15.
  */
 public class VerifyButtons extends LinearLayout {
 
-    Logging logging = new Logging(VerifyButtons.class);
+    private static Logging sLogging = new Logging(VerifyButtons.class);
 
-    private AlertDialog.Builder alertDialogBuilder;
-    private AlertDialog alertDialog;
-    private LayoutInflater li;
-    private Context context;
-    private int numberButtons;
-    private int countTimes;
-    private String name;
-    private TextView restart;
-    private TextView cancel;
-    private TextView click01;
-    private TextView click02;
-    private TextView click03;
-    private ImageView ok;
-    private Long idControl;
-    private Long idButton;
-    private List<Long> listIdButtons;
-    private TextView description;
-    private int countClicks;
-    private BroadcastReceiver receiver;
-
-    private DBHelper dbHelper;
+    private AlertDialog mAlertDialog;
+    private LayoutInflater mLayoutInflater;
+    private Context mContext;
+    private int mNumberButtons;
+    private int mCountTimes;
+    private int mCountClicks;
+    private String mName;
+    private TextView mRestart;
+    private TextView mCancel;
+    private TextView mClick01;
+    private TextView mClick02;
+    private TextView mClick03;
+    private TextView mDescription;
+    private ImageView mOK;
+    private Long mIDControl;
+    private Long mIDButton;
+    private List<Long> mListIdButtons;
+    private BroadcastReceiver mReceiver;
+    private DBHelper mDBHelper;
 
     public VerifyButtons(Context context, String name, int numberButtons) {
         super(context);
 
-        dbHelper = new DBHelper(context);
+        mDBHelper = new DBHelper(context);
 
         IntentFilter filter = new IntentFilter("net.signagewidgets.serial.BUTTON");
 
-        context.registerReceiver(receiver = new BroadcastReceiver() {
+        context.registerReceiver(mReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 Long idControl = intent.getExtras().getLong("id");
@@ -69,130 +68,128 @@ public class VerifyButtons extends LinearLayout {
         }, filter);
 
 
-        li = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.context = context;
-        this.numberButtons = numberButtons;
-        this.name = name;
-        listIdButtons = new ArrayList<>(numberButtons);
+        mLayoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mContext = context;
+        mNumberButtons = numberButtons;
+        mName = name;
+        mListIdButtons = new ArrayList<>(numberButtons);
 
         createDialog();
 
-        restart = (TextView) alertDialog.findViewById(R.id.textView_restart);
-        cancel = (TextView) alertDialog.findViewById(R.id.textView_cancel_verify);
+        mRestart = (TextView) mAlertDialog.findViewById(R.id.textView_restart);
+        mCancel = (TextView) mAlertDialog.findViewById(R.id.textView_cancel_verify);
+        mClick01 = (TextView) mAlertDialog.findViewById(R.id.click_1);
+        mClick02 = (TextView) mAlertDialog.findViewById(R.id.click_2);
+        mClick03 = (TextView) mAlertDialog.findViewById(R.id.click_3);
+        mDescription = (TextView) mAlertDialog.findViewById(R.id.textView_description_register_control);
 
-        click01 = (TextView) alertDialog.findViewById(R.id.click_1);
-        click02 = (TextView) alertDialog.findViewById(R.id.click_2);
-        click03 = (TextView) alertDialog.findViewById(R.id.click_3);
-
-        ok = (ImageView) alertDialog.findViewById(R.id.imageView_verify_ok);
-
-        description = (TextView) alertDialog.findViewById(R.id.textView_description_register_control);
+        mOK = (ImageView) mAlertDialog.findViewById(R.id.imageView_verify_ok);
 
         cancel();
         restart();
     }
 
-    public void createDialog(){
+    public void createDialog() {
 
-        alertDialogBuilder = new AlertDialog.Builder(context);
+        AlertDialog.Builder mAlertDialogBuilder = new AlertDialog.Builder(mContext);
 
         // Inflate and set the layout for the dialog
         // Pass null as the parent view because its going in the dialog layout
-        alertDialogBuilder.setView(li.inflate(R.layout.verify_buttons, null));
+        mAlertDialogBuilder.setView(mLayoutInflater.inflate(R.layout.verify_buttons, null));
 
         // create alert dialog
-        alertDialog = alertDialogBuilder.create();
+        mAlertDialog = mAlertDialogBuilder.create();
 
         // show it
-        alertDialog.show();
+        mAlertDialog.show();
     }
 
-    public void dismissPopup(){
-        if (receiver != null) {
-            context.unregisterReceiver(receiver);
-            receiver = null;
+    public void dismissPopup() {
+        if (mReceiver != null) {
+            mContext.unregisterReceiver(mReceiver);
+            mReceiver = null;
         }
-        alertDialog.dismiss();
+        mAlertDialog.dismiss();
     }
 
-    public void cancel(){
-        cancel.setOnClickListener(new OnClickListener() {
+    public void cancel() {
+        mCancel.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                clean();
-                numberButtons = 0;
+                mCountTimes = 0;
+                mNumberButtons = 0;
                 dismissPopup();
             }
         });
     }
 
-    public void restart(){
-        restart.setOnClickListener(new OnClickListener() {
+    public void restart() {
+        mRestart.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 dismissPopup();
-                new AddControl(context);
+                new AddControl(mContext);
             }
         });
     }
 
     public void addButton(Long idControl, Long idButton) {
 
-        if(this.idControl == null){
-            this.idControl = idControl;
+        if(this.mIDControl == null) {
+            this.mIDControl = idControl;
         }
 
-        if(dbHelper.controlExists((int)(long) idControl)){
-           new ExistingControl(context, idControl, alertDialog);
+        if(mDBHelper.controlExists((int)(long) idControl)) {
+           new ExistingControl(mContext, idControl, mAlertDialog);
         }
 
-        if(this.idControl.equals(idControl) && this.idButton == null && !listIdButtons.contains(idButton)){
-            this.idButton = idButton;
+        if(this.mIDControl.equals(idControl) && this.mIDButton == null && !mListIdButtons.contains(idButton)) {
+            this.mIDButton = idButton;
         }
 
-        assert this.idButton != null;
+        assert this.mIDButton != null;
 
-        if(this.idControl.equals(idControl) && this.idButton != null && this.idButton.equals(idButton)){
+        if(this.mIDControl.equals(idControl) && this.mIDButton != null && this.mIDButton.equals(idButton)) {
 
-            logging.error("ID Control" , idControl);
-            logging.error("ID Button" , idButton);
+            sLogging.error("ID Control" , idControl);
+            sLogging.error("ID Button" , idButton);
 
-            if(!listIdButtons.contains(idButton) || listIdButtons == null){
-                countClicks++;
+            if(!mListIdButtons.contains(idButton) || mListIdButtons == null) {
+                mCountClicks++;
 
-                switch (countClicks) {
+                switch (mCountClicks) {
                     case 1:
-                        click01.setBackgroundResource(R.drawable.circle_verified);
+                        mClick01.setBackgroundResource(R.drawable.circle_verified);
                         break;
 
                     case 2:
-                        click02.setBackgroundResource(R.drawable.circle_verified);
+                        mClick02.setBackgroundResource(R.drawable.circle_verified);
                         break;
 
                     case 3:
-                        click03.setBackgroundResource(R.drawable.circle_verified);
+                        mClick03.setBackgroundResource(R.drawable.circle_verified);
 
-                        listIdButtons.add(idButton);
+                        mListIdButtons.add(idButton);
 
-                        countTimes++;
-                        this.idButton = null;
+                        mCountTimes++;
+                        this.mIDButton = null;
 
                         final Handler handler = new Handler();
                         handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                ok.setVisibility(VISIBLE);
+                                mOK.setVisibility(VISIBLE);
                             }
                         }, 1000);
 
                         handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                if (countTimes == numberButtons) {
+                                if (mCountTimes == mNumberButtons) {
                                     insertControlDB();
-                                    Intent createdControl = new Intent(context, AttachActivity.class);
+                                    Intent createdControl = new Intent(mContext, AttachActivity.class);
                                     createdControl.putExtra("control_created", "net.signagewidgets.serial.CONTROL_CREATED");
-                                    context.startActivity(createdControl);
+                                    mContext.startActivity(createdControl);
                                 }
                                 confirm();
                             }
@@ -201,9 +198,9 @@ public class VerifyButtons extends LinearLayout {
                         handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                if (countTimes == numberButtons) {
+                                if (mCountTimes == mNumberButtons) {
                                     dismissPopup();
-                                    new AddedControl(context);
+                                    new AddedControl(mContext);
                                 }
                             }
                         }, 2000);
@@ -214,67 +211,65 @@ public class VerifyButtons extends LinearLayout {
     }
 
     public void confirm() {
-        setTextClicks(countTimes + 1);
-        ok.setVisibility(GONE);
-        countClicks = 0;
+        setTextClicks(mCountTimes + 1);
+        mOK.setVisibility(GONE);
+        mCountClicks = 0;
     }
 
-    public void setTextClicks(int num){
+    public void setTextClicks(int num) {
 
-        switch (num){
+        switch (num) {
             case 1:
-                click01.setText("A");
-                click02.setText("A");
-                click03.setText("A");
-                click01.setBackgroundResource(R.drawable.circle_unverified);
-                click02.setBackgroundResource(R.drawable.circle_unverified);
-                click03.setBackgroundResource(R.drawable.circle_unverified);
-                description.setText(R.string.description_register_button_first);
+                mClick01.setText(R.string.name_button_a);
+                mClick02.setText(R.string.name_button_a);
+                mClick03.setText(R.string.name_button_a);
+                mClick01.setBackgroundResource(R.drawable.circle_unverified);
+                mClick02.setBackgroundResource(R.drawable.circle_unverified);
+                mClick03.setBackgroundResource(R.drawable.circle_unverified);
+                mDescription.setText(R.string.description_register_button_first);
                 break;
             case 2:
-                click01.setText("B");
-                click02.setText("B");
-                click03.setText("B");
-                click01.setBackgroundResource(R.drawable.circle_unverified);
-                click02.setBackgroundResource(R.drawable.circle_unverified);
-                click03.setBackgroundResource(R.drawable.circle_unverified);
-                description.setText(R.string.description_register_button_second);
+                mClick01.setText(R.string.name_button_b);
+                mClick02.setText(R.string.name_button_b);
+                mClick03.setText(R.string.name_button_b);
+                mClick01.setBackgroundResource(R.drawable.circle_unverified);
+                mClick02.setBackgroundResource(R.drawable.circle_unverified);
+                mClick03.setBackgroundResource(R.drawable.circle_unverified);
+                mDescription.setText(R.string.description_register_button_second);
                 break;
             case 3:
-                click01.setText("C");
-                click02.setText("C");
-                click03.setText("C");
-                click01.setBackgroundResource(R.drawable.circle_unverified);
-                click02.setBackgroundResource(R.drawable.circle_unverified);
-                click03.setBackgroundResource(R.drawable.circle_unverified);
-                description.setText(R.string.description_register_button_third);
+                mClick01.setText(R.string.name_button_c);
+                mClick02.setText(R.string.name_button_c);
+                mClick03.setText(R.string.name_button_c);
+                mClick01.setBackgroundResource(R.drawable.circle_unverified);
+                mClick02.setBackgroundResource(R.drawable.circle_unverified);
+                mClick03.setBackgroundResource(R.drawable.circle_unverified);
+                mDescription.setText(R.string.description_register_button_third);
                 break;
             case 4:
-                click01.setText("D");
-                click02.setText("D");
-                click03.setText("D");
-                click01.setBackgroundResource(R.drawable.circle_unverified);
-                click02.setBackgroundResource(R.drawable.circle_unverified);
-                click03.setBackgroundResource(R.drawable.circle_unverified);
-                description.setText(R.string.description_register_button_fourth);
+                mClick01.setText(R.string.name_button_d);
+                mClick02.setText(R.string.name_button_d);
+                mClick03.setText(R.string.name_button_d);
+                mClick01.setBackgroundResource(R.drawable.circle_unverified);
+                mClick02.setBackgroundResource(R.drawable.circle_unverified);
+                mClick03.setBackgroundResource(R.drawable.circle_unverified);
+                mDescription.setText(R.string.description_register_button_fourth);
                 break;
         }
     }
 
-    public void clean(){
-        countTimes = 0;
-    }
-
-    public void insertControlDB(){
-       dbHelper.insertControl(this.name, getDate(), this.idControl, this.listIdButtons);
+    public void insertControlDB() {
+       mDBHelper.insertControl(this.mName, mContext.getString(R.string.date_added) + " " + getDate(), this.mIDControl, this.mListIdButtons);
     }
 
     /**
      * Get the current date
      * @return Return a string that is the current date
      */
-    public String getDate(){
-        return new SimpleDateFormat("dd-MM-yyyy").format(new Date());
+    public String getDate() {
+        Locale current = getResources().getConfiguration().locale;
+        DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT, current);
+        return df.format(new Date());
     }
 
 }

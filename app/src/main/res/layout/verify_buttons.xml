@@ -17,14 +17,14 @@
         android:paddingRight="24dp"
         android:paddingLeft="24dp"
         android:paddingBottom="20dp"
-        android:textSize="16dp" />
+        android:textSize="16sp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/description_register_button_first"
         android:id="@+id/textView_description_register_control"
-        android:textSize="12dp"
+        android:textSize="12sp"
         android:paddingLeft="24dp"
         android:textColor="#010101" />
 
@@ -98,7 +98,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="end"
-        android:layout_marginRight="24dp">
+        android:layout_marginRight="24dp"
+        android:paddingTop="20dp">
 
         <TextView
             android:layout_width="wrap_content"

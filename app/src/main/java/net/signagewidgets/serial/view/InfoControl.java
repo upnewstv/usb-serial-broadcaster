@@ -15,106 +15,102 @@ import net.signagewidgets.serial.R;
 import net.signagewidgets.serial.activities.AttachActivity;
 import net.signagewidgets.serial.model.RemoteControl;
 import net.signagewidgets.serial.persistence.DBHelper;
-import net.signagewidgets.serial.util.Logging;
 
 /**
  * Created by lenoirzamboni on 8/27/15.
  */
 public class InfoControl extends LinearLayout {
 
-    private static Logging sLogging = new Logging(InfoControl.class);
+    private AlertDialog mAlertDialog;
+    private LayoutInflater mLayoutInflater;
+    private Context mContext;
 
-    private AlertDialog.Builder alertDialogBuilder;
-    private AlertDialog alertDialog;
-    private LayoutInflater li;
-    private Context context;
+    private TextView mCancel;
+    private TextView mSave;
+    private TextView mDelete;
 
-    private TextView cancel;
-    private TextView save;
-    private TextView delete;
-
-    private String name;
-    private EditText nameControl;
-    private RemoteControl remoteControl;
+    private String mName;
+    private EditText mNameControl;
+    private RemoteControl mRemoteControl;
 
     private DBHelper dbHelper;
 
     public InfoControl(Context context, RemoteControl remoteControl) {
         super(context);
 
-        li = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.context = context;
-        this.remoteControl = remoteControl;
+        mLayoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.mContext = context;
+        this.mRemoteControl = remoteControl;
 
-        dbHelper = new DBHelper(this.context);
+        dbHelper = new DBHelper(this.mContext);
 
         createDialog();
 
-        delete = (TextView) alertDialog.findViewById(R.id.textView_delete_info);
-        cancel = (TextView) alertDialog.findViewById(R.id.textView_cancel_info);
-        save = (TextView) alertDialog.findViewById(R.id.textView_save_info);
+        mDelete = (TextView) mAlertDialog.findViewById(R.id.textView_delete_info);
+        mCancel = (TextView) mAlertDialog.findViewById(R.id.textView_cancel_info);
+        mSave = (TextView) mAlertDialog.findViewById(R.id.textView_save_info);
 
-        nameControl = (EditText) alertDialog.findViewById(R.id.EditText_name_control_info);
-        nameControl.setText(remoteControl.getName());
+        mNameControl = (EditText) mAlertDialog.findViewById(R.id.EditText_name_control_info);
+        mNameControl.setText(remoteControl.getName());
 
         delete();
         updateName();
         cancel();
 
-        alertDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+        mAlertDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
     }
 
-    public void createDialog(){
+    public void createDialog() {
 
-        alertDialogBuilder = new AlertDialog.Builder(new ContextThemeWrapper(context, R.style.dialogTheme));
+        AlertDialog.Builder mAlertDialogBuilder = new AlertDialog.Builder(new ContextThemeWrapper(mContext, R.style.dialogTheme));
 
         // create alert dialog
-        alertDialog = alertDialogBuilder.create();
+        mAlertDialog = mAlertDialogBuilder.create();
 
-        alertDialog.getWindow().setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        mAlertDialog.getWindow().setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
         // Inflate and set the layout for the dialog
         // Pass null as the parent view because its going in the dialog layout
-        alertDialogBuilder.setView(li.inflate(R.layout.add_control, null));
+        mAlertDialogBuilder.setView(mLayoutInflater.inflate(R.layout.add_control, null));
 
 
         // show it
-        alertDialog.show();
+        mAlertDialog.show();
 
-        alertDialog.setContentView(R.layout.info_control);
+        mAlertDialog.setContentView(R.layout.info_control);
     }
 
-    public void dismissPopup(){
-        alertDialog.dismiss();
+    public void dismissPopup() {
+        mAlertDialog.dismiss();
     }
 
-    public void delete(){
-        delete.setOnClickListener(new OnClickListener() {
+    public void delete() {
+        mDelete.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                int idControl = (int) remoteControl.getIdControl();
+                int idControl = (int) mRemoteControl.getIDControl();
                 dbHelper.deleteControl(idControl);
 
-                Intent deletedControl = new Intent(context, AttachActivity.class);
+                Intent deletedControl = new Intent(mContext, AttachActivity.class);
                 deletedControl.putExtra("id_control_deleted", String.valueOf(idControl));
-                context.startActivity(deletedControl);
+                mContext.startActivity(deletedControl);
 
                 dismissPopup();
             }
         });
     }
 
-    public void updateName(){
-        save.setOnClickListener(new OnClickListener() {
+    public void updateName() {
+        mSave.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                int idControl = (int) remoteControl.getIdControl();
+                int idControl = (int) mRemoteControl.getIDControl();
 
                 setNameControl();
-                dbHelper.updateNameControl(idControl, name);
+                dbHelper.updateNameControl(idControl, mName);
 
-                Intent updateControl = new Intent(context, AttachActivity.class);
+                Intent updateControl = new Intent(mContext, AttachActivity.class);
                 updateControl.putExtra("id_control_updated", String.valueOf(idControl));
-                context.startActivity(updateControl);
+                mContext.startActivity(updateControl);
 
                 dismissPopup();
 
@@ -122,8 +118,8 @@ public class InfoControl extends LinearLayout {
         });
     }
 
-    public void cancel(){
-        cancel.setOnClickListener(new OnClickListener() {
+    public void cancel() {
+        mCancel.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 dismissPopup();
@@ -131,10 +127,9 @@ public class InfoControl extends LinearLayout {
         });
     }
 
-    public void setNameControl(){
-        name = nameControl.getText().toString();
-        this.remoteControl.setName(name);
+    public void setNameControl() {
+        mName = mNameControl.getText().toString();
+        this.mRemoteControl.setName(mName);
 
     }
-
 }

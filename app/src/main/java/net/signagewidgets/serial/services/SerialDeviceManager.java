@@ -20,8 +20,8 @@ public class SerialDeviceManager implements SerialInputOutputManager.Listener {
 	private static Logging sLogging = new Logging(SerialDeviceManager.class);	
 	private static final int RECONNETION_DELAY = 2;
 
-	public static interface SerialDeviceListener {
-		public void onLineReceived(String line);
+	public interface SerialDeviceListener {
+		void onLineReceived(String line);
 	}
 
 	private final UsbManager mUsbManager;

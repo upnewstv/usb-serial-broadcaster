@@ -19,6 +19,15 @@
         android:textSize="16sp"
         android:layout_marginLeft="24dp" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/name_control"
+        android:id="@+id/textView_name_control"
+        android:textSize="12sp"
+        android:paddingLeft="24dp"
+        android:textColor="#7d7d7d" />
+
     <EditText
         android:id="@+id/EditText_name_control_info"
         android:layout_width="match_parent"
@@ -43,7 +52,8 @@
         android:layout_height="match_parent"
         android:layout_marginRight="24dp"
         android:gravity="end"
-        android:paddingLeft="24dp">
+        android:paddingLeft="24dp"
+        android:paddingTop="20dp">
 
         <TextView
             android:layout_width="wrap_content"

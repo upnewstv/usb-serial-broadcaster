@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="ColorButtonAdd">#539BFF</color>
-    <color name="radio_button_active">#909090</color>
-    <color name="radio_button_inactive">#909090</color>
 </resources>

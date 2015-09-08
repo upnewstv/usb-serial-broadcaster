@@ -13,46 +13,45 @@ import net.signagewidgets.serial.R;
  * Created by lenoirzamboni on 8/27/15.
  */
 public class AddedControl extends LinearLayout {
-    private AlertDialog.Builder alertDialogBuilder;
-    private AlertDialog alertDialog;
-    private LayoutInflater li;
-    private Context context;
-    private TextView ok;
+    private AlertDialog mAlertDialog;
+    private LayoutInflater mLayoutInflater;
+    private Context mContext;
+    private TextView mOK;
 
     public AddedControl(Context context) {
         super(context);
 
-        li = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.context = context;
+        mLayoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.mContext = context;
 
         createDialog();
 
-        ok = (TextView) alertDialog.findViewById(R.id.textView_added_ok);
+        mOK = (TextView) mAlertDialog.findViewById(R.id.textView_added_ok);
 
         showOk();
     }
 
-    public void createDialog(){
+    public void createDialog() {
 
-        alertDialogBuilder = new AlertDialog.Builder(context);
+        AlertDialog.Builder mAlertDialogBuilder = new AlertDialog.Builder(mContext);
 
         // Inflate and set the layout for the dialog
         // Pass null as the parent view because its going in the dialog layout
-        alertDialogBuilder.setView(li.inflate(R.layout.added_control, null));
+        mAlertDialogBuilder.setView(mLayoutInflater.inflate(R.layout.added_control, null));
 
         // create alert dialog
-        alertDialog = alertDialogBuilder.create();
+        mAlertDialog = mAlertDialogBuilder.create();
 
         // show it
-        alertDialog.show();
+        mAlertDialog.show();
     }
 
-    public void dismissPopup(){
-        alertDialog.dismiss();
+    public void dismissPopup() {
+        mAlertDialog.dismiss();
     }
 
-    public void showOk(){
-        ok.setOnClickListener(new OnClickListener() {
+    public void showOk() {
+        mOK.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 dismissPopup();

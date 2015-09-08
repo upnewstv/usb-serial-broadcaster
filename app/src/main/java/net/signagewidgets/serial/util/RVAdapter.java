@@ -10,6 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,21 +25,21 @@ import net.signagewidgets.serial.persistence.DBHelper;
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
     private static Logging sLogging = new Logging(RVAdapter.class);
-    private RemoteControl [] remoteControls;
-    private LinearLayoutManager layoutManager;
-    private TextView textViewItem;
-    private BroadcastReceiver receiver;
-    private DBHelper dbHelper;
+    private RemoteControl [] mRemoteControls;
+    private LinearLayoutManager mLayoutManager;
+    private TextView mTextViewItem;
+    private DBHelper mDBHelper;
 
 
     public RVAdapter(Context context, RemoteControl[] remoteControls, LinearLayoutManager layoutManager) {
-        this.remoteControls = remoteControls;
-        this.layoutManager = layoutManager;
-        this.dbHelper = new DBHelper(context);
+        mRemoteControls = remoteControls;
+        mLayoutManager = layoutManager;
+        mDBHelper = new DBHelper(context);
 
         IntentFilter filter = new IntentFilter("net.signagewidgets.serial.BUTTON");
 
-        context.registerReceiver(receiver = new BroadcastReceiver() {
+        BroadcastReceiver mReceiver;
+        context.registerReceiver(mReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 Long idControl = intent.getExtras().getLong("id");
@@ -51,7 +53,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
     /**
      * Inner class to hold a reference to each item of RecyclerView
      */
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView controlName;
         public TextView dateAdd;
@@ -79,7 +81,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
 
         // Inflate item_layout
         // Create a ViewHolder
-        // Bind the view “ViewHolder” with data “remoteControls”
+        // Bind the view “ViewHolder” with data “mRemoteControls”
 
         View itemLayoutView;
 
@@ -106,8 +108,11 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
                 break;
         }
 
-        // create ViewHolder
-        return new ViewHolder(itemLayoutView);
+        RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        itemLayoutView.setLayoutParams(lp);
+        ViewHolder holder = new ViewHolder(itemLayoutView);
+
+        return holder;
     }
 
     /**
@@ -121,11 +126,10 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
 
         int type = 0;
 
-        if(remoteControls.length == 0){
+        if(mRemoteControls.length == 0) {
             type = 0;
-        }else{
-            type = remoteControls[position].getIdButtons().size();
-            sLogging.error("getItemViewType", type);
+        }else {
+            type = mRemoteControls[position].getIdButtons().size();
         }
         return type;
     }
@@ -139,47 +143,47 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
 
-        // - get data from your remoteControls at this position
-        // - replace the contents of the view with that remoteControls
+        // - get data from your mRemoteControls at this position
+        // - replace the contents of the view with that mRemoteControls
 
-        viewHolder.controlName.setText(remoteControls[position].getName());
-        viewHolder.dateAdd.setText(remoteControls[position].getDate());
+        viewHolder.controlName.setText(mRemoteControls[position].getName());
+        viewHolder.dateAdd.setText(mRemoteControls[position].getDate());
 
-        switch (remoteControls[position].getIdButtons().size()){
+        switch (mRemoteControls[position].getIdButtons().size()) {
             case 1:
-                viewHolder.iconControl.setImageResource(R.drawable.remote_example_2);
+                viewHolder.iconControl.setImageResource(R.drawable.control_2_icon);
                 break;
 
             case 2:
-                viewHolder.iconControl.setImageResource(R.drawable.remote_example_2);
+                viewHolder.iconControl.setImageResource(R.drawable.control_2_icon);
                 break;
 
             case 3:
-                viewHolder.iconControl.setImageResource(R.drawable.remote_example_2);
+                viewHolder.iconControl.setImageResource(R.drawable.control_2_icon);
                 break;
 
             case 4:
-                viewHolder.iconControl.setImageResource(R.drawable.remote_example_2);
+                viewHolder.iconControl.setImageResource(R.drawable.control_2_icon);
                 break;
 
         }
     }
 
-    // Return the size of your remoteControls (invoked by the layout manager)
+    // Return the size of your mRemoteControls (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return remoteControls.length;
+        return mRemoteControls.length;
     }
 
-    public void findControl(long idControl, long idButton){
+    public void findControl(long idControl, long idButton) {
 
         for(int i = 0; i < getItemCount(); i++){
 
-            if(remoteControls[i].getIdControl() == idControl){
+            if(mRemoteControls[i].getIDControl() == idControl) {
 
-                if(remoteControls[i].getIdButtons().contains(idButton)){
+                if(mRemoteControls[i].getIdButtons().contains(idButton)) {
 
-                    switch (remoteControls[i].getIdButtons().indexOf(idButton)){
+                    switch (mRemoteControls[i].getIdButtons().indexOf(idButton)) {
                         case 0:
                             changeBG(0, i);
                             break;
@@ -201,51 +205,51 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
         }
     }
 
-    public void changeBG(int button, int listPosition){
+    public void changeBG(int button, int listPosition) {
 
-        View item = this.layoutManager.getChildAt(listPosition);
+        View item = this.mLayoutManager.getChildAt(listPosition);
         final Handler handler = new Handler();
 
-        switch (button){
+        switch (button) {
             case 0:
-                textViewItem = (TextView) item.findViewById(R.id.button_1);
-                textViewItem.setBackgroundResource(R.drawable.buttons_layout_verified);
+                mTextViewItem = (TextView) item.findViewById(R.id.button_1);
+                mTextViewItem.setBackgroundResource(R.drawable.buttons_layout_verified);
                 break;
 
             case 1:
-                textViewItem = (TextView) item.findViewById(R.id.button_2);
-                textViewItem.setBackgroundResource(R.drawable.buttons_layout_verified);
+                mTextViewItem = (TextView) item.findViewById(R.id.button_2);
+                mTextViewItem.setBackgroundResource(R.drawable.buttons_layout_verified);
                 break;
 
             case 2:
-                textViewItem = (TextView) item.findViewById(R.id.button_3);
-                textViewItem.setBackgroundResource(R.drawable.buttons_layout_verified);
+                mTextViewItem = (TextView) item.findViewById(R.id.button_3);
+                mTextViewItem.setBackgroundResource(R.drawable.buttons_layout_verified);
                 break;
 
             case 3:
-                textViewItem = (TextView) item.findViewById(R.id.button_4);
-                textViewItem.setBackgroundResource(R.drawable.buttons_layout_verified);
+                mTextViewItem = (TextView) item.findViewById(R.id.button_4);
+                mTextViewItem.setBackgroundResource(R.drawable.buttons_layout_verified);
                 break;
         }
 
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(textViewItem != null){
-                    textViewItem.setBackgroundResource(R.drawable.buttons_layout_unverified);
+                if(mTextViewItem != null){
+                    mTextViewItem.setBackgroundResource(R.drawable.buttons_layout_unverified);
                 }
             }
         }, 300);
     }
 
-    public void dataChanged(){
-        this.remoteControls = getControls();
+    public void dataChanged() {
+        this.mRemoteControls = getControls();
         this.notifyDataSetChanged();
         sLogging.error("COMMAND RECEIVED");
     }
 
 
-    public RemoteControl[] getControls(){
-        return dbHelper.getAllControls();
+    public RemoteControl[] getControls() {
+        return mDBHelper.getAllControls();
     }
 }

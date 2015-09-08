@@ -13,48 +13,49 @@ import net.signagewidgets.serial.R;
  * Created by lenoirzamboni on 8/27/15.
  */
 public class DeleteControl extends LinearLayout {
-    private AlertDialog.Builder alertDialogBuilder;
-    private AlertDialog alertDialog;
-    private LayoutInflater li;
-    private Context context;
-    private TextView cancel;
-    private TextView delete;
+
+    protected AlertDialog.Builder mAlertDialogBuilder;
+    protected AlertDialog mAlertDialog;
+    protected LayoutInflater mLayoutInflater;
+    protected Context mContext;
+    protected TextView mCancel;
+    protected TextView mDelete;
 
     public DeleteControl(Context context) {
         super(context);
 
-        li = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.context = context;
+        mLayoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.mContext = context;
 
         createDialog();
 
-        cancel = (TextView) alertDialog.findViewById(R.id.textView_cancel_delete);
-        delete = (TextView) alertDialog.findViewById(R.id.textView_delete);
+        mCancel = (TextView) mAlertDialog.findViewById(R.id.textView_cancel_delete);
+        mDelete = (TextView) mAlertDialog.findViewById(R.id.textView_delete);
 
         showOk();
     }
 
-    public void createDialog(){
+    public void createDialog() {
 
-        alertDialogBuilder = new AlertDialog.Builder(context);
+        mAlertDialogBuilder = new AlertDialog.Builder(mContext);
 
         // Inflate and set the layout for the dialog
         // Pass null as the parent view because its going in the dialog layout
-        alertDialogBuilder.setView(li.inflate(R.layout.delete_control, null));
+        mAlertDialogBuilder.setView(mLayoutInflater.inflate(R.layout.delete_control, null));
 
         // create alert dialog
-        alertDialog = alertDialogBuilder.create();
+        mAlertDialog = mAlertDialogBuilder.create();
 
         // show it
-        alertDialog.show();
+        mAlertDialog.show();
     }
 
-    public void dismissPopup(){
-        alertDialog.dismiss();
+    public void dismissPopup() {
+        mAlertDialog.dismiss();
     }
 
-    public void showOk(){
-        cancel.setOnClickListener(new OnClickListener() {
+    public void showOk() {
+        mCancel.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 dismissPopup();
@@ -62,8 +63,8 @@ public class DeleteControl extends LinearLayout {
         });
     }
 
-    public void deleteControl(){
-        delete.setOnClickListener(new OnClickListener() {
+    public void deleteControl() {
+        mDelete.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 dismissPopup();

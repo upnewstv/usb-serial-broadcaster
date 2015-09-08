@@ -3,32 +3,34 @@ package net.signagewidgets.serial.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import net.signagewidgets.serial.R;
+import net.signagewidgets.serial.model.RemoteControl;
 import net.signagewidgets.serial.model.RecyclerItemClickListener;
 import net.signagewidgets.serial.persistence.DBHelper;
 import net.signagewidgets.serial.services.SerialService;
 import net.signagewidgets.serial.util.Logging;
 import net.signagewidgets.serial.util.RVAdapter;
-
-import net.signagewidgets.serial.model.RemoteControl;
 import net.signagewidgets.serial.view.AddControl;
 import net.signagewidgets.serial.view.InfoControl;
 
-import java.util.List;
 
-public class AttachActivity extends ActionBarActivity {
+public class AttachActivity extends AppCompatActivity {
+
 	private static Logging sLogging = new Logging(AttachActivity.class);
-	final Context context = this;
-	RecyclerView recyclerView;
-	LinearLayoutManager layoutManager;
-	RemoteControl[] remoteControls;
-	RVAdapter rvAdapter;
-	DBHelper db;
+
+	private final Context CONTEXT = this;
+
+	private RecyclerView mRecyclerView;
+	private RVAdapter mRvAdapter;
+	private DBHelper mDBHelper;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,21 +39,20 @@ public class AttachActivity extends ActionBarActivity {
 
 		setContentView(R.layout.recycler_view);
 
-		db = new DBHelper(this);
+		mDBHelper = new DBHelper(this);
 
-		recyclerView = (RecyclerView) findViewById(R.id.rv);
+		mRecyclerView = (RecyclerView) findViewById(R.id.rv);
 
-		remoteControls = getControls();
+		RemoteControl[] mRemoteControls = getControls();
 
-		layoutManager = new LinearLayoutManager(context);
+		LinearLayoutManager mLayoutManager = new LinearLayoutManager(CONTEXT);
 
-		recyclerView.setLayoutManager(layoutManager);
+		mRecyclerView.setLayoutManager(mLayoutManager);
 
-		rvAdapter = new RVAdapter(this, remoteControls, layoutManager);
+		mRvAdapter = new RVAdapter(this, mRemoteControls, mLayoutManager);
 
-		recyclerView.setAdapter(rvAdapter);
+		mRecyclerView.setAdapter(mRvAdapter);
 
-		showControls();
 		addListener();
 	}
 
@@ -59,11 +60,11 @@ public class AttachActivity extends ActionBarActivity {
 	 * Get all remote controls that are registered in the DB
 	 * @return Returns an array of remote controls
 	 */
-	public RemoteControl[] getControls(){
-		return db.getAllControls();
+	public RemoteControl[] getControls() {
+		return mDBHelper.getAllControls();
 	}
 
-	public void listenerFAB(View view){
+	public void listenerFAB(View view) {
 		AddControl addControl = new AddControl(this);
 	}
 
@@ -71,34 +72,32 @@ public class AttachActivity extends ActionBarActivity {
 	protected void onNewIntent(Intent intent) {
 		super.onNewIntent(intent);
 		if(intent != null){
-			rvAdapter.dataChanged();
+			mRvAdapter.dataChanged();
 			sLogging.error("RECEIVED INTENT");
 		}
 	}
 
-	public void showControls(){
-		for(int i = 0; i < remoteControls.length; i++){
-			sLogging.error("\n", "NAME", remoteControls[i].getName());
-			sLogging.error("DATE", remoteControls[i].getDate());
-			sLogging.error("ID_CONTROL", remoteControls[i].getIdControl());
+	public void addListener() {
+		mRecyclerView.addOnItemTouchListener(
+				new RecyclerItemClickListener(CONTEXT, new RecyclerItemClickListener.OnItemClickListener() {
+					@Override
+					public void onItemClick(View view, final int position) {
+                        setAnimation(view);
 
-			List<Long> list = remoteControls[i].getIdButtons();
-
-			for(int j = 0; j < list.size(); j++){
-				sLogging.error("ID_BUTTON", j, list.get(j));
-			}
-		}
-	}
-
-	public void addListener(){
-		recyclerView.addOnItemTouchListener(
-				new RecyclerItemClickListener(context, new RecyclerItemClickListener.OnItemClickListener() {
-					@Override public void onItemClick(View view, int position) {
-						new InfoControl(AttachActivity.this, getControls()[position]);
+                        final Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                new InfoControl(AttachActivity.this, getControls()[position]);
+                            }
+                        }, 200);
 					}
 				})
 		);
 	}
 
-
+	private void setAnimation(View viewToAnimate) {
+			Animation animation = AnimationUtils.loadAnimation(this, android.R.anim.fade_in);
+			viewToAnimate.startAnimation(animation);
+	}
 }
