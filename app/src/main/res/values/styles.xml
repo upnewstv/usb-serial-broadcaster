@@ -15,7 +15,15 @@
     <item name="android:background">?android:attr/listDivider</item>
   </style>
 
-  <style name="dialogTheme" parent="Theme.AppCompat.Dialog">
-    <item name="android:windowNoTitle">true</item>
+  <style name="dialogTheme" parent="Theme.AppCompat">
+      <item name="android:windowNoTitle">true</item>
   </style>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
+        <!-- colorPrimary is used for the default action bar background -->
+        <item name="colorPrimary">#007a94</item>
+        <item name="android:textColorPrimary">@color/textBackgroundBar</item>
+        <item name="android:titleTextColor">@color/textBackgroundBar</item>
+        <item name="android:titleTextStyle">@color/textBackgroundBar</item>
+    </style>
 </resources>

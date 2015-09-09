@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="ColorButtonAdd">#539BFF</color>
+    <color name="ColorButtonAdd">#F15A24</color>
+    <color name="textBackgroundBar">#FFFFFF</color>
+
 </resources>

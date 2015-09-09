@@ -12,15 +12,12 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
-        android:icon="@drawable/icon"
+        android:icon="@mipmap/icon"
         android:label="OnSign RC"
-        android:theme="@style/Theme.AppCompat" >
+        android:theme="@style/AppTheme" >
 
         <activity
             android:name=".activities.AttachActivity"
-            android:excludeFromRecents="true"
-            android:noHistory="true"
-            android:stateNotNeeded="true"
             android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />

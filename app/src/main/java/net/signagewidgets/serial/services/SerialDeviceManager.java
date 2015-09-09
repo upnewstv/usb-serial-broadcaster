@@ -9,6 +9,7 @@ import com.hoho.android.usbserial.driver.UsbSerialPort;
 import com.hoho.android.usbserial.driver.UsbSerialProber;
 import com.hoho.android.usbserial.util.SerialInputOutputManager;
 
+import net.signagewidgets.serial.activities.AttachActivity;
 import net.signagewidgets.serial.util.CaptureExceptionsScheduledExecutor;
 import net.signagewidgets.serial.util.Logging;
 
@@ -65,7 +66,8 @@ public class SerialDeviceManager implements SerialInputOutputManager.Listener {
 			public void run() {
 				try{
 					sLogging.info("Scanning and connecting to available devices");
-	
+					AttachActivity.publicIsConnected = false;
+
 					List<UsbSerialDriver> drivers = UsbSerialProber.getDefaultProber().findAllDrivers(mUsbManager);
 
 					if (drivers.isEmpty()) {
@@ -88,6 +90,7 @@ public class SerialDeviceManager implements SerialInputOutputManager.Listener {
 							mIOExecutor.submit(mSerialIoManager);
 	
 							sLogging.info("Connected to the device");
+							AttachActivity.publicIsConnected = true;
 						} catch (IOException e) {
 							close();
 							mExecutor.schedule(this, RECONNETION_DELAY, TimeUnit.SECONDS);

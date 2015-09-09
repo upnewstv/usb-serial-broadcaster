@@ -43,6 +43,8 @@
 
     <string name="no_name_toast">Por favor, digite um nome</string>
 
+    <string name="message_connect">Por favor, verifique se o receptor \nestá conectado</string>
+
 
 
 

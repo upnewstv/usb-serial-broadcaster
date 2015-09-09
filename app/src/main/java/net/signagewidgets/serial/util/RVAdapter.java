@@ -29,23 +29,32 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
     private LinearLayoutManager mLayoutManager;
     private TextView mTextViewItem;
     private DBHelper mDBHelper;
+    private Context mContext;
 
 
     public RVAdapter(Context context, RemoteControl[] remoteControls, LinearLayoutManager layoutManager) {
         mRemoteControls = remoteControls;
         mLayoutManager = layoutManager;
         mDBHelper = new DBHelper(context);
+        mContext = context;
 
         IntentFilter filter = new IntentFilter("net.signagewidgets.serial.BUTTON");
 
-        BroadcastReceiver mReceiver;
-        context.registerReceiver(mReceiver = new BroadcastReceiver() {
+        mContext.registerReceiver(new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 Long idControl = intent.getExtras().getLong("id");
                 Long idButton = intent.getExtras().getLong("button");
 
-                findControl(idControl, idButton);
+                for (RemoteControl mRemoteControl : mRemoteControls) {
+                    if (mRemoteControl.getIDControl() == idControl) {
+                        findControl(idControl, idButton);
+
+                        if(mRemoteControl.getIdButtons().contains(idButton)){
+                            sendBroadcasts(idControl, idButton, mRemoteControl.getName());
+                        }
+                    }
+                }
             }
         }, filter);
     }
@@ -151,19 +160,19 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
 
         switch (mRemoteControls[position].getIdButtons().size()) {
             case 1:
-                viewHolder.iconControl.setImageResource(R.drawable.control_2_icon);
+                viewHolder.iconControl.setImageResource(R.drawable.rc_icon_1);
                 break;
 
             case 2:
-                viewHolder.iconControl.setImageResource(R.drawable.control_2_icon);
+                viewHolder.iconControl.setImageResource(R.drawable.rc_icon_2);
                 break;
 
             case 3:
-                viewHolder.iconControl.setImageResource(R.drawable.control_2_icon);
+                viewHolder.iconControl.setImageResource(R.drawable.rc_icon_3);
                 break;
 
             case 4:
-                viewHolder.iconControl.setImageResource(R.drawable.control_2_icon);
+                viewHolder.iconControl.setImageResource(R.drawable.rc_icon_4);
                 break;
 
         }
@@ -251,5 +260,18 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
 
     public RemoteControl[] getControls() {
         return mDBHelper.getAllControls();
+    }
+
+    public void sendBroadcasts(long idControl, long idButton, String name){
+
+        Intent intentIDs = new Intent("net.signagewidgets.serial.ID_CONTROL_ID_BUTTON");
+        intentIDs.putExtra("id_to_onsign", idControl);
+        intentIDs.putExtra("button_to_onsign", idButton);
+        mContext.sendBroadcast(intentIDs);
+
+        Intent intentName = new Intent("net.signagewidgets.serial.NAME_ID_BUTTON");
+        intentName.putExtra("name_to_onsign", name);
+        intentName.putExtra("button_to_onsign", idButton);
+        mContext.sendBroadcast(intentName);
     }
 }

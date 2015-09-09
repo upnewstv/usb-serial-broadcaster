@@ -49,6 +49,8 @@ public class VerifyButtons extends LinearLayout {
     private List<Long> mListIdButtons;
     private BroadcastReceiver mReceiver;
     private DBHelper mDBHelper;
+    private int mPreventDialog;
+
 
     public VerifyButtons(Context context, String name, int numberButtons) {
         super(context);
@@ -140,71 +142,74 @@ public class VerifyButtons extends LinearLayout {
         }
 
         if(mDBHelper.controlExists((int)(long) idControl)) {
-           new ExistingControl(mContext, idControl, mAlertDialog);
-        }
+            if(mPreventDialog == 0){
+                new ExistingControl(mContext, idControl, mAlertDialog);
+                mPreventDialog++;
+            }
+        }else{
+            if(this.mIDControl.equals(idControl) && this.mIDButton == null && !mListIdButtons.contains(idButton)) {
+                this.mIDButton = idButton;
+            }
 
-        if(this.mIDControl.equals(idControl) && this.mIDButton == null && !mListIdButtons.contains(idButton)) {
-            this.mIDButton = idButton;
-        }
+            assert this.mIDButton != null;
 
-        assert this.mIDButton != null;
+            if(this.mIDControl.equals(idControl) && this.mIDButton != null && this.mIDButton.equals(idButton)) {
 
-        if(this.mIDControl.equals(idControl) && this.mIDButton != null && this.mIDButton.equals(idButton)) {
+                sLogging.error("ID Control", idControl);
+                sLogging.error("ID Button" , idButton);
 
-            sLogging.error("ID Control" , idControl);
-            sLogging.error("ID Button" , idButton);
+                if(!mListIdButtons.contains(idButton) || mListIdButtons == null) {
+                    mCountClicks++;
 
-            if(!mListIdButtons.contains(idButton) || mListIdButtons == null) {
-                mCountClicks++;
+                    switch (mCountClicks) {
+                        case 1:
+                            mClick01.setBackgroundResource(R.drawable.circle_verified);
+                            break;
 
-                switch (mCountClicks) {
-                    case 1:
-                        mClick01.setBackgroundResource(R.drawable.circle_verified);
-                        break;
+                        case 2:
+                            mClick02.setBackgroundResource(R.drawable.circle_verified);
+                            break;
 
-                    case 2:
-                        mClick02.setBackgroundResource(R.drawable.circle_verified);
-                        break;
+                        case 3:
+                            mClick03.setBackgroundResource(R.drawable.circle_verified);
 
-                    case 3:
-                        mClick03.setBackgroundResource(R.drawable.circle_verified);
+                            mListIdButtons.add(idButton);
 
-                        mListIdButtons.add(idButton);
+                            mCountTimes++;
+                            this.mIDButton = null;
 
-                        mCountTimes++;
-                        this.mIDButton = null;
-
-                        final Handler handler = new Handler();
-                        handler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                mOK.setVisibility(VISIBLE);
-                            }
-                        }, 1000);
-
-                        handler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (mCountTimes == mNumberButtons) {
-                                    insertControlDB();
-                                    Intent createdControl = new Intent(mContext, AttachActivity.class);
-                                    createdControl.putExtra("control_created", "net.signagewidgets.serial.CONTROL_CREATED");
-                                    mContext.startActivity(createdControl);
+                            final Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mOK.setVisibility(VISIBLE);
                                 }
-                                confirm();
-                            }
-                        }, 3000);
+                            }, 200);
 
-                        handler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (mCountTimes == mNumberButtons) {
-                                    dismissPopup();
-                                    new AddedControl(mContext);
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (mCountTimes == mNumberButtons) {
+                                        insertControlDB();
+                                        Intent createdControl = new Intent(mContext, AttachActivity.class);
+                                        createdControl.putExtra("control_created", "net.signagewidgets.serial.CONTROL_CREATED");
+                                        mContext.startActivity(createdControl);
+                                    }
+                                    confirm();
                                 }
-                            }
-                        }, 2000);
-                        break;
+                            }, 3000);
+
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (mCountTimes == mNumberButtons) {
+                                        dismissPopup();
+                                        new AddedControl(mContext);
+                                    }
+                                }
+                            }, 2000);
+                            break;
+                    }
                 }
             }
         }
@@ -271,5 +276,4 @@ public class VerifyButtons extends LinearLayout {
         DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT, current);
         return df.format(new Date());
     }
-
 }
