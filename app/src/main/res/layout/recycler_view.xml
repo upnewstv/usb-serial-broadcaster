@@ -16,7 +16,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv"
             android:layout_width="fill_parent"
-            android:layout_height="match_parent"
+            android:layout_height="fill_parent"
             android:background="#ffffff" />
 
         <android.support.design.widget.FloatingActionButton
@@ -39,14 +39,40 @@
             app:backgroundTint="@color/ColorButtonAdd"
             android:onClick="listenerFAB"/>
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/imageView_doodle"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="117dp"
-            android:src="@drawable/test_doodle" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/linear_layout_doodle"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="375dp"
+                android:layout_height="434dp"
+                android:id="@+id/imageView_doodle"
+                android:src="@drawable/rc_doodle"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="false"
+                android:layout_alignParentStart="true"
+                android:layout_above="@+id/fab"
+                android:layout_gravity="center|top"
+                android:paddingLeft="30dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/message_doodle_portrait"
+                android:id="@+id/textView_message_doodle"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:textColor="#010101"
+                android:layout_marginBottom="100dp"
+                android:textSize="30sp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="50dp"
+                android:gravity="fill_horizontal" />
+
+        </LinearLayout>
 
     </RelativeLayout>
 

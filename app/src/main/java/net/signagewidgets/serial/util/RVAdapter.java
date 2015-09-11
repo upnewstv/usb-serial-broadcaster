@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import net.signagewidgets.serial.R;
 import net.signagewidgets.serial.model.RemoteControl;
@@ -194,19 +196,19 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
 
                     switch (mRemoteControls[i].getIdButtons().indexOf(idButton)) {
                         case 0:
-                            changeBG(0, i);
+                            changeBG(0, i, mRemoteControls[i]);
                             break;
 
                         case 1:
-                            changeBG(1, i);
+                            changeBG(1, i, mRemoteControls[i]);
                             break;
 
                         case 2:
-                            changeBG(2, i);
+                            changeBG(2, i, mRemoteControls[i]);
                             break;
 
                         case 3:
-                            changeBG(3, i);
+                            changeBG(3, i, mRemoteControls[i]);
                             break;
                     }
                 }
@@ -214,41 +216,61 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
         }
     }
 
-    public void changeBG(int button, int listPosition) {
+    public void changeBG(int button, int listPosition, RemoteControl remoteControl) {
 
-        View item = this.mLayoutManager.getChildAt(listPosition);
-        final Handler handler = new Handler();
+        int firstPosition = mLayoutManager.findFirstVisibleItemPosition();
+        int wantedChild = listPosition - firstPosition;
+
+        String mLetter = "";
+
+        View item = this.mLayoutManager.getChildAt(wantedChild);
 
         switch (button) {
             case 0:
                 mTextViewItem = (TextView) item.findViewById(R.id.button_1);
                 mTextViewItem.setBackgroundResource(R.drawable.buttons_layout_verified);
+                mLetter = mContext.getString(R.string.name_button_a);
                 break;
 
             case 1:
                 mTextViewItem = (TextView) item.findViewById(R.id.button_2);
                 mTextViewItem.setBackgroundResource(R.drawable.buttons_layout_verified);
+                mLetter = mContext.getString(R.string.name_button_b);
                 break;
 
             case 2:
                 mTextViewItem = (TextView) item.findViewById(R.id.button_3);
                 mTextViewItem.setBackgroundResource(R.drawable.buttons_layout_verified);
+                mLetter = mContext.getString(R.string.name_button_c);
                 break;
 
             case 3:
                 mTextViewItem = (TextView) item.findViewById(R.id.button_4);
                 mTextViewItem.setBackgroundResource(R.drawable.buttons_layout_verified);
+                mLetter = mContext.getString(R.string.name_button_d);
                 break;
         }
 
+        final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(mTextViewItem != null){
+                if (mTextViewItem != null) {
                     mTextViewItem.setBackgroundResource(R.drawable.buttons_layout_unverified);
                 }
             }
         }, 300);
+
+        Toast toast = Toast.makeText(mContext,
+                        mContext.getString(R.string.pressed_message_part_1) + " " + mLetter + " " +
+                        mContext.getString(R.string.pressed_message_part_2) + " " +remoteControl.getName() + " " +
+                        mContext.getString(R.string.pressed_message_part_3), Toast.LENGTH_SHORT);
+
+        TextView v = (TextView) toast.getView().findViewById(android.R.id.message);
+        if(v != null) v.setGravity(Gravity.CENTER);
+
+        toast.show();
+
     }
 
     public void dataChanged() {

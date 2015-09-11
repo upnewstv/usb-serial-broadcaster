@@ -4,18 +4,20 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Point;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Display;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,8 +43,9 @@ public class AttachActivity extends AppCompatActivity {
 	private DBHelper mDBHelper;
     private RemoteControl[] mRemoteControls;
     public static boolean publicIsConnected;
+    private boolean mStartToast = true;
 
-	@Override
+    @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		SerialService.start(this);
@@ -82,12 +85,22 @@ public class AttachActivity extends AppCompatActivity {
             AddControl addControl = new AddControl(this);
             setDoodle();
         }else {
+
             Toast toast = Toast.makeText(this, this.getString(R.string.message_connect), Toast.LENGTH_SHORT);
             TextView v = (TextView) toast.getView().findViewById(android.R.id.message);
             if( v != null) v.setGravity(Gravity.CENTER);
 
-            toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
-            toast.show();
+            if(mStartToast){
+                toast.show();
+                mStartToast = false;
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mStartToast = true;
+                    }
+                }, 2000);
+            }
         }
 	}
 
@@ -127,11 +140,40 @@ public class AttachActivity extends AppCompatActivity {
     public void setDoodle(){
 
         ImageView mImageViewDoodle = (ImageView) findViewById(R.id.imageView_doodle);
+        LinearLayout mLinearLayoutDoodle = (LinearLayout) findViewById(R.id.linear_layout_doodle);
+        TextView mMessageDoodle = (TextView) findViewById(R.id.textView_message_doodle);
+
+        double screenSize = getScreenSize();
+
+        if(screenSize < 6){
+            mMessageDoodle.setTextSize(20);
+        }
+
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+
+            if(screenSize < 6){
+                mMessageDoodle.setText(this.getString(R.string.message_doodle_small_screen));
+            }
+
+            mMessageDoodle.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
+            mLinearLayoutDoodle.setOrientation(LinearLayout.VERTICAL);
+            mImageViewDoodle.setLayoutParams(new LinearLayout.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT, Gravity.CENTER | Gravity.TOP));
+            mImageViewDoodle.setPadding(0, 0, 40, 0);
+        } else {
+            mMessageDoodle.setText(this.getString(R.string.message_doodle_landscape));
+            mMessageDoodle.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
+            mMessageDoodle.setPadding(0, 0, 40, 0);
+            mLinearLayoutDoodle.setOrientation(LinearLayout.HORIZONTAL);
+            mImageViewDoodle.setLayoutParams(new LinearLayout.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT, Gravity.LEFT));
+            mImageViewDoodle.setPadding(40, 0, 0, 0);
+        }
 
         if(getControls().length == 0){
             mImageViewDoodle.setVisibility(View.VISIBLE);
+            mMessageDoodle.setVisibility(View.VISIBLE);
         }else{
             mImageViewDoodle.setVisibility(View.INVISIBLE);
+            mMessageDoodle.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -163,5 +205,12 @@ public class AttachActivity extends AppCompatActivity {
         this.registerReceiver(mReceiver, filter);
     }
 
+    public double getScreenSize(){
+        DisplayMetrics dm = getResources().getDisplayMetrics();
+        double density = dm.density * 160;
+        double x = Math.pow(dm.widthPixels / density, 2);
+        double y = Math.pow(dm.heightPixels / density, 2);
+        return Math.sqrt(x + y);
+    }
 
 }

@@ -45,7 +45,13 @@
 
     <string name="message_connect">Por favor, verifique se o receptor \nestá conectado</string>
 
+    <string name="pressed_message_part_1">O botão </string>
+    <string name="pressed_message_part_2">do controle \n</string>
+    <string name="pressed_message_part_3">foi pressionado</string>
 
+    <string name="message_doodle_landscape">Para começar, conecte o cabo do receptor \nno seu dispositivo e clique no botão laranja \npara adicionar um controle remoto.</string>
+    <string name="message_doodle_portrait">Para começar, conecte o cabo do receptor no seu dispositivo e clique no botão laranja para \nadicionar um controle remoto.</string>
+    <string name="message_doodle_small_screen">Para começar, conecte o cabo do receptor no seu dispositivo e \nclique no botão laranja para \nadicionar um controle remoto.</string>
 
 
 </resources>

@@ -85,7 +85,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/imageView_verify_ok"
-                android:src="@drawable/ok_icon_48"
+                android:src="@drawable/ok"
                 android:visibility="gone"
                 android:layout_gravity="center" />
 
