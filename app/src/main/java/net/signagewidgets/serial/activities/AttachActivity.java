@@ -3,7 +3,6 @@ package net.signagewidgets.serial.activities;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
@@ -68,8 +67,6 @@ public class AttachActivity extends AppCompatActivity {
 
         setDoodle();
 		addListener();
-        testReceiverIDButton();
-        testReceiverName();
 	}
 
     /**
@@ -175,34 +172,6 @@ public class AttachActivity extends AppCompatActivity {
             mImageViewDoodle.setVisibility(View.INVISIBLE);
             mMessageDoodle.setVisibility(View.INVISIBLE);
         }
-    }
-
-    public void testReceiverIDButton(){
-
-        IntentFilter filter = new IntentFilter("net.signagewidgets.serial.ID_CONTROL_ID_BUTTON");
-
-        BroadcastReceiver mReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                sLogging.error(intent.getExtras().getLong("id_to_onsign"), "ID_CONTROL");
-                sLogging.error(intent.getExtras().getLong("button_to_onsign"), "ID_BUTTON");
-            }
-        };
-        this.registerReceiver(mReceiver, filter);
-    }
-
-    public void testReceiverName(){
-
-        IntentFilter filter = new IntentFilter("net.signagewidgets.serial.NAME_ID_BUTTON");
-
-        BroadcastReceiver mReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                sLogging.error(intent.getExtras().getString("name_to_onsign"), "NAME");
-                sLogging.error(intent.getExtras().getLong("button_to_onsign"), "ID_BUTTON");
-            }
-        };
-        this.registerReceiver(mReceiver, filter);
     }
 
     public double getScreenSize(){
