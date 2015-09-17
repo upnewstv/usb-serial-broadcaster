@@ -69,6 +69,10 @@ public class AttachActivity extends AppCompatActivity {
 		addListener();
 	}
 
+    public void onDestroy() {
+        mRvAdapter.destroy();
+    }
+
     /**
 	 * Get all remote controls that are registered in the DB
 	 * @return Returns an array of remote controls

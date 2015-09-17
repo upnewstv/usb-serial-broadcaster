@@ -34,6 +34,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
     private DBHelper mDBHelper;
     private Context mContext;
     private boolean mStartToast = true;
+    private BroadcastReceiver mReceiver;
 
     public RVAdapter(Context context, RemoteControl[] remoteControls, LinearLayoutManager layoutManager) {
         mRemoteControls = remoteControls;
@@ -43,7 +44,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
 
         IntentFilter filter = new IntentFilter(SerialService.BUTTON);
 
-        mContext.registerReceiver(new BroadcastReceiver() {
+        mReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 int id = intent.getExtras().getInt("id");
@@ -51,7 +52,13 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
                 RemoteControl rc = mDBHelper.getControl(id);
                 findControl(id, button);
             }
-        }, filter);
+        };
+        mContext.registerReceiver(mReceiver, filter);
+    }
+
+
+    public void destroy() {
+        mContext.unregisterReceiver(mReceiver);
     }
 
     /**
