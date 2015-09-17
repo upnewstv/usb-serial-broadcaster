@@ -88,12 +88,12 @@ public class SerialService extends Service implements SerialDeviceListener {
                 if (buttonId == 0) return;
                 intent.putExtra("button", buttonId);
                 sLogging.info("BUTTON name:", rc.getName(), "- button:", buttonId);
-            } else {
-                intent.setAction(RAW_BUTTON);
-                intent.putExtra("id", id);
-                intent.putExtra("button", button);
-                sLogging.info("RAW_BUTTON id:", id, "- button:", button);
+                sendBroadcast(intent);
             }
+            intent.setAction(RAW_BUTTON);
+            intent.putExtra("id", id);
+            intent.putExtra("button", button);
+            sLogging.info("RAW_BUTTON id:", id, "- button:", button);
     		sendBroadcast(intent);
 		} catch (Exception e) {
 			sLogging.error("Error parsing serial data");
