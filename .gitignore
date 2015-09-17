@@ -34,3 +34,6 @@
 app/build
 .DS_Store
 *.swp
+build/
+*.bin
+*.lock
