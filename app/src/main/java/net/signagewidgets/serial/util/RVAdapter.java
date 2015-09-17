@@ -32,7 +32,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
     private TextView mTextViewItem;
     private DBHelper mDBHelper;
     private Context mContext;
-
+    private boolean mStartToast = true;
 
     public RVAdapter(Context context, RemoteControl[] remoteControls, LinearLayoutManager layoutManager) {
         mRemoteControls = remoteControls;
@@ -216,7 +216,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
         }
     }
 
-    public void changeBG(int button, int listPosition, RemoteControl remoteControl) {
+    public void changeBG(int button, int listPosition, final RemoteControl remoteControl) {
 
         int firstPosition = mLayoutManager.findFirstVisibleItemPosition();
         int wantedChild = listPosition - firstPosition;
@@ -251,7 +251,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
                 break;
         }
 
-        final Handler handler = new Handler();
+        Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -261,16 +261,27 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
             }
         }, 300);
 
+        final String finalMLetter = mLetter;
+
         Toast toast = Toast.makeText(mContext,
-                        mContext.getString(R.string.pressed_message_part_1) + " " + mLetter + " " +
-                        mContext.getString(R.string.pressed_message_part_2) + " " +remoteControl.getName() + " " +
-                        mContext.getString(R.string.pressed_message_part_3), Toast.LENGTH_SHORT);
+                mContext.getString(R.string.pressed_message_part_1) + " " + finalMLetter + " " +
+                mContext.getString(R.string.pressed_message_part_2) + " " + remoteControl.getName() + " " +
+                mContext.getString(R.string.pressed_message_part_3), Toast.LENGTH_SHORT);
 
         TextView v = (TextView) toast.getView().findViewById(android.R.id.message);
-        if(v != null) v.setGravity(Gravity.CENTER);
+        if (v != null) v.setGravity(Gravity.CENTER);
 
-        toast.show();
-
+        if(mStartToast){
+            toast.show();
+            mStartToast = false;
+            handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mStartToast = true;
+                }
+            }, 2000);
+        }
     }
 
     public void dataChanged() {
@@ -278,7 +289,6 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
         this.notifyDataSetChanged();
         sLogging.error("COMMAND RECEIVED");
     }
-
 
     public RemoteControl[] getControls() {
         return mDBHelper.getAllControls();
