@@ -71,6 +71,7 @@ public class AttachActivity extends AppCompatActivity {
 
     public void onDestroy() {
         mRvAdapter.destroy();
+        super.onDestroy();
     }
 
     /**
