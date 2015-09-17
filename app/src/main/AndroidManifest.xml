@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="net.signagewidgets.serial"
     android:versionCode="1"
@@ -15,32 +14,35 @@
         android:icon="@mipmap/icon"
         android:label="OnSign RC"
         android:theme="@style/AppTheme" >
-
         <activity
             android:name=".activities.AttachActivity"
-            android:launchMode="singleInstance">
+            android:launchMode="singleInstance" >
             <intent-filter>
                 <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
             <meta-data
                 android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
-                android:resource="@xml/device_filter"
-               />
+                android:resource="@xml/device_filter" />
         </activity>
 
         <service
             android:name=".services.SerialService"
             android:exported="true" >
         </service>
-
         <receiver android:name=".broadcast.DettachReceiver" >
             <intent-filter>
                 <action android:name="android.hardware.usb.action.USB_DEVICE_DETACHED" />
             </intent-filter>
         </receiver>
-
+        <receiver
+            android:name=".broadcast.OnBooReceiver"
+            android:enabled="true"
+            android:exported="true" >
+        </receiver>
     </application>
+
 </manifest>
