@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 
+import net.signagewidgets.serial.model.RemoteControl;
+import net.signagewidgets.serial.persistence.DBHelper;
 import net.signagewidgets.serial.services.SerialDeviceManager.SerialDeviceListener;
 import net.signagewidgets.serial.util.Logging;
 
@@ -13,9 +15,12 @@ public class SerialService extends Service implements SerialDeviceListener {
 
 	private static final String START = "net.signagewidgets.serial.services.SerialService.START";
 	private static final String STOP = "net.signagewidgets.serial.services.SerialService.STOP";
-	private static final String ID = "DEVICE_ID";
+    public static final String RAW_BUTTON = "net.signagewidgets.serial.RAW_BUTTON";
+    public static final String BUTTON = "net.signagewidgets.serial.BUTTON";
+    private static final String ID = "DEVICE_ID";
 
 	private SerialDeviceManager mDeviceManager;
+	private DBHelper mDbHelper;
 
 	public static void start(Context context) {
 		Intent intent = new Intent(context, SerialService.class);
@@ -33,12 +38,13 @@ public class SerialService extends Service implements SerialDeviceListener {
 	@Override
 	public void onCreate() {
 		sLogging.info("onCreate");
-	}
+	    mDbHelper = new DBHelper(this);
+    }
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		String action = intent != null ? intent.getAction() : null;
-		
+
 		if (START.equals(action)) {
 			sLogging.info("Start command received");
 			if (mDeviceManager == null) mDeviceManager = new SerialDeviceManager(this, this);
@@ -69,14 +75,25 @@ public class SerialService extends Service implements SerialDeviceListener {
 	@Override
 	public void onLineReceived(String line) {
 		try {
-			long proto = Integer.valueOf(line);
-			long id = proto >> 4;
-			long button = proto & 0xF;
-
-    		sLogging.info("ID:", id, "- Button:", button);
-    		Intent intent = new Intent("net.signagewidgets.serial.BUTTON");
-    		intent.putExtra("id", id);
-    		intent.putExtra("button", button);
+			int proto = Integer.valueOf(line);
+			int id = proto >> 4;
+			int button = (char)(proto & 0xF);
+            Intent intent = new Intent();
+            if (mDbHelper.controlExists(id)) {
+                RemoteControl rc  = mDbHelper.getControl(id);
+                intent.setAction(BUTTON);
+                intent.putExtra("id", id);
+                intent.putExtra("name", rc.getName());
+                int buttonId = rc.getIdButton(button);
+                if (buttonId == 0) return;
+                intent.putExtra("button", buttonId);
+                sLogging.info("BUTTON name:", rc.getName(), "- button:", buttonId);
+            } else {
+                intent.setAction(RAW_BUTTON);
+                intent.putExtra("id", id);
+                intent.putExtra("button", button);
+                sLogging.info("RAW_BUTTON id:", id, "- button:", button);
+            }
     		sendBroadcast(intent);
 		} catch (Exception e) {
 			sLogging.error("Error parsing serial data");

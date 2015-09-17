@@ -117,7 +117,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public boolean controlExists(int id){
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
         Cursor controls = db.rawQuery("select * from controls where id_control = " + id, null);
         return (controls.getCount() > 0);
     }
@@ -136,10 +136,30 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public void update() {
-        SQLiteDatabase db = this.getReadableDatabase();
+        SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("delete from "+ TABLE_NAME);
         db.execSQL("vacuum");
         db.close();
     }
 
+    public RemoteControl getControl(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor controls = db.rawQuery("select * from controls where id_control = " + id, null);
+        if (controls.getCount() == 0) return null;
+        controls.moveToFirst();
+        List<Integer> idButtons = new ArrayList<Integer>();
+
+        for(int j = 1; j <= 4; j ++){
+            if(!controls.isNull(controls.getColumnIndex("id_0" + String.valueOf(j)))){
+                idButtons.add(controls.getInt(controls.getColumnIndex("id_0" + String.valueOf(j))));
+            }
+        }
+
+        RemoteControl rc = new RemoteControl(
+                controls.getString(controls.getColumnIndex("mName")),
+                controls.getString(controls.getColumnIndex("date")),
+                controls.getInt(controls.getColumnIndex("id_control")),
+                idButtons);
+        return rc;
+    }
 }

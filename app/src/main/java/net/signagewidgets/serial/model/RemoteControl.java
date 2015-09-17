@@ -54,6 +54,15 @@ public class RemoteControl implements Serializable{
         return mIDButtons;
     }
 
+    public int getIdButton(int id) {
+        for (char i = 'A'; i < 'A' + mIDButtons.size(); i++) {
+            if (mIDButtons.get(i - 'A') == id) {
+                return i;
+            }
+        }
+        return 0;
+    }
+
     /**
      * Set the name of the remote control
      */

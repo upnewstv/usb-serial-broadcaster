@@ -20,6 +20,7 @@ import android.widget.Toast;
 import net.signagewidgets.serial.R;
 import net.signagewidgets.serial.model.RemoteControl;
 import net.signagewidgets.serial.persistence.DBHelper;
+import net.signagewidgets.serial.services.SerialService;
 
 /**
  * Created by lenoirzamboni on 8/20/15.
@@ -40,13 +41,15 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
         mDBHelper = new DBHelper(context);
         mContext = context;
 
-        IntentFilter filter = new IntentFilter("net.signagewidgets.serial.BUTTON");
+        IntentFilter filter = new IntentFilter(SerialService.BUTTON);
 
         mContext.registerReceiver(new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 int id = intent.getExtras().getInt("id");
                 int button = intent.getExtras().getInt("button");
+                RemoteControl rc = mDBHelper.getControl(id);
+                findControl(id, button);
             }
         }, filter);
     }
@@ -182,26 +185,23 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
 
             if(mRemoteControls[i].getIDControl() == idControl) {
 
-                if(mRemoteControls[i].getIdButtons().contains(idButton)) {
-
-                    switch (mRemoteControls[i].getIdButtons().indexOf(idButton)) {
-                        case 0:
+                    switch (idButton) {
+                        case 'A':
                             changeBG(0, i, mRemoteControls[i]);
                             break;
 
-                        case 1:
+                        case 'B':
                             changeBG(1, i, mRemoteControls[i]);
                             break;
 
-                        case 2:
+                        case 'C':
                             changeBG(2, i, mRemoteControls[i]);
                             break;
 
-                        case 3:
+                        case 'D':
                             changeBG(3, i, mRemoteControls[i]);
                             break;
                     }
-                }
             }
         }
     }
@@ -284,16 +284,4 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
         return mDBHelper.getAllControls();
     }
 
-    public void sendBroadcasts(long idControl, long idButton, String name){
-
-        Intent intentIDs = new Intent("net.signagewidgets.serial.ID_CONTROL_ID_BUTTON");
-        intentIDs.putExtra("id_to_onsign", idControl);
-        intentIDs.putExtra("button_to_onsign", idButton);
-        mContext.sendBroadcast(intentIDs);
-
-        Intent intentName = new Intent("net.signagewidgets.serial.NAME_ID_BUTTON");
-        intentName.putExtra("name_to_onsign", name);
-        intentName.putExtra("button_to_onsign", idButton);
-        mContext.sendBroadcast(intentName);
-    }
 }

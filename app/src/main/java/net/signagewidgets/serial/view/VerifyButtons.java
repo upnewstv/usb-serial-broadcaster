@@ -15,6 +15,7 @@ import android.widget.TextView;
 import net.signagewidgets.serial.R;
 import net.signagewidgets.serial.activities.AttachActivity;
 import net.signagewidgets.serial.persistence.DBHelper;
+import net.signagewidgets.serial.services.SerialService;
 import net.signagewidgets.serial.util.Logging;
 
 import java.text.DateFormat;
@@ -57,7 +58,7 @@ public class VerifyButtons extends LinearLayout {
 
         mDBHelper = new DBHelper(context);
 
-        IntentFilter filter = new IntentFilter("net.signagewidgets.serial.BUTTON");
+        IntentFilter filter = new IntentFilter(SerialService.RAW_BUTTON);
 
         context.registerReceiver(mReceiver = new BroadcastReceiver() {
             @Override
