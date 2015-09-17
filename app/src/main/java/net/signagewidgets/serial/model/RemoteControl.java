@@ -10,10 +10,10 @@ public class RemoteControl implements Serializable{
 
     private String mName;
     private String mDate;
-    private long mIDControl;
-    private List<Long> mIDButtons;
+    private Integer mIDControl;
+    private List<Integer> mIDButtons;
 
-    public RemoteControl(String name, String date, long idControl, List<Long> idButtons) {
+    public RemoteControl(String name, String date, Integer idControl, List<Integer> idButtons) {
         mName = name;
         mDate = date;
         mIDControl = idControl;
@@ -50,7 +50,7 @@ public class RemoteControl implements Serializable{
      * Get the ID of each button of remote control
      * @return Return a List of Integer that each one is the ID of each button of remote control
      */
-    public List<Long> getIdButtons() {
+    public List<Integer> getIdButtons() {
         return mIDButtons;
     }
 
@@ -78,7 +78,7 @@ public class RemoteControl implements Serializable{
     /**
      * Set the ID for each button of the remote control
      */
-    public void setIdButtons(List<Long> idButtons) {
+    public void setIdButtons(List<Integer> idButtons) {
         this.mIDButtons = idButtons;
     }
 }

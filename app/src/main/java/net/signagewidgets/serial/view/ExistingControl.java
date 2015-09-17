@@ -2,9 +2,7 @@ package net.signagewidgets.serial.view;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,7 +26,7 @@ public class ExistingControl extends LinearLayout {
     private long mIDControl;
     private DBHelper mDBHelper;
 
-    public ExistingControl(Context context, Long idControl, AlertDialog verifyButtonsDialog) {
+    public ExistingControl(Context context, int idControl, AlertDialog verifyButtonsDialog) {
         super(context);
 
         mContext = context;

@@ -49,7 +49,7 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean insertControl(String name, String date, Long id, List<Long> listIdButtons) {
+    public boolean insertControl(String name, String date, Integer id, List<Integer> listIdButtons) {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -90,18 +90,18 @@ public class DBHelper extends SQLiteOpenHelper {
             controls.moveToFirst();
 
             do{
-                List<Long> idButtons = new ArrayList<Long>();
+                List<Integer> idButtons = new ArrayList<Integer>();
 
                 for(int j = 1; j <= 4; j ++){
                     if(!controls.isNull(controls.getColumnIndex("id_0" + String.valueOf(j)))){
-                        idButtons.add(controls.getLong(controls.getColumnIndex("id_0" + String.valueOf(j))));
+                        idButtons.add(controls.getInt(controls.getColumnIndex("id_0" + String.valueOf(j))));
                     }
                 }
 
                 remoteControls[i] = new RemoteControl(
                         controls.getString(controls.getColumnIndex("mName")),
                         controls.getString(controls.getColumnIndex("date")),
-                        controls.getLong(controls.getColumnIndex("id_control")),
+                        controls.getInt(controls.getColumnIndex("id_control")),
                         idButtons);
                 i++;
             }while(controls.moveToNext());

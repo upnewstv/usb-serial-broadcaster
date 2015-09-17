@@ -44,9 +44,9 @@ public class VerifyButtons extends LinearLayout {
     private TextView mClick03;
     private TextView mDescription;
     private ImageView mOK;
-    private Long mIDControl;
-    private Long mIDButton;
-    private List<Long> mListIdButtons;
+    private Integer mIDControl;
+    private Integer mIDButton;
+    private List<Integer> mListIdButtons;
     private BroadcastReceiver mReceiver;
     private DBHelper mDBHelper;
     private int mPreventDialog;
@@ -62,9 +62,8 @@ public class VerifyButtons extends LinearLayout {
         context.registerReceiver(mReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                Long idControl = intent.getExtras().getLong("id");
-                Long idButton = intent.getExtras().getLong("button");
-
+                int idControl = intent.getExtras().getInt("id");
+                int idButton = intent.getExtras().getInt("button");
                 addButton(idControl, idButton);
             }
         }, filter);
@@ -135,13 +134,13 @@ public class VerifyButtons extends LinearLayout {
         });
     }
 
-    public void addButton(Long idControl, Long idButton) {
+    public void addButton(Integer idControl, Integer idButton) {
 
         if(this.mIDControl == null) {
             this.mIDControl = idControl;
         }
 
-        if(mDBHelper.controlExists((int)(long) idControl)) {
+        if(mDBHelper.controlExists(idControl)) {
             if(mPreventDialog == 0){
                 new ExistingControl(mContext, idControl, mAlertDialog);
                 mPreventDialog++;

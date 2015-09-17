@@ -45,18 +45,8 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
         mContext.registerReceiver(new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                Long idControl = intent.getExtras().getLong("id");
-                Long idButton = intent.getExtras().getLong("button");
-
-                for (RemoteControl mRemoteControl : mRemoteControls) {
-                    if (mRemoteControl.getIDControl() == idControl) {
-                        findControl(idControl, idButton);
-
-                        if(mRemoteControl.getIdButtons().contains(idButton)){
-                            sendBroadcasts(idControl, idButton, mRemoteControl.getName());
-                        }
-                    }
-                }
+                int id = intent.getExtras().getInt("id");
+                int button = intent.getExtras().getInt("button");
             }
         }, filter);
     }
@@ -186,7 +176,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
         return mRemoteControls.length;
     }
 
-    public void findControl(long idControl, long idButton) {
+    void findControl(int idControl, int idButton) {
 
         for(int i = 0; i < getItemCount(); i++){
 
