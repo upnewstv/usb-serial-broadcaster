@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="net.signagewidgets.serial"
+    package="tv.onsign.rc"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -15,7 +15,7 @@
         android:theme="@style/Theme.Transparent" >
 
         <activity
-            android:mName="net.signagewidgets.serial.activities.AttachActivity"
+            android:mName=".activities.AttachActivity"
             android:noHistory="true"
             android:stateNotNeeded="true"
             android:excludeFromRecents="true">
@@ -29,7 +29,7 @@
         </activity>
 
         <service
-            android:mName="net.signagewidgets.serial.services.SerialService"
+            android:mName=".services.SerialService"
             android:exported="true" >
         </service>
         </application>
