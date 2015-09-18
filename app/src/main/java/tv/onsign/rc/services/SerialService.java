@@ -16,8 +16,8 @@ import tv.onsign.rc.util.Logging;
 public class SerialService extends Service implements SerialDeviceListener {
 	private static Logging sLogging = new Logging(SerialService.class);	
 
-	private static final String START = "tv.onsign.rc.services.SerialService.START";
-	private static final String STOP = "tv.onsign.rc.services.SerialService.STOP";
+	private static final String START = "tv.onsign.rc.SERVICE_START";
+	private static final String STOP = "tv.onsign.rc.SERVICE_STOP";
     public static final String RAW_BUTTON = "tv.onsign.rc.RAW_BUTTON";
     public static final String BUTTON = "tv.onsign.rc.BUTTON";
     private static final String ID = "DEVICE_ID";
