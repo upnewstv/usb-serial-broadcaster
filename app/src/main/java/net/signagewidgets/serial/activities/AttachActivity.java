@@ -32,12 +32,10 @@ import net.signagewidgets.serial.view.InfoControl;
 
 
 public class AttachActivity extends AppCompatActivity {
-
 	private static Logging sLogging = new Logging(AttachActivity.class);
-
 	private final Context CONTEXT = this;
-
-	private RecyclerView mRecyclerView;
+    private LinearLayoutManager mLayoutManager;
+    private RecyclerView mRecyclerView;
 	private RVAdapter mRvAdapter;
 	private DBHelper mDBHelper;
     private RemoteControl[] mRemoteControls;
@@ -47,30 +45,32 @@ public class AttachActivity extends AppCompatActivity {
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
 		SerialService.start(this);
 
 		setContentView(R.layout.recycler_view);
-
 		mRecyclerView = (RecyclerView) findViewById(R.id.rv);
-
         mDBHelper = new DBHelper(this);
-
         mRemoteControls = getControls();
-
-		LinearLayoutManager mLayoutManager = new LinearLayoutManager(CONTEXT);
-
+		mLayoutManager = new LinearLayoutManager(CONTEXT);
 		mRecyclerView.setLayoutManager(mLayoutManager);
-
-		mRvAdapter = new RVAdapter(this, mRemoteControls, mLayoutManager);
-
-		mRecyclerView.setAdapter(mRvAdapter);
 
         setDoodle();
 		addListener();
 	}
 
-    public void onDestroy() {
+    public void onStart() {
+        super.onStart();
+        mRvAdapter = new RVAdapter(this, mRemoteControls, mLayoutManager);
+        mRecyclerView.setAdapter(mRvAdapter);
+    }
+
+    public void onStop() {
         mRvAdapter.destroy();
+        super.onStop();
+    }
+
+    public void onDestroy() {
         super.onDestroy();
     }
 
