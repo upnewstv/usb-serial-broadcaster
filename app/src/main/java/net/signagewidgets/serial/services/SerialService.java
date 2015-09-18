@@ -1,10 +1,13 @@
 package net.signagewidgets.serial.services;
 
+import android.app.Notification;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
+import android.support.v4.app.NotificationCompat;
 
+import net.signagewidgets.serial.R;
 import net.signagewidgets.serial.model.RemoteControl;
 import net.signagewidgets.serial.persistence.DBHelper;
 import net.signagewidgets.serial.services.SerialDeviceManager.SerialDeviceListener;
@@ -21,6 +24,7 @@ public class SerialService extends Service implements SerialDeviceListener {
 
 	private SerialDeviceManager mDeviceManager;
 	private DBHelper mDbHelper;
+    private Notification mNotification;
 
 	public static void start(Context context) {
 		Intent intent = new Intent(context, SerialService.class);
@@ -39,6 +43,12 @@ public class SerialService extends Service implements SerialDeviceListener {
 	public void onCreate() {
 		sLogging.info("onCreate");
 	    mDbHelper = new DBHelper(this);
+        NotificationCompat.Builder builder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.mipmap.icon)
+                        .setContentTitle("OnSign RC")
+                        .setContentText("Running");
+        mNotification = builder.build();
     }
 
 	@Override
@@ -57,7 +67,7 @@ public class SerialService extends Service implements SerialDeviceListener {
 				android.os.Process.killProcess(android.os.Process.myPid());
 			}
 		}
-
+        startForeground(42, mNotification);
 		return START_STICKY;
 	}
 
