@@ -45,7 +45,7 @@ public class SerialService extends Service implements SerialDeviceListener {
 	    mDbHelper = new DBHelper(this);
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.mipmap.icon)
+                        .setSmallIcon(R.drawable.icon_small)
                         .setContentTitle("OnSign RC")
                         .setContentText("Running");
         mNotification = builder.build();
