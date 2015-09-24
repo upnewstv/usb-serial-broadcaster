@@ -17,7 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import tv.onsign.rc.R;
-import tv.onsign.rc.util.Mask;
 
 /**
  * Created by lenoirzamboni on 8/27/15.
@@ -71,7 +70,6 @@ public class AddControl extends LinearLayout {
         nextButtonListener();
         cancel();
         setBGRadioButtons();
-        setMask();
         setSuggestedName();
         setEnterNext();
 
@@ -159,11 +157,6 @@ public class AddControl extends LinearLayout {
 
     public void setNameControl() {
         mName = mNameControl.getText().toString();
-    }
-
-    public void setMask(){
-        maskWatcher = Mask.insert("##############################", mNameControl);
-        mNameControl.addTextChangedListener(maskWatcher);
     }
 
     public void setSuggestedName(){
