@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.support.v7.app.AlertDialog;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import tv.onsign.rc.R;
+import tv.onsign.rc.util.Mask;
 import tv.onsign.rc.util.RVAdapter;
 
 /**
@@ -40,6 +42,8 @@ public class AddControl extends LinearLayout {
     protected String mName;
     protected EditText mNameControl;
 
+    private TextWatcher maskWatcher;
+
     public AddControl(Context context) {
         super(context);
 
@@ -64,6 +68,7 @@ public class AddControl extends LinearLayout {
         next();
         cancel();
         setBGRadioButtons();
+        setMask();
 
         mAlertDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
     }
@@ -91,7 +96,7 @@ public class AddControl extends LinearLayout {
         mAlertDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
-               // RVAdapter.setRegisterReceiver();
+                // RVAdapter.setRegisterReceiver();
             }
         });
     }
@@ -157,5 +162,10 @@ public class AddControl extends LinearLayout {
 
     public void setNameControl() {
         mName = mNameControl.getText().toString();
+    }
+
+    public void setMask(){
+        maskWatcher = Mask.insert("##############################", mNameControl);
+        mNameControl.addTextChangedListener(maskWatcher);
     }
 }
