@@ -31,11 +31,12 @@ public class AddedControl extends LinearLayout {
         mOK = (TextView) mAlertDialog.findViewById(R.id.textView_added_ok);
 
         showOk();
+        RVAdapter.setUnregisterReceiver();
     }
 
     public void createDialog() {
 
-        RVAdapter.setUnregisterReceiver();
+       // RVAdapter.setUnregisterReceiver();
 
         AlertDialog.Builder mAlertDialogBuilder = new AlertDialog.Builder(mContext);
 
@@ -59,7 +60,6 @@ public class AddedControl extends LinearLayout {
 
     public void dismissPopup() {
         mAlertDialog.dismiss();
-        RVAdapter.setRegisterReceiver();
     }
 
     public void showOk() {

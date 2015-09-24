@@ -60,11 +60,11 @@ public class AttachActivity extends AppCompatActivity {
 
         mRvAdapter = new RVAdapter(this, mRemoteControls, mLayoutManager);
         mRecyclerView.setAdapter(mRvAdapter);
-	}
+    }
 
     public void onStart() {
         super.onStart();
-
+        RVAdapter.setRegisterReceiver();
     }
 
     public void onStop() {
@@ -86,7 +86,7 @@ public class AttachActivity extends AppCompatActivity {
 
 	public void listenerFAB(View view) {
         if(publicIsConnected == true){
-            AddControl addControl = new AddControl(this);
+            AddControl addControl = new AddControl(this, mRvAdapter.getItemCount());
             setDoodle();
         }else {
 

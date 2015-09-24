@@ -54,8 +54,9 @@ public class VerifyButtons extends LinearLayout {
     private DBHelper mDBHelper;
     private int mPreventDialog;
     private boolean adding;
+    private int mQtdControls;
 
-    public VerifyButtons(Context context, String name, int numberButtons) {
+    public VerifyButtons(Context context, String name, int numberButtons, int qtdControls) {
         super(context);
 
         mDBHelper = new DBHelper(context);
@@ -90,6 +91,7 @@ public class VerifyButtons extends LinearLayout {
         mOK = (ImageView) mAlertDialog.findViewById(R.id.imageView_verify_ok);
 
         adding = true;
+        mQtdControls = qtdControls;
 
         cancel();
         restart();
@@ -153,7 +155,7 @@ public class VerifyButtons extends LinearLayout {
             @Override
             public void onClick(View view) {
                 dismissPopup();
-                new AddControl(mContext);
+                new AddControl(mContext, mQtdControls);
             }
         });
     }

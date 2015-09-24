@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.os.Build;
 import android.support.v7.app.AlertDialog;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -17,7 +18,6 @@ import android.widget.Toast;
 
 import tv.onsign.rc.R;
 import tv.onsign.rc.util.Mask;
-import tv.onsign.rc.util.RVAdapter;
 
 /**
  * Created by lenoirzamboni on 8/27/15.
@@ -41,11 +41,14 @@ public class AddControl extends LinearLayout {
     protected int mNumberButtons = 2;
     protected String mName;
     protected EditText mNameControl;
+    private int mQtdControls;
 
     private TextWatcher maskWatcher;
 
-    public AddControl(Context context) {
+    public AddControl(Context context, int qtdControls) {
         super(context);
+
+        mQtdControls = qtdControls;
 
         mLayoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.mContext = context;
@@ -65,10 +68,12 @@ public class AddControl extends LinearLayout {
         mNameControl = (EditText) mAlertDialog.findViewById(R.id.EditText_name_control);
 
         setNumberButtons();
-        next();
+        nextButtonListener();
         cancel();
         setBGRadioButtons();
         setMask();
+        setSuggestedName();
+        setEnterNext();
 
         mAlertDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
     }
@@ -125,19 +130,11 @@ public class AddControl extends LinearLayout {
         });
     }
 
-    public void next() {
+    public void nextButtonListener() {
         mNext.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                setNameControl();
-
-                if (mName.isEmpty()) {
-                    Toast.makeText(mContext, mContext.getString(R.string.no_name_toast), Toast.LENGTH_SHORT).show();
-                } else {
-                    dismissPopup();
-                    VerifyButtons verifyButtons = new VerifyButtons(mContext, mName, mNumberButtons);
-                }
+                next();
             }
         });
     }
@@ -167,5 +164,39 @@ public class AddControl extends LinearLayout {
     public void setMask(){
         maskWatcher = Mask.insert("##############################", mNameControl);
         mNameControl.addTextChangedListener(maskWatcher);
+    }
+
+    public void setSuggestedName(){
+        if(mQtdControls == 0){
+            mQtdControls = 1;
+        }else{
+            mQtdControls++;
+        }
+
+        mNameControl.setText(mContext.getString(R.string.name_suggested_control) + String.valueOf(mQtdControls));
+    }
+
+    public void setEnterNext(){
+        mNameControl.setOnKeyListener(new OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if (keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+                    next();
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
+
+    public void next(){
+        setNameControl();
+
+        if (mName.isEmpty()) {
+            Toast.makeText(mContext, mContext.getString(R.string.no_name_toast), Toast.LENGTH_SHORT).show();
+        } else {
+            dismissPopup();
+            VerifyButtons verifyButtons = new VerifyButtons(mContext, mName, mNumberButtons, mQtdControls);
+        }
     }
 }

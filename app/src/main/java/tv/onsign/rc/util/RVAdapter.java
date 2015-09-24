@@ -32,9 +32,9 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
     private LinearLayoutManager mLayoutManager;
     private TextView mTextViewItem;
     private DBHelper mDBHelper;
-    private Context mContext;
+    private static Context mContext;
     private boolean mStartToast = true;
-    private BroadcastReceiver mReceiver;
+    private static BroadcastReceiver mReceiver;
     private static IntentFilter mFilter;
     private static boolean isEnableFind = true;
 
@@ -50,12 +50,10 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
             @Override
             public void onReceive(Context context, Intent intent) {
 
-                if(isEnableFind){
-                    int id = intent.getExtras().getInt("id");
-                    int button = intent.getExtras().getInt("button");
-                    RemoteControl rc = mDBHelper.getControl(id);
-                    findControl(id, button);
-                }
+                int id = intent.getExtras().getInt("id");
+                int button = intent.getExtras().getInt("button");
+                RemoteControl rc = mDBHelper.getControl(id);
+                findControl(id, button);
 
             }
         };
@@ -64,7 +62,9 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
 
 
     public void destroy() {
-        mContext.unregisterReceiver(mReceiver);
+        if (mReceiver != null) {
+            mContext.unregisterReceiver(mReceiver);
+        }
     }
 
     /**
@@ -298,10 +298,14 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
     }
 
     public static void setUnregisterReceiver(){
-        isEnableFind = false;
+        try {
+            mContext.unregisterReceiver(mReceiver);
+        }catch (IllegalArgumentException e){
+            sLogging.error(e.getMessage());
+        }
     }
 
     public static void setRegisterReceiver(){
-        isEnableFind = true;
+        mContext.registerReceiver(mReceiver, mFilter);
     }
 }
