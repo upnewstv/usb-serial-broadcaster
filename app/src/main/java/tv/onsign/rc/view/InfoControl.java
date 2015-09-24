@@ -1,6 +1,7 @@
 package tv.onsign.rc.view;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.view.ContextThemeWrapper;
@@ -15,6 +16,7 @@ import tv.onsign.rc.R;
 import tv.onsign.rc.activities.AttachActivity;
 import tv.onsign.rc.model.RemoteControl;
 import tv.onsign.rc.persistence.DBHelper;
+import tv.onsign.rc.util.RVAdapter;
 
 /**
  * Created by lenoirzamboni on 8/27/15.
@@ -62,6 +64,8 @@ public class InfoControl extends LinearLayout {
 
     public void createDialog() {
 
+        RVAdapter.setUnregisterReceiver();
+
         AlertDialog.Builder mAlertDialogBuilder = new AlertDialog.Builder(new ContextThemeWrapper(mContext, R.style.dialogTheme));
 
         // create alert dialog
@@ -77,6 +81,13 @@ public class InfoControl extends LinearLayout {
         mAlertDialog.show();
 
         mAlertDialog.setContentView(R.layout.info_control);
+
+        mAlertDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                RVAdapter.setRegisterReceiver();
+            }
+        });
     }
 
     public void dismissPopup() {

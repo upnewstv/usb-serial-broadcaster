@@ -35,6 +35,8 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
     private Context mContext;
     private boolean mStartToast = true;
     private BroadcastReceiver mReceiver;
+    private static IntentFilter mFilter;
+    private static boolean isEnableFind = true;
 
     public RVAdapter(Context context, RemoteControl[] remoteControls, LinearLayoutManager layoutManager) {
         mRemoteControls = remoteControls;
@@ -42,18 +44,22 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
         mDBHelper = new DBHelper(context);
         mContext = context;
 
-        IntentFilter filter = new IntentFilter(SerialService.BUTTON);
+        mFilter = new IntentFilter(SerialService.BUTTON);
 
         mReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                int id = intent.getExtras().getInt("id");
-                int button = intent.getExtras().getInt("button");
-                RemoteControl rc = mDBHelper.getControl(id);
-                findControl(id, button);
+
+                if(isEnableFind){
+                    int id = intent.getExtras().getInt("id");
+                    int button = intent.getExtras().getInt("button");
+                    RemoteControl rc = mDBHelper.getControl(id);
+                    findControl(id, button);
+                }
+
             }
         };
-        mContext.registerReceiver(mReceiver, filter);
+        mContext.registerReceiver(mReceiver, mFilter);
     }
 
 
@@ -291,4 +297,11 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
         return mDBHelper.getAllControls();
     }
 
+    public static void setUnregisterReceiver(){
+        isEnableFind = false;
+    }
+
+    public static void setRegisterReceiver(){
+        isEnableFind = true;
+    }
 }

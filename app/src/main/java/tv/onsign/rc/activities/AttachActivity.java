@@ -57,12 +57,14 @@ public class AttachActivity extends AppCompatActivity {
 
         setDoodle();
 		addListener();
+
+        mRvAdapter = new RVAdapter(this, mRemoteControls, mLayoutManager);
+        mRecyclerView.setAdapter(mRvAdapter);
 	}
 
     public void onStart() {
         super.onStart();
-        mRvAdapter = new RVAdapter(this, mRemoteControls, mLayoutManager);
-        mRecyclerView.setAdapter(mRvAdapter);
+
     }
 
     public void onStop() {
@@ -186,5 +188,4 @@ public class AttachActivity extends AppCompatActivity {
         double y = Math.pow(dm.heightPixels / density, 2);
         return Math.sqrt(x + y);
     }
-
 }

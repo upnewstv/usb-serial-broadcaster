@@ -2,6 +2,7 @@ package tv.onsign.rc.view;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Handler;
@@ -17,6 +18,7 @@ import tv.onsign.rc.activities.AttachActivity;
 import tv.onsign.rc.persistence.DBHelper;
 import tv.onsign.rc.services.SerialService;
 import tv.onsign.rc.util.Logging;
+import tv.onsign.rc.util.RVAdapter;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -51,7 +53,7 @@ public class VerifyButtons extends LinearLayout {
     private BroadcastReceiver mReceiver;
     private DBHelper mDBHelper;
     private int mPreventDialog;
-
+    private boolean adding;
 
     public VerifyButtons(Context context, String name, int numberButtons) {
         super(context);
@@ -87,11 +89,15 @@ public class VerifyButtons extends LinearLayout {
 
         mOK = (ImageView) mAlertDialog.findViewById(R.id.imageView_verify_ok);
 
+        adding = true;
+
         cancel();
         restart();
     }
 
     public void createDialog() {
+
+        RVAdapter.setUnregisterReceiver();
 
         AlertDialog.Builder mAlertDialogBuilder = new AlertDialog.Builder(mContext);
 
@@ -104,6 +110,23 @@ public class VerifyButtons extends LinearLayout {
 
         // show it
         mAlertDialog.show();
+
+        mAlertDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                mCountTimes = 0;
+                mNumberButtons = 0;
+                adding = false;
+
+                RVAdapter.setRegisterReceiver();
+
+                if (mReceiver != null) {
+                    mContext.unregisterReceiver(mReceiver);
+                    mReceiver = null;
+                }
+            }
+        });
     }
 
     public void dismissPopup() {
@@ -111,6 +134,8 @@ public class VerifyButtons extends LinearLayout {
             mContext.unregisterReceiver(mReceiver);
             mReceiver = null;
         }
+        mCountTimes = 0;
+        mNumberButtons = 0;
         mAlertDialog.dismiss();
     }
 
@@ -118,8 +143,6 @@ public class VerifyButtons extends LinearLayout {
         mCancel.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                mCountTimes = 0;
-                mNumberButtons = 0;
                 dismissPopup();
             }
         });
@@ -141,12 +164,13 @@ public class VerifyButtons extends LinearLayout {
             this.mIDControl = idControl;
         }
 
-        if(mDBHelper.controlExists(idControl)) {
+        if(mDBHelper.controlExists(idControl) && adding && mCountClicks == 0 && mCountTimes == 0) {
             if(mPreventDialog == 0){
                 new ExistingControl(mContext, idControl, mAlertDialog);
                 mPreventDialog++;
             }
         }else{
+            adding = true;
             if(this.mIDControl.equals(idControl) && this.mIDButton == null && !mListIdButtons.contains(idButton)) {
                 this.mIDButton = idButton;
             }
@@ -194,10 +218,12 @@ public class VerifyButtons extends LinearLayout {
                                         Intent createdControl = new Intent(mContext, AttachActivity.class);
                                         createdControl.putExtra("control_created", "tv.onsign.rc.CONTROL_CREATED");
                                         mContext.startActivity(createdControl);
+
+                                    }else{
+                                        confirm();
                                     }
-                                    confirm();
                                 }
-                            }, 3000);
+                            }, 500);
 
                             handler.postDelayed(new Runnable() {
                                 @Override
@@ -207,7 +233,7 @@ public class VerifyButtons extends LinearLayout {
                                         new AddedControl(mContext);
                                     }
                                 }
-                            }, 2000);
+                            }, 1000);
                             break;
                     }
                 }

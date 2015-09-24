@@ -1,6 +1,7 @@
 package tv.onsign.rc.view;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import tv.onsign.rc.R;
+import tv.onsign.rc.util.RVAdapter;
 
 /**
  * Created by lenoirzamboni on 8/27/15.
@@ -33,6 +35,8 @@ public class AddedControl extends LinearLayout {
 
     public void createDialog() {
 
+        RVAdapter.setUnregisterReceiver();
+
         AlertDialog.Builder mAlertDialogBuilder = new AlertDialog.Builder(mContext);
 
         // Inflate and set the layout for the dialog
@@ -44,10 +48,18 @@ public class AddedControl extends LinearLayout {
 
         // show it
         mAlertDialog.show();
+
+        mAlertDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                RVAdapter.setRegisterReceiver();
+            }
+        });
     }
 
     public void dismissPopup() {
         mAlertDialog.dismiss();
+        RVAdapter.setRegisterReceiver();
     }
 
     public void showOk() {
